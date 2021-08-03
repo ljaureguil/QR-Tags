@@ -170,6 +170,9 @@ var w = window.innerWidth;
                var pn = prompt("Part Number?");
         if(pn===null || pn=== "" || pn===undefined) return
         var desc = prompt("Description?");
+        var qty = prompt("Quantity?");
+        qty=qty*1;
+        if(isNaN(qty)) return
         if(desc===null || desc=== "" || desc===undefined) desc="";
         var tgs = tags.getElementsByTagName("div");
 
@@ -181,6 +184,7 @@ var w = window.innerWidth;
         tgs[i].innerHTML = pn + " __ " + si;
         o.pn=pn;
         o.des=desc;
+        o.qty=qty;
         o.url=url;
         o.printed=false;
         o.created=new Date().toString();
