@@ -1,7 +1,7 @@
 <html>
 
 <head id="h1">
-    <meta name="viewport" content="width=device-width">
+    <meta id="me" name="viewport" content="width=device-width">
 </head>
 
 <style id="s1">
@@ -44,6 +44,15 @@
         font-size: 15px;
         height: 20%;
         background-color: turquoise;
+    }
+    .c2{
+
+         display: grid;
+        grid-column-gap: 30px;
+        // grid-template-columns: auto;
+        grid-template-columns: 80%;
+        background-color: white;
+        padding: 30px;    
     }
     .grid-container {
         display: grid;
@@ -89,15 +98,28 @@
 <div id="dtags">
 
 </div>
+<button id="brecover" onclick="recover()">Recover</button>
 <button id="btprep" onclick="readySc()">Prepare</button>
 <button id="showall" onclick="showAll()">Reset All</button>
 <div class="grid-container" id="tags">
 </div>
-
+<br><br><p></p><p></p>
 <script src="html5-qrcode.min.js"></script>
 <script src=""></script>
 
 <script>
+var linkp='https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
+var w = window.innerWidth;
+        var h = window.innerHeight;
+        var radio=h/w;
+        if(radio>1.1){
+   //         tags.removeClass();
+            tags.setAttribute("class","c2")
+        }
+        else{}
+
+
+
     function loadDoc(url, callback) {
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", url, false);
@@ -113,13 +135,21 @@
         var w = window.innerWidth;
         var h = window.innerHeight;
 
-        for (var i = 0; i < 15; i++) {
-            var sd = '<div class="grid-item" id="d' + i + '" onclick="sTag(' + i + ')" >';
-            var si = '<img class="cimg" id="qr' + i + '" src=""/>';
-             tags.innerHTML += sd + si + "</div>"; //+st+bt+si
+        for (var i = 0; i < 18; i++) {
+      //      var sd = '<div class="grid-item" id="d' + i + '" onclick="sTag(' + i + ')" >';
+        //    var si = '<img class="cimg" id="qr' + i + '" src=""/>';
+          //   tags.innerHTML += sd + si + "</div>"; //+st+bt+si
+          tags.innerHTML+=crTag(i)
         }
         cont = tags.innerHTML;
     }
+    function crTag(index,pn,url){
+        if(url===undefined) url="";
+        if(pn==undefined) pn="";
+        var sd = '<div class="grid-item" id="' + index + '" onclick="sTag(' + index + ')" >'+pn+' __ ';
+            var si = '<img class="cimg" id="qr' + index + '" src="'+url+'"/>';
+            return sd+si+"</div>";
+     }
     function readySc() {
         cont = tags.innerHTML;
         var tgs = tags.getElementsByTagName("div");
@@ -127,8 +157,7 @@
                   if (tgs[i].value == "" || tgs[i].value == undefined) tgs[i].style.display = "none";
 
         }
-
-    }
+      }
 
     function showAll() {
         tags.innerHTML = cont
@@ -136,9 +165,12 @@
     }
 
     function sTag(i) {
-        //alert(i);
-        var pn = prompt("Part Number?");
+        GetJ(linkp,function(obj){
+        var o={};
+               var pn = prompt("Part Number?");
+        if(pn===null || pn=== "" || pn===undefined) return
         var desc = prompt("Description?");
+        if(desc===null || desc=== "" || desc===undefined) desc="";
         var tgs = tags.getElementsByTagName("div");
 
         var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=100x100';
@@ -146,8 +178,73 @@
 
         var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
         tgs[i].value = pn + " " + desc;
-        tgs[i].innerHTML = pn + "  __ " + si;
+        tgs[i].innerHTML = pn + " __ " + si;
+        o.pn=pn;
+        o.des=desc;
+        o.url=url;
+        o.printed=false;
+        o.created=new Date().toString();
+        obj.parts.push(o);
+         
+         UpdateJ(linkp,obj,function(){});
+        });
+     
+        
     }
+    function recover(){
+        tags.innerHTML="";
+    //    var el=tags.getElementsByTagName("div")
+   //   el.forEach(n => n.remove());
+        GetJ(linkp,function(obj){
+          for(var i=0;i<obj.parts.length;i++){
+              var p=obj.parts[i];
+                    tags.innerHTML+=crTag(i,p.pn,p.url);
+          }
+
+        })
+
+    }
+    
+    
+     function GetJ(url, callback) {
+
+        //var url  = "http://localhost:8080/api/v1/users";
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url + '/1', true)
+        xhr.onload = function() {
+            //         (xhr.responseText)
+            var users = JSON.parse(xhr.responseText);
+       //     var obb=decoding(users.prim);
+  
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                       callback(users);
+            } else {
+                console.error(users);
+            }
+        }
+        xhr.send(null);
+    }
+
+    // Update a user
+    function UpdateJ(url, ob, callback) { 
+ //   var o={};
+ //   o.prim=encoding(ob);
+    json=JSON.stringify(ob);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url + '/12', true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onload = function() {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+              //  alert("Tu Forma ha sido Enviada");
+               if(callback!=undefined)  callback(users);
+            } else {
+                (users);
+            }
+        }
+        xhr.send(json);
+    } 
+    
 </script>
 
 </html>
