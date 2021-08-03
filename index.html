@@ -56,18 +56,18 @@
     }
     .grid-container {
         display: grid;
-        grid-column-gap: 30px;
+        grid-column-gap: 15px;
         // grid-template-columns: auto auto auto;
-        grid-template-columns: 30% 30% 30%;
+        grid-template-columns: 20% 20% 20%;
         background-color: white;
-        padding: 10px;
+        padding: 8px;
     }
     .grid-item {
-        height: 80px;
+        height: 50px;
         margin: 15px;
         border: .5px solid rgba(0, 0, 0, 0.8);
         padding: 12px;
-        font-size: 30px;
+        font-size: 20px;
         font-weight: bold;
         text-align: right;
     }
@@ -78,8 +78,8 @@
         background-color: green;
     }
     .cimg {
-        width: 80px;
-        height: 80px;
+        width: 50px;
+        height: 50px;
     }
     .cpn {
         width: 50%;
@@ -99,6 +99,7 @@
 
 </div>
 <button id="brecover" onclick="recover()">Recover</button>
+<button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="readySc()">Prepare</button>
 <button id="showall" onclick="showAll()">Reset All</button>
 <div class="grid-container" id="tags">
@@ -207,6 +208,26 @@ var w = window.innerWidth;
 
         })
 
+    }
+
+    function copyCl(){
+
+        GetJ(linkp,function(obj){  
+            var ps=obj.parts;  
+ var so=""
+    var t=document.createElement("textarea");
+    document.body.appendChild(t);
+    
+           for(var i=0;i<ps.length;i++){
+  so+=ps[i].qty+String.fromCharCode(9)+ps[i].pn+String.fromCharCode(9)+ps[i].des+"\n"
+            }
+t.innerHTML=so;
+t.select();
+                     document.execCommand("copy");
+
+alert(so);
+document.body.removeChild(t)
+        });
     }
     
     
