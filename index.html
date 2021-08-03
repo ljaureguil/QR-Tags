@@ -1,0 +1,153 @@
+<html>
+
+<head id="h1">
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<style id="s1">
+    #todo {
+        display: none;
+    }
+    body {
+        // text-align: center;
+        font-size: 15px;
+        margin: 20px;
+        background: white;
+    }
+    code# {
+        margin: 5%;
+        width: 10%;
+        position: absolute;
+        bottom: 2%;
+        right: 1%;
+    }
+    button {
+        width: 40%;
+        font-size: 15px;
+        border-radius: 10px;
+        background: rgb(245, 2, 14);
+        margin: 30px;
+        color: white;
+    }
+    #reader {
+        width: 100%;
+        color: white;
+        font-size: 15px;
+    }
+    #ta {
+        width: 95%;
+        display: none;
+    }
+    #tx {
+        margin: 5%;
+        width: 90%;
+        font-size: 15px;
+        height: 20%;
+        background-color: turquoise;
+    }
+    .grid-container {
+        display: grid;
+        grid-column-gap: 30px;
+        // grid-template-columns: auto auto auto;
+        grid-template-columns: 30% 30% 30%;
+        background-color: white;
+        padding: 10px;
+    }
+    .grid-item {
+        height: 80px;
+        margin: 15px;
+        border: .5px solid rgba(0, 0, 0, 0.8);
+        padding: 12px;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: right;
+    }
+    .cdt {
+        border-style: solid;
+        height: 5%;
+        width: 30%;
+        background-color: green;
+    }
+    .cimg {
+        width: 80px;
+        height: 80px;
+    }
+    .cpn {
+        width: 50%;
+        background-color: white;
+        font-weight: bold;
+        font-size: 20px;
+        margin: 5px;
+    }
+    .cbq {
+        margin: 5px;
+        color: white;
+        background-color: black;
+    }
+</style>
+
+<div id="dtags">
+
+</div>
+<button id="btprep" onclick="readySc()">Prepare</button>
+<button id="showall" onclick="showAll()">Reset All</button>
+<div class="grid-container" id="tags">
+</div>
+
+<script src="html5-qrcode.min.js"></script>
+<script src=""></script>
+
+<script>
+    function loadDoc(url, callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url, false);
+        xhttp.send();
+        callback(xhttp.responseText);
+
+    }
+    var cont = ""
+    setTags()
+
+    function setTags() {
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        for (var i = 0; i < 15; i++) {
+            var sd = '<div class="grid-item" id="d' + i + '" onclick="sTag(' + i + ')" >';
+            var si = '<img class="cimg" id="qr' + i + '" src=""/>';
+             tags.innerHTML += sd + si + "</div>"; //+st+bt+si
+        }
+        cont = tags.innerHTML;
+    }
+    function readySc() {
+        cont = tags.innerHTML;
+        var tgs = tags.getElementsByTagName("div");
+        for (var i = 0; i < tgs.length; i++) {
+                  if (tgs[i].value == "" || tgs[i].value == undefined) tgs[i].style.display = "none";
+
+        }
+
+    }
+
+    function showAll() {
+        tags.innerHTML = cont
+
+    }
+
+    function sTag(i) {
+        //alert(i);
+        var pn = prompt("Part Number?");
+        var desc = prompt("Description?");
+        var tgs = tags.getElementsByTagName("div");
+
+        var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=100x100';
+        tgs[i].style.border = "none"
+
+        var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
+        tgs[i].value = pn + " " + desc;
+        tgs[i].innerHTML = pn + "  __ " + si;
+    }
+</script>
+
+</html>
