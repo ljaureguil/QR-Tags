@@ -5,7 +5,7 @@
 </head>
 
 <style id="s1">
-    body{
+    body {
         text-align: center;
     }
     #todo {
@@ -48,33 +48,32 @@
         height: 20%;
         background-color: turquoise;
     }
-    .c2{
-
-         display: grid;
+    .c2 {
+        display: grid;
         grid-column-gap: 30px;
         // grid-template-columns: auto;
         grid-template-columns: 80%;
         background-color: white;
-        padding: 30px;    
+        padding: 30px;
     }
     .grid-container {
-    
+     
+        width: 100%;
         display: grid;
-        grid-column-gap: 10px;
+        grid-column-gap: 5%;
         // grid-template-columns: auto auto auto;
         grid-template-columns: 45% 45%;
         background-color: white;
         padding: 8px;
-       font-size: 18px;
-        font-weight: bold;       
-        //final
+        font-size: 18px;
+        font-weight: bold;
+        
     }
     .grid-item {
         height: 50px;
         margin: 15px;
         border: .5px solid rgba(0, 0, 0, 0.8);
         padding: 12px;
-  
         text-align: right;
     }
     .cdt {
@@ -99,51 +98,75 @@
         color: white;
         background-color: black;
     }
-    .cadj{
-    width: 25%;
-    z-index: 1;
-
+    .cadj {
+        width: 25%;
+        z-index: 1;
     }
+    #bsh{
+        position: absolute;
+        top:1%;
+        right:1%;
+        width: auto;
+    }
+    #menu{
+        width: 90%;
+        padding: 30px;
+        position: absolute;
+        top:30%;
+        left:3%;
+        display: none;
+        border-style: double;;
+        border-color: white;
+        background-color: rgba(10, 148, 179, 0.3);
+        z-index: 5;
+        box-shadow: -10px 10px 50px 1px  black;
+    
 </style>
+<div id="menu">
+<input class="cadj" type="range" id="iwidth" name="w" min="0" max="400" value="100" oninput="sca(this.value,iheight.value)">
+<label for="width">width</label>
 
-    <input class="cadj" type="range" id="iwidth" name="w"
-           min="0" max="400" value="100" oninput="sca(this.value,iheight.value)">
-    <label for="width">width</label>
-   
-    <input  class="cadj" type="range" id="iheight" name="h" 
-           min="0" max="400" value="100" step="1" oninput="sca(iwidth.value,this.value)">
-    <label for="height">Height</label>
+<input class="cadj" type="range" id="iheight" name="h" min="0" max="400" value="100" step="1" oninput="sca(iwidth.value,this.value)">
+<label for="height">Height</label>
 
-  
-    <input  class="cadj" type="range" id="ifon" name="fon" 
-           min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
-    <label for="fon">Font</label>
+
+<input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
+<label for="fon">Font</label>
 
 <button id="brecover" onclick="recover()">Recover</button>
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="readySc()">Prepare</button>
 <button id="showall" onclick="showAll()">Reset All</button>
-<br><br><br><br><br><br>
-
+</div>
+<br>
+<br><br>
+<br>
 <div class="grid-container" id="tags">
 </div>
-<br><br><br><br><br><br>
+
+
+<br>
+<br><button id="bsh" onclick="if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}">Menu</button>
+
+<br>
+<br>
+<br>
+<br>
 <script src="html5-qrcode.min.js"></script>
 <script src=""></script>
 
 <script>
-    var R=11/8.5;
-   // alert(s1.innerHTML)
-    tags.style.gridIemplateColumns="10% 10% 10%"
-var linkp='https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
-var w = window.innerWidth;
-        var h = window.innerHeight;
-        var radio=h/w;
-        if(radio>1.1){
-   //         tags.removeClass();
-            tags.setAttribute("class","c2")
-        }
-        else{}
+    var R = 11 / 8.5;
+    // alert(s1.innerHTML)
+    tags.style.gridIemplateColumns = "10% 10% 10%"
+    var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var radio = h / w;
+    if (radio > 1.1) {
+        //         tags.removeClass();
+        tags.setAttribute("class", "c2")
+    } else {}
 
 
 
@@ -163,28 +186,30 @@ var w = window.innerWidth;
         var h = window.innerHeight;
 
         for (var i = 0; i < 18; i++) {
-      //      var sd = '<div class="grid-item" id="d' + i + '" onclick="sTag(' + i + ')" >';
-        //    var si = '<img class="cimg" id="qr' + i + '" src=""/>';
-          //   tags.innerHTML += sd + si + "</div>"; //+st+bt+si
-          tags.innerHTML+=crTag(i)
+            //      var sd = '<div class="grid-item" id="d' + i + '" onclick="sTag(' + i + ')" >';
+            //    var si = '<img class="cimg" id="qr' + i + '" src=""/>';
+            //   tags.innerHTML += sd + si + "</div>"; //+st+bt+si
+            tags.innerHTML += crTag(i)
         }
         cont = tags.innerHTML;
     }
-    function crTag(index,pn,url){
-        if(url===undefined) url="";
-        if(pn==undefined) pn="";
-        var sd = '<div class="grid-item" id="' + index + '" onclick="sTag(' + index + ')" >'+pn+' __ ';
-            var si = '<img class="cimg" id="qr' + index + '" src="'+url+'"/>';
-            return sd+si+"</div>";
-     }
+
+    function crTag(index, pn, url) {
+        if (url === undefined) url = "";
+        if (pn == undefined) pn = "";
+        var sd = '<div class="grid-item" id="' + index + '" onclick="sTag(' + index + ')" >' + pn + ' __ ';
+        var si = '<img class="cimg" id="qr' + index + '" src="' + url + '"/>';
+        return sd + si + "</div>";
+    }
+
     function readySc() {
         cont = tags.innerHTML;
         var tgs = tags.getElementsByTagName("div");
         for (var i = 0; i < tgs.length; i++) {
-                  if (tgs[i].value == "" || tgs[i].value == undefined) tgs[i].style.display = "none";
+            if (tgs[i].value == "" || tgs[i].value == undefined) tgs[i].style.display = "none";
 
         }
-      }
+    }
 
     function showAll() {
         tags.innerHTML = cont
@@ -192,78 +217,80 @@ var w = window.innerWidth;
     }
 
     function sTag(i) {
-        GetJ(linkp,function(obj){
-        var o={};
-               var pn = prompt("Part Number?");
-        if(pn===null || pn=== "" || pn===undefined) return
-        var desc = prompt("Description?");
-        var qty = prompt("Quantity?");
-        qty=qty*1;
-        if(isNaN(qty)) return
-        if(desc===null || desc=== "" || desc===undefined) desc="";
-        var tgs = tags.getElementsByTagName("div");
+        GetJ(linkp, function(obj) {
+            var o = {};
+            var pn = prompt("Part Number?");
+            if (pn === null || pn === "" || pn === undefined) return
+            var desc = prompt("Description?");
+            var qty = prompt("Quantity?");
+            qty = qty * 1;
+            if (isNaN(qty)) return
+            if (desc === null || desc === "" || desc === undefined) desc = "";
+            var tgs = tags.getElementsByTagName("div");
 
-        var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=100x100';
-        tgs[i].style.border = "none"
+            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=100x100';
+            tgs[i].style.border = "none"
 
-        var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
-        tgs[i].value = pn + " " + desc;
-        tgs[i].innerHTML = pn + " __ " + si;
-        o.pn=pn;
-        o.des=desc;
-        o.qty=qty;
-        o.url=url;
-        o.printed=false;
-        o.created=new Date().toString();
-        obj.parts.push(o);
-         
-         UpdateJ(linkp,obj,function(){});
+            var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
+            tgs[i].value = pn + " " + desc;
+            tgs[i].innerHTML = pn + " __ " + si;
+            o.pn = pn;
+            o.des = desc;
+            o.qty = qty;
+            o.url = url;
+            o.printed = false;
+            o.created = new Date().toString();
+            obj.parts.push(o);
+
+            UpdateJ(linkp, obj, function() {});
         });
-     
-        
+
+
     }
-    function recover(){
-        tags.innerHTML="";
-    //    var el=tags.getElementsByTagName("div")
-   //   el.forEach(n => n.remove());
-        GetJ(linkp,function(obj){
-          for(var i=0;i<obj.parts.length;i++){
-              var p=obj.parts[i];
-                    tags.innerHTML+=crTag(i,p.pn,p.url);
-          }
+
+    function recover() {
+        tags.innerHTML = "";
+        //    var el=tags.getElementsByTagName("div")
+        //   el.forEach(n => n.remove());
+        GetJ(linkp, function(obj) {
+            for (var i = 0; i < obj.parts.length; i++) {
+                var p = obj.parts[i];
+                tags.innerHTML += crTag(i, p.pn, p.url);
+            }
 
         })
 
     }
 
-    function copyCl(){
+    function copyCl() {
 
-        GetJ(linkp,function(obj){  
-            var ps=obj.parts;  
- var so=""
-    var t=document.createElement("textarea");
-    document.body.appendChild(t);
-    
-           for(var i=0;i<ps.length;i++){
-  so+=ps[i].qty+String.fromCharCode(9)+ps[i].pn+String.fromCharCode(9)+ps[i].des+"\n"
+        GetJ(linkp, function(obj) {
+            var ps = obj.parts;
+            var so = ""
+            var t = document.createElement("textarea");
+            document.body.appendChild(t);
+
+            for (var i = 0; i < ps.length; i++) {
+                so += ps[i].qty + String.fromCharCode(9) + ps[i].pn + String.fromCharCode(9) + ps[i].des + "\n"
             }
-t.innerHTML=so;
-t.select();
-                     document.execCommand("copy");
+            t.innerHTML = so;
+            t.select();
+            document.execCommand("copy");
 
-alert(so);
-document.body.removeChild(t)
+            alert(so);
+            document.body.removeChild(t)
         });
     }
-    
-    function sca(x,y){
-       // 
-        x=x/100;y=y/100;
-        tags.style.transform='scale('+x+','+y+')';
-       // alert(w+"   "+y)
+
+    function sca(x, y) {
+        // 
+        x = x / 100;
+        y = y / 100;
+        tags.style.transform = 'scale(' + x + ',' + y + ')';
+       tags.style.zIndex=-1
     }
-    
-     function GetJ(url, callback) {
+
+    function GetJ(url, callback) {
 
         //var url  = "http://localhost:8080/api/v1/users";
         var xhr = new XMLHttpRequest()
@@ -271,10 +298,10 @@ document.body.removeChild(t)
         xhr.onload = function() {
             //         (xhr.responseText)
             var users = JSON.parse(xhr.responseText);
-       //     var obb=decoding(users.prim);
-  
+            //     var obb=decoding(users.prim);
+
             if (xhr.readyState == 4 && xhr.status == "200") {
-                       callback(users);
+                callback(users);
             } else {
                 console.error(users);
             }
@@ -283,25 +310,24 @@ document.body.removeChild(t)
     }
 
     // Update a user
-    function UpdateJ(url, ob, callback) { 
- //   var o={};
- //   o.prim=encoding(ob);
-    json=JSON.stringify(ob);
+    function UpdateJ(url, ob, callback) {
+        //   var o={};
+        //   o.prim=encoding(ob);
+        json = JSON.stringify(ob);
         var xhr = new XMLHttpRequest();
         xhr.open("PUT", url + '/12', true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         xhr.onload = function() {
             var users = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "200") {
-              //  alert("Tu Forma ha sido Enviada");
-               if(callback!=undefined)  callback(users);
+                //  alert("Tu Forma ha sido Enviada");
+                if (callback != undefined) callback(users);
             } else {
                 (users);
             }
         }
         xhr.send(json);
-    } 
-    
+    }
 </script>
 
 </html>
