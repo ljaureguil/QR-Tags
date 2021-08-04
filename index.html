@@ -5,6 +5,9 @@
 </head>
 
 <style id="s1">
+    body{
+        text-align: center;
+    }
     #todo {
         display: none;
     }
@@ -55,20 +58,23 @@
         padding: 30px;    
     }
     .grid-container {
+    
         display: grid;
         grid-column-gap: 10px;
         // grid-template-columns: auto auto auto;
-        grid-template-columns: 23% 23% 23%;
+        grid-template-columns: 45% 45%;
         background-color: white;
         padding: 8px;
+       font-size: 18px;
+        font-weight: bold;       
+        //final
     }
     .grid-item {
         height: 50px;
         margin: 15px;
         border: .5px solid rgba(0, 0, 0, 0.8);
         padding: 12px;
-        font-size: 18px;
-        font-weight: bold;
+  
         text-align: right;
     }
     .cdt {
@@ -93,22 +99,42 @@
         color: white;
         background-color: black;
     }
+    .cadj{
+    width: 25%;
+    z-index: 1;
+
+    }
 </style>
 
-<div id="dtags">
+    <input class="cadj" type="range" id="iwidth" name="w"
+           min="0" max="400" value="100" oninput="sca(this.value,iheight.value)">
+    <label for="width">width</label>
+   
+    <input  class="cadj" type="range" id="iheight" name="h" 
+           min="0" max="400" value="100" step="1" oninput="sca(iwidth.value,this.value)">
+    <label for="height">Height</label>
 
-</div>
+  
+    <input  class="cadj" type="range" id="ifon" name="fon" 
+           min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
+    <label for="fon">Font</label>
+
 <button id="brecover" onclick="recover()">Recover</button>
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="readySc()">Prepare</button>
 <button id="showall" onclick="showAll()">Reset All</button>
+<br><br><br><br><br><br>
+
 <div class="grid-container" id="tags">
 </div>
-<br><br><p></p><p></p>
+<br><br><br><br><br><br>
 <script src="html5-qrcode.min.js"></script>
 <script src=""></script>
 
 <script>
+    var R=11/8.5;
+   // alert(s1.innerHTML)
+    tags.style.gridIemplateColumns="10% 10% 10%"
 var linkp='https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
 var w = window.innerWidth;
         var h = window.innerHeight;
@@ -230,6 +256,12 @@ document.body.removeChild(t)
         });
     }
     
+    function sca(x,y){
+       // 
+        x=x/100;y=y/100;
+        tags.style.transform='scale('+x+','+y+')';
+       // alert(w+"   "+y)
+    }
     
      function GetJ(url, callback) {
 
