@@ -120,6 +120,7 @@
         background-color: rgba(10, 148, 179, 0.3);
         z-index: 5;
         box-shadow: -10px 10px 50px 1px  black;
+    }
     
 </style>
 <div id="menu">
@@ -132,7 +133,7 @@
 
 <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
 <label for="fon">Font</label>
-
+<br>
 <button id="brecover" onclick="recover()">Recover</button>
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="readySc()">Prepare</button>
@@ -186,20 +187,31 @@
         var h = window.innerHeight;
 
         for (var i = 0; i < 18; i++) {
-            //      var sd = '<div class="grid-item" id="d' + i + '" onclick="sTag(' + i + ')" >';
-            //    var si = '<img class="cimg" id="qr' + i + '" src=""/>';
-            //   tags.innerHTML += sd + si + "</div>"; //+st+bt+si
-            tags.innerHTML += crTag(i)
-        }
+                 tags.appendChild(crTag())       }
         cont = tags.innerHTML;
     }
 
-    function crTag(index, pn, url) {
-        if (url === undefined) url = "";
-        if (pn == undefined) pn = "";
-        var sd = '<div class="grid-item" id="' + index + '" onclick="sTag(' + index + ')" >' + pn + ' __ ';
-        var si = '<img class="cimg" id="qr' + index + '" src="' + url + '"/>';
-        return sd + si + "</div>";
+    function crTag(ob) {
+//alert("oh")
+          var d=document.createElement("div");
+          d.setAttribute("class","grid-item")
+          
+          d.setAttribute("onclick","sTag(this)")
+          if(ob!=undefined){ 
+              d.innerHTML=ob.pn+" _ ";
+          d.setAttribute("id",ob.pn)
+          d.value=ob.qty;
+         
+            d.name=ob.des;
+    
+    }
+  //  alert("oh")
+      var im=document.createElement("img");
+      if(ob!=undefined) im.src=ob.url;
+      im.setAttribute("class","cimg");
+      d.appendChild(im);
+      return d;
+
     }
 
     function readySc() {
@@ -216,25 +228,22 @@
 
     }
 
-    function sTag(i) {
+    function sTag(e) {
+      //  alert(e.id)
         GetJ(linkp, function(obj) {
             var o = {};
-            var pn = prompt("Part Number?");
+            var pn = prompt("Part Number?",e.id);
             if (pn === null || pn === "" || pn === undefined) return
-            var desc = prompt("Description?");
-            var qty = prompt("Quantity?");
+            var desc = prompt("Description?",e.name);
+            var qty = prompt("Quantity?",e.value);
             qty = qty * 1;
             if (isNaN(qty)) return
-            if (desc === null || desc === "" || desc === undefined) desc = "";
-            var tgs = tags.getElementsByTagName("div");
+            if (desc === null || desc === "" || desc === undefined) desc = "";;
+       ///     if(desc!=e.name || aty !=e.value || 
+      //      var tgs = tags.getElementsByTagName("div");
 
-            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=100x100';
-            tgs[i].style.border = "none"
-
-            var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
-            tgs[i].value = pn + " " + desc;
-            tgs[i].innerHTML = pn + " __ " + si;
-            o.pn = pn;
+            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=400x400';
+                 o.pn = pn;
             o.des = desc;
             o.qty = qty;
             o.url = url;
@@ -242,7 +251,19 @@
             o.created = new Date().toString();
             obj.parts.push(o);
 
-            UpdateJ(linkp, obj, function() {});
+         //   UpdateJ(linkp, obj, function() {});
+      
+      
+          //  e.name=pn;
+          // tgs[i].name=pn;
+/*
+            var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
+            e.value=pn + " " + desc;
+           // tgs[i].value = pn + " " + desc;
+           e.innerHTML=pn + " __ " + si;
+           // tgs[i].innerHTML = pn + " __ " + si;
+    
+         */
         });
 
 
@@ -250,13 +271,11 @@
 
     function recover() {
         tags.innerHTML = "";
-        //    var el=tags.getElementsByTagName("div")
-        //   el.forEach(n => n.remove());
-        GetJ(linkp, function(obj) {
+           GetJ(linkp, function(obj) {
             for (var i = 0; i < obj.parts.length; i++) {
                 var p = obj.parts[i];
-                tags.innerHTML += crTag(i, p.pn, p.url);
-            }
+                tags.appendChild(  crTag(p))
+               }
 
         })
 
