@@ -26,7 +26,7 @@
     }
     button {
         width: 40%;
-        font-size: 15px;
+        font-size: 25px;
         border-radius: 10px;
         background: rgb(245, 2, 14);
         margin: 30px;
@@ -107,9 +107,10 @@
         top:0%;
         right:0%;
         width: auto;
+        font-size: 20px;
     }
     #menu{
-        width: 90%;
+        width: 85%;
         padding: 30px;
         position: absolute;
         top:30%;
@@ -136,7 +137,7 @@
 <br>
 <button id="brecover" onclick="recover()">Recover</button>
 <button id="brecover" onclick="copyCl()">Copy</button>
-<button id="btprep" onclick="readySc()">Prepare</button>
+<button id="btprep" onclick="delTag()">Set Delete Mode</button>
 <button id="showall" onclick="showAll()">Reset All</button>
 </div>
 <br>
@@ -144,12 +145,14 @@
 <br>
 <div class="grid-container" id="tags">
 </div>
-<br>
-<br><button id="bsh" onclick="if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}">Menu</button>
+
+<button id="bsh" onclick="if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}">M</button>
 <script src="html5-qrcode.min.js"></script>
 <script src=""></script>
 
 <script>
+    mode="add";
+    // window.location.reload();
     var R = 11 / 8.5;
     // alert(s1.innerHTML)
     tags.style.gridIemplateColumns = "10% 10% 10%"
@@ -196,8 +199,7 @@
           d.value=ob.qty;
          
             d.name=ob.des;
-    
-    }
+      }
   //  alert("oh")
       var im=document.createElement("img");
       if(ob!=undefined) im.src=ob.url;
@@ -205,6 +207,20 @@
       d.appendChild(im);
       return d;
 
+    }
+
+    function delTag(){
+        if(mode!="delete"){
+        mode='delete';
+        menu.style.display='none';
+        tags.style.background='#00ff00'
+    }
+    else{
+
+        mode="";
+        tags.style.background="white";
+
+    }
     }
 
     function readySc() {
@@ -224,12 +240,13 @@
        //  alert(e.id)
        GetJ(linkp, function(obj) {
            var o = {};
+           if(mode!="delete"){
            var pn = prompt("Part Number?", e.id);
            if (pn === null || pn === "" || pn === undefined) return
            var desc = prompt("Description?", e.name);
            var qty = prompt("Quantity?", e.value);
            qty = qty * 1;
-           if (isNaN(qty)) return
+           if (isNaN(qty)){alert("Type a number"); return}
            if (desc === null || desc === "" || desc === undefined) desc = "";;
            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=400x400';
            o.pn = pn;
@@ -238,8 +255,9 @@
            o.url = url;
            o.printed = false;
            o.created = new Date().toString();
-        
-             if (e.id != undefined ||e.id.length===0) {//
+         //  alert(e.id)
+             if (e.id.length!=0) {//e.id != undefined ||
+  //              alert(e.id)
                GetJ(linkp, function(obj) {
                   for (var i = 0; i < obj.parts.length; i++) {
                        var p = obj.parts[i];
@@ -251,6 +269,7 @@
                                UpdateJ(linkp, obj, function() {
                                    alert("part has been replaced");
                                    i= obj.parts.length;
+                                   recover();
                                });
                                 i=obj.parts.length;
                            }
@@ -258,10 +277,33 @@
                    }
                })
            } else {
-               alert("oooo");
+              // alert("oooo");
                obj.parts.push(o);
+             
+               e.getElementsByTagName("img")[0].src=o.url;
+               e.innerHTML=o.pn+" _ "+e.innerHTML;
+          //   alert(e.children.length)
                UpdateJ(linkp, obj, function() {});
            }
+         
+      
+        }
+        else{//de modo delete
+          if(confirm("Are you sure you wat to DELETE "+e.id)){
+            var ps=obj.parts;
+            for(var i=0;i<ps.length;i++){
+                if(e.id===ps[i].pn){
+                   obj.trash.push(ps[i])
+                    obj.parts.splice(i,1);
+                         i=ps.length;
+                    UpdateJ(linkp,obj,function(){alert("Part Moved to Trash");recover()})
+                }
+
+            }
+              mode="";
+              tags.style.background="white";
+          }
+        }
        });
 
 
@@ -289,9 +331,7 @@ function chkId(id){
                 },500)
              
                }
-
         })
-
     }
     */
     function recover() {
@@ -321,7 +361,6 @@ function chkId(id){
   var y = await 4000;
   alert(y); // 20
 }
-
 f3();
 */
 
