@@ -124,10 +124,10 @@
     
 </style>
 <div id="menu">
-<input class="cadj" type="range" id="iwidth" name="w" min="0" max="400" value="100" oninput="sca(this.value,iheight.value)">
+<input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
 <label for="width">width</label>
 
-<input class="cadj" type="range" id="iheight" name="h" min="0" max="400" value="100" step="1" oninput="sca(iwidth.value,this.value)">
+<input class="cadj" type="range" id="iheight" name="h" min="0" max="300" value="100" step="1" oninput="sca(iwidth.value,this.value)">
 <label for="height">Height</label>
 
 
@@ -144,15 +144,8 @@
 <br>
 <div class="grid-container" id="tags">
 </div>
-
-
 <br>
 <br><button id="bsh" onclick="if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}">Menu</button>
-
-<br>
-<br>
-<br>
-<br>
 <script src="html5-qrcode.min.js"></script>
 <script src=""></script>
 
@@ -195,7 +188,7 @@
 //alert("oh")
           var d=document.createElement("div");
           d.setAttribute("class","grid-item")
-          
+                 d.id="";
           d.setAttribute("onclick","sTag(this)")
           if(ob!=undefined){ 
               d.innerHTML=ob.pn+" _ ";
@@ -227,59 +220,113 @@
         tags.innerHTML = cont
 
     }
-
     function sTag(e) {
-      //  alert(e.id)
-        GetJ(linkp, function(obj) {
-            var o = {};
-            var pn = prompt("Part Number?",e.id);
-            if (pn === null || pn === "" || pn === undefined) return
-            var desc = prompt("Description?",e.name);
-            var qty = prompt("Quantity?",e.value);
-            qty = qty * 1;
-            if (isNaN(qty)) return
-            if (desc === null || desc === "" || desc === undefined) desc = "";;
-       ///     if(desc!=e.name || aty !=e.value || 
-      //      var tgs = tags.getElementsByTagName("div");
+       //  alert(e.id)
+       GetJ(linkp, function(obj) {
+           var o = {};
+           var pn = prompt("Part Number?", e.id);
+           if (pn === null || pn === "" || pn === undefined) return
+           var desc = prompt("Description?", e.name);
+           var qty = prompt("Quantity?", e.value);
+           qty = qty * 1;
+           if (isNaN(qty)) return
+           if (desc === null || desc === "" || desc === undefined) desc = "";;
+           var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=400x400';
+           o.pn = pn;
+           o.des = desc;
+           o.qty = qty;
+           o.url = url;
+           o.printed = false;
+           o.created = new Date().toString();
+           alert("lllllooooooo\n\n"+e.id)
+             if (e.id != undefined ||e.id.length===0) {//
+               GetJ(linkp, function(obj) {
+                  for (var i = 0; i < obj.parts.length; i++) {
+                       var p = obj.parts[i];
+                       if (p.pn === e.id) {
 
-            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=400x400';
-                 o.pn = pn;
-            o.des = desc;
-            o.qty = qty;
-            o.url = url;
-            o.printed = false;
-            o.created = new Date().toString();
-            obj.parts.push(o);
-       
-            UpdateJ(linkp, obj, function() {});
-      
-      
-          //  e.name=pn;
-          // tgs[i].name=pn;
-/*
-            var si = '<img class="cimg" id="qr' + i + '" src="' + url + '"/>';
-            e.value=pn + " " + desc;
-           // tgs[i].value = pn + " " + desc;
-           e.innerHTML=pn + " __ " + si;
-           // tgs[i].innerHTML = pn + " __ " + si;
-    
-         */
-        });
+                           if (confirm("Replace it??")) {
+                               e.src=o.url;
+                               obj.parts[i] = o;
+                               UpdateJ(linkp, obj, function() {
+                                   alert("part has been replaced");
+                                   i= obj.parts.length;
+                               });
+                                i=obj.parts.length;
+                           }
+                       }
+                   }
+               })
+           } else {
+               alert("oooo");
+               obj.parts.push(o);
+               UpdateJ(linkp, obj, function() {});
+           }
+       });
 
 
-    }
+   }
+function chkId(id){
 
-    function recover() {
+         GetJ(linkp, function(obj) {
+            for (var i = 0; i < obj.parts.length; i++) {
+                var p = obj.parts[i];
+                if(o.pn===id) return i;
+            //    tags.appendChild(  crTag(p))
+               }
+               return -1;
+
+        })
+
+}
+ /*   function recover() {
         tags.innerHTML = "";
            GetJ(linkp, function(obj) {
             for (var i = 0; i < obj.parts.length; i++) {
                 var p = obj.parts[i];
-                tags.appendChild(  crTag(p))
+                setTimeout(function(){
+                       tags.appendChild(  crTag(p))
+                },500)
+             
                }
 
         })
 
     }
+    */
+    function recover() {
+        tags.innerHTML = "";
+          var i=0;
+          var pq=0;
+         GetJ(linkp, function(obj) {   
+          pq=obj.parts.length/16;
+          var pe=pq+"";pe=pe.split(".")[0];
+          pe=pe*1+1;
+         
+          var rp=prompt("There are "+pe+" Section, type which you want to print ","1");
+          rp=rp*1;
+          if(isNaN(rp)) {alert("Type a number");recover()}
+ alert(rp)
+ i=rp*16-16;
+          var espera=setInterval(function(){
+                var p = obj.parts[i];
+                   tags.appendChild(  crTag(p))
+                   i++;
+                   if(i===rp*16){ clearInterval(espera)}
+                   if(i>=obj.parts.length){ clearInterval(espera)}
+        },600)
+})
+    }
+  /*  async function f3() {
+  var y = await 4000;
+  alert(y); // 20
+}
+
+f3();
+*/
+
+
+
 
     function copyCl() {
 
