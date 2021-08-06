@@ -97,9 +97,10 @@
         margin: 5px;
         color: white;
         background-color: black;
+        height: 5%;
     }
     .cadj {
-        width: 25%;
+        width: 50%;
         z-index: 1;
     }
     #bsh{
@@ -107,7 +108,7 @@
         top:0%;
         right:0%;
         width: auto;
-        font-size: 20px;
+        font-size: 15px;
     }
     #menu{
         width: 85%;
@@ -122,8 +123,16 @@
         z-index: 5;
         box-shadow: -10px 10px 50px 1px  black;
     }
+    #spacer{
+        width:100%;
+        height:.1%;
+    
+    }
     
 </style>
+<div id="spacer"></div>
+<div class="grid-container" id="tags">
+</div>
 <div id="menu">
 <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
 <label for="width">width</label>
@@ -131,6 +140,8 @@
 <input class="cadj" type="range" id="iheight" name="h" min="0" max="300" value="100" step="1" oninput="sca(iwidth.value,this.value)">
 <label for="height">Height</label>
 
+<input class="cadj" type="range" id="iupdw" name="fon" min="0" max="80" value="0" step="1" oninput="spacer.style.height=this.value+'%'">
+<label for="fon">Up/Dwn</label>
 
 <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
 <label for="fon">Font</label>
@@ -143,8 +154,7 @@
 <br>
 <br><br>
 <br>
-<div class="grid-container" id="tags">
-</div>
+
 
 <button id="bsh" onclick="if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}">M</button>
 <script src="html5-qrcode.min.js"></script>
