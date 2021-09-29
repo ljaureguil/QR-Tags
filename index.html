@@ -116,7 +116,7 @@
         position: absolute;
         top:30%;
         left:3%;
-        display: none;
+       
         border-style: double;;
         border-color: white;
         background-color: rgba(10, 148, 179, 0.3);
@@ -128,12 +128,51 @@
         height:.1%;
     
     }
+    #fil{
+        position: absolute;
+        width:90%;
+        left:5%;
+        top:25%;
+      display: none;
+        height:60%;
+        overflow:auto;
+        background: White;
+        border-style:solid;
+        text-align: left;
+
+   }
+   #tfil{
+       width:60%; 
+           text-align: left;
+   }
+
+.ctt{
+   width:90%;
+   margin:5%;
+   border:solid;
+   font-size: 20px;
+
+
+}
+#sall{
+    position: absolute;
+    top:1%;
+    right:1%;
+    width: 20%;
+    
+}
     
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
 </div>
 <div id="menu">
+
+<button id="brecover" onclick="recover()">Prepare Tags</button>
+<button id="bfil" onclick="filter()">Filter</button>
+<button id="brecover" onclick="copyCl()">Copy</button>
+<button id="btprep" onclick="delTag()">Set Delete Mode</button>
+<button id="showall" onclick="showAll()">Reset All</button><br>
 <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
 <label for="width">width</label>
 
@@ -146,27 +185,31 @@
 <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
 <label for="fon">Font</label>
 <br>
-<button id="brecover" onclick="recover()">Recover</button>
-<button id="brecover" onclick="copyCl()">Copy</button>
-<button id="btprep" onclick="delTag()">Set Delete Mode</button>
-<button id="showall" onclick="showAll()">Reset All</button>
+
+
 </div>
 <br>
 <br><br>
 <br>
+<div id="fil">Search/Filter<br><br>
+    <textarea id="tfil" oninput="search(this.value)"></textarea><br>
+<button id="sall" onclick="selectAll()">Sel. All</button>
 
+</div>
 
-<button id="bsh" onclick="if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}">M</button>
+<button id="bsh" onclick="showM();">M</button>
 <script src="html5-qrcode.min.js"></script>
-<script src=""></script>
+<script src="qr.js"></script>
 
 <script>
-    mode="add";
+    mode="add",Obj={},Parts=[];
     // window.location.reload();
     var R = 11 / 8.5;
     // alert(s1.innerHTML)
-    tags.style.gridIemplateColumns = "10% 10% 10%"
-    var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'
+    tags.style.gridIemplateColumns = "10% 10% 10% 10%"
+ //   var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+    
+    linkp="https://jsonblob.com/api/892533157149294592";
     var w = window.innerWidth;
     var h = window.innerHeight;
     var radio = h / w;
@@ -193,7 +236,8 @@
         var h = window.innerHeight;
 
         for (var i = 0; i < 18; i++) {
-                 tags.appendChild(crTag())       }
+     //            tags.appendChild(crTag())    
+                    }
         cont = tags.innerHTML;
     }
 
@@ -212,7 +256,8 @@
       }
   //  alert("oh")
       var im=document.createElement("img");
-      if(ob!=undefined) im.src=ob.url;
+   
+     if(ob!=undefined) im.src=genTag(ob.pn+" : "+ob.des);//   b.url;
       im.setAttribute("class","cimg");
       d.appendChild(im);
       return d;
@@ -331,52 +376,27 @@ function chkId(id){
         })
 
 }
- /*   function recover() {
-        tags.innerHTML = "";
-           GetJ(linkp, function(obj) {
-            for (var i = 0; i < obj.parts.length; i++) {
-                var p = obj.parts[i];
-                setTimeout(function(){
-                       tags.appendChild(  crTag(p))
-                },500)
-             
-               }
-        })
-    }
-    */
+ 
     function recover() {
+        if(Parts.length===0){
+            alert("No part selected yet")
+        }
+        else{
         tags.innerHTML = "";
           var i=0;
           var pq=0;
-         GetJ(linkp, function(obj) {   
-          pq=obj.parts.length/16;
-          var pe=pq+"";pe=pe.split(".")[0];
-          pe=pe*1+1;
-         
-          var rp=prompt("There are "+pe+" Section, type which you want to print ","1");
-          rp=rp*1;
-          if(isNaN(rp)) {alert("Type a number");recover()}
- 
- i=rp*16-16;
-          var espera=setInterval(function(){
-                var p = obj.parts[i];
-                   tags.appendChild(  crTag(p))
-                   i++;
-                   if(i===rp*16){ clearInterval(espera)}
-                   if(i>=obj.parts.length){ clearInterval(espera)}
-        },600)
-})
-    }
-  /*  async function f3() {
-  var y = await 4000;
-  alert(y); // 20
+            var t1=prompt("From","1")*1;
+          var t2=prompt("To",Parts.length)*1;
+          if(isNaN(t1) || isNaN(t2)) {alert("Type a number");recover()}
+           for(var i=t1;i<t2;i++){
+                var p = Parts[i];
+                   tags.appendChild(crTag(p))
 }
-f3();
-*/
+menu.style.display="none"
+}
 
-
-
-
+    }
+ 
     function copyCl() {
 
         GetJ(linkp, function(obj) {
@@ -442,6 +462,77 @@ f3();
             }
         }
         xhr.send(json);
+    }
+    
+       function genTag(tx){
+        
+        var c=document.createElement("canvaS");
+        qr = new QRious({
+                    element: c, 
+                    size: 800,
+                    value: tx
+                });
+             
+          return qr.toDataURL();
+         }
+         
+ function filter(){
+     menu.style.display="none"
+  if(fil.style.display==="block"){
+    fil.style.display="none";
+    bfil.innerHTML="Filter"
+  }
+  else{
+fil.style.display="block";
+bfil.innerHTML="Close Filter"
+  }
+            GetJ(linkp, function(obj) { 
+                Obj=obj;
+                           for(var i=0;i<obj.parts.length;i++){
+                    var p=document.createElement("p");
+                    p.setAttribute("class","ctt");
+                    p.setAttribute("onclick","this.style.background='#0f0';sel(this)");
+                    p.name=obj.parts[i];
+                    p.id=obj.parts[i].pn;
+                    p.innerHTML=obj.parts[i].pn+ ", Desc. "+obj.parts[i].des;
+                    fil.appendChild(p)
+                }
+
+
+
+      });
+ 
+ }
+ function search(v){
+   
+     var ar=[];
+        if(Obj.parts===undefined){alert("lets recover and search again");filter();}
+        else{
+            var pa=document.getElementsByClassName("ctt");
+            for(var i=0;i<pa.length;i++){
+                var s=JSON.stringify(pa[i]);
+                s=s.toUpperCase();
+                v=v.toUpperCase();
+                if(s.indexOf(v)>-1){
+                    pa[i].style.display="block"
+                 //   ar.push(pa[i]);
+                 }
+                else{ pa[i].style.display="none"}
+            }
+         }
+
+   
+ }
+    function sel(e){
+     Parts.push(e.name)
+
+    }
+    function showM(){
+        if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}
+  
+    }
+    function selectAll(){
+    
     }
 </script>
 
