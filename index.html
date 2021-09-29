@@ -119,7 +119,7 @@
        
         border-style: double;;
         border-color: white;
-        background-color: rgba(10, 148, 179, 0.3);
+        background-color: rgba(10, 148, 179, 1);
         z-index: 5;
         box-shadow: -10px 10px 50px 1px  black;
     }
@@ -155,10 +155,7 @@
 
 }
 #sall{
-    position: absolute;
-    top:1%;
-    right:1%;
-    width: 20%;
+ 
     
 }
     
@@ -170,6 +167,7 @@
 
 <button id="brecover" onclick="recover()">Prepare Tags</button>
 <button id="bfil" onclick="filter()">Filter</button>
+
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="delTag()">Set Delete Mode</button>
 <button id="showall" onclick="showAll()">Reset All</button><br>
@@ -194,7 +192,7 @@
 <div id="fil">Search/Filter<br><br>
     <textarea id="tfil" oninput="search(this.value)"></textarea><br>
 <button id="sall" onclick="selectAll()">Sel. All</button>
-
+<button id="brecover" onclick="clrPart()">Clear Selection</button>
 </div>
 
 <button id="bsh" onclick="showM();">M</button>
@@ -385,14 +383,18 @@ function chkId(id){
         tags.innerHTML = "";
           var i=0;
           var pq=0;
-            var t1=prompt("From","1")*1;
-          var t2=prompt("To",Parts.length)*1;
+            var t1=prompt("No more than 48 items Recomended.\n\n From","1")*1;
+          var t2=prompt("No more than 48 items Recomended.\n\n To",Parts.length)*1;
           if(isNaN(t1) || isNaN(t2)) {alert("Type a number");recover()}
+          if(t2-t1>150){alert("Too Much Items...")}
+          else{
            for(var i=t1;i<t2;i++){
                 var p = Parts[i];
                    tags.appendChild(crTag(p))
 }
-menu.style.display="none"
+menu.style.display="none";
+fil.style.display="none";
+}
 }
 
     }
@@ -532,7 +534,24 @@ bfil.innerHTML="Close Filter"
   
     }
     function selectAll(){
-    
+        var pa=document.getElementsByClassName("ctt");
+            for(var i=0;i<pa.length;i++){
+ 
+                if(pa[i].style.display==="block"){
+                    pa[i].style.background="#0f0";
+               Parts.push(pa[i].name);
+               
+                } 
+
+            }
+    }
+    function clrPart(){
+     
+            Parts.splice(0,Parts.length)
+            var pa=document.getElementsByClassName("ctt");
+            for(var i=0;i<pa.length;i++){
+                       pa[i].style.background="#fff";
+             }
     }
 </script>
 
