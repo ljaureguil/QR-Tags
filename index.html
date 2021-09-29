@@ -139,11 +139,13 @@
         background: White;
         border-style:solid;
         text-align: left;
+        margin: 3%;
 
    }
    #tfil{
        width:60%; 
            text-align: left;
+           margin:3%;
    }
 
 .ctt{
@@ -154,10 +156,7 @@
 
 
 }
-#sall{
- 
-    
-}
+
     
 </style>
 <div id="spacer"></div>
@@ -189,10 +188,11 @@
 <br>
 <br><br>
 <br>
-<div id="fil">Search/Filter<br><br>
-    <textarea id="tfil" oninput="search(this.value)"></textarea><br>
-<button id="sall" onclick="selectAll()">Sel. All</button>
-<button id="brecover" onclick="clrPart()">Clear Selection</button>
+<div id="fil"><br>---------- Search/Filter...<br>
+    ...<textarea id="tfil" oninput="search(this.value)"></textarea><br>
+<button id="sall" onclick="selectAll()">Select All</button>
+<button id="brecover" onclick="clrPart()">Clear Selection</button><br>
+---------- Touch Item To Select...
 </div>
 
 <button id="bsh" onclick="showM();">M</button>
