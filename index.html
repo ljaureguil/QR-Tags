@@ -114,7 +114,7 @@
         width: 85%;
         padding: 30px;
         position: absolute;
-        top:30%;
+        top:10%;
         left:3%;
        
         border-style: double;;
@@ -165,7 +165,7 @@
 <div id="menu">
 
 <button id="brecover" onclick="recover()">Prepare Tags</button>
-<button id="bfil" onclick="filter()">Filter</button>
+<button id="bfil" onclick="filter()">Load Inventory</button>
 
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="delTag()">Set Delete Mode</button>
@@ -189,9 +189,10 @@
 <br><br>
 <br>
 <div id="fil"><br>---------- Search/Filter...<br>
-    ...<textarea id="tfil" oninput="search(this.value)"></textarea><br>
+ <textarea id="tfil" oninput="search(this.value)"></textarea><br>
 <button id="sall" onclick="selectAll()">Select All</button>
-<button id="brecover" onclick="clrPart()">Clear Selection</button><br>
+<button id="brecover" onclick="clrPart()">Clear Selection</button>
+<button id="clfil" onclick="fil.style.display='none';recover()">Done</button><br>
 ---------- Touch Item To Select...
 </div>
 
@@ -389,7 +390,7 @@ function chkId(id){
           if(isNaN(t1) || isNaN(t2)) {alert("Type a number");recover()}
           if(t2-t1>150){alert("Too Much Items...")}
           else{
-           for(var i=t1;i<t2;i++){
+           for(var i=t1-1;i<t2;i++){
                 var p = Parts[i];
                    tags.appendChild(crTag(p))
 }
@@ -480,24 +481,25 @@ fil.style.display="none";
          }
          
  function filter(){
+     fil.style.display="block";
      menu.style.display="none"
-  if(fil.style.display==="block"){
+ /* if(fil.style.display==="block"){
     fil.style.display="none";
     bfil.innerHTML="Filter"
   }
-  else{
-fil.style.display="block";
-bfil.innerHTML="Close Filter"
-  }
+  else{*/
+//fil.style.display="block";
+//bfil.innerHTML="Close Filter"
+ // }
             GetJ(linkp, function(obj) { 
                 Obj=obj;
                            for(var i=0;i<obj.parts.length;i++){
                     var p=document.createElement("p");
                     p.setAttribute("class","ctt");
-                    p.setAttribute("onclick","this.style.background='#0f0';sel(this)");
+                    p.setAttribute("onclick","sel(this);this.style.background='#0f0';");
                     p.name=obj.parts[i];
                     p.id=obj.parts[i].pn;
-                    p.innerHTML=obj.parts[i].pn+ ", Desc. "+obj.parts[i].des;
+                    p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
                     fil.appendChild(p)
                 }
 
