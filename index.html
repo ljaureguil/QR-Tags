@@ -221,9 +221,19 @@
 </div>
 <div id="menu">
 
+Load Inventory: <select id="selin" oninput="filter(this.value)">
+    <option>Choose Inventory</option>
+   <option>Main Inventory</option>
+<option>Miselanius</option>
+<option>Other</option>
+<option>All</option>
+</select><br>
+
 <button id="brecover" onclick="recover()">Prepare Tags</button>
-<button id="bfil" onclick="filter()">Load Inventory</button>
+
+
 <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
+<button id="brecover" onclick="reset()">Reset All</button>
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="delTag()">Set Delete Mode</button>
 <button id="showall" onclick="showAll()">Reset All</button>
@@ -282,19 +292,17 @@ Qty Obs: <input id="obs" type="text" class="cin"><br><br>
 
 <script src="html5-qrcode.min.js"></script>
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-     
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
     mode="add",Obj={},Parts=[];
     // window.location.reload();
     var R = 11 / 8.5;
     // alert(s1.innerHTML)
     tags.style.gridIemplateColumns = "10% 10% 10% 10%"
- //   var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     
     linkp="https://jsonblob.com/api/892533157149294592";
-   // linkp="rep.txt";
+    linko="http://jsonblob.com/api/893246438927253504";
     var w = window.innerWidth;
     var h = window.innerHeight;
     var radio = h / w;
@@ -377,7 +385,7 @@ Qty Obs: <input id="obs" type="text" class="cin"><br><br>
         tags.innerHTML = cont
 
     }
-    function sTag(e) {  alert(JSON.stringify(e.name))
+    function sTag(e) { 
 
         dor.style.display="block";
         qt.value=e.name.qtyInv*1;
@@ -388,7 +396,7 @@ Qty Obs: <input id="obs" type="text" class="cin"><br><br>
         cla.value=e.name.clase;
         no.value=e.name.note;
         obs.value=e.name.qtyObs;
-        alert(JSON.stringify(e.name))
+     
 
    }
 function chkId(id){
@@ -514,18 +522,14 @@ xhr.send(null);
           return qr.toDataURL();
          }
          
- function filter(){
+ function filter(op){
+  
+     var link=linkp;
+     if(op==="Other") link=linko;
+     if(op==="Miselanius") link=linkm;
      fil.style.display="block";
      menu.style.display="none"
- /* if(fil.style.display==="block"){
-    fil.style.display="none";
-    bfil.innerHTML="Filter"
-  }
-  else{*/
-//fil.style.display="block";
-//bfil.innerHTML="Close Filter"
- // }
-            GetJ(linkp, function(obj) { 
+             GetJ(link, function(obj) { 
                 Obj=obj;
                            for(var i=0;i<obj.parts.length;i++){
                     var p=document.createElement("p");
@@ -579,7 +583,7 @@ xhr.send(null);
 qi.innerHTML=Parts.length;
     }
     function showM(){
-        if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';fil.style.display="none"}
+        if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';fil.style.display='none'}
   
     }
     function selectAll(){
@@ -601,6 +605,19 @@ qi.innerHTML=Parts.length;
             for(var i=0;i<pa.length;i++){
                        pa[i].style.background="#fff";
              }
+    }
+    function reset(){
+        Parts.splice(0,Parts.length);
+        while (dinv.firstChild) {
+            dinv.removeChild(dinv.firstChild);
+    }
+    while (tags.firstChild) {
+            tags.removeChild(tags.firstChild);
+    }
+    }
+    function loadInventories(){
+
+
     }
 </script>
 
