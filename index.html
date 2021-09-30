@@ -25,11 +25,11 @@
         right: 1%;
     }
     button {
-        width: 40%;
-        font-size: 25px;
+        width: 30%;
+        font-size: 20px;
         border-radius: 10px;
-        background: rgb(245, 2, 14);
-        margin: 30px;
+        background: rgb(255, 129, 11);
+        margin: 10px;
         color: white;
     }
     #reader {
@@ -119,9 +119,9 @@
        
         border-style: double;;
         border-color: white;
-        background-color: rgba(10, 148, 179, 1);
-        z-index: 5;
-        box-shadow: -10px 10px 50px 1px  black;
+        background-color: rgba(10, 148, 179, 81);
+        z-index: 2;
+        box-shadow: -10px 10px 15px 1px  rgba(0,0,0, .51);
     }
     #spacer{
         width:100%;
@@ -132,32 +132,89 @@
         position: absolute;
         width:90%;
         left:5%;
-        top:25%;
+        top:5%;
       display: none;
-        height:60%;
-        overflow:auto;
+        height:90%;
+        overflow:hidden;
         background: White;
         border-style:solid;
         text-align: left;
         margin: 3%;
 
    }
+   #dinv{
+       width: 100%;
+       height:60%;
+       overflow: auto;
+       border-radius: 5px;;
+       border-style: solid;
+   }
    #tfil{
        width:60%; 
+       height:4%;
            text-align: left;
-           margin:3%;
+           margin:5px;;
+           
+        
    }
 
 .ctt{
    width:90%;
-   margin:5%;
+   margin:3%;
    border:solid;
-   font-size: 20px;
-
-
+   font-size: 18px;
 }
+#dor{
+        position: absolute;
+        text-align: right;
+        padding:15px;
+        top:5%;
+        width: 50%;
+        left: 25%;
+        z-index: 2;
+        border-style: solid;
+        background-color: rgb(154, 209, 180);
+        display: none;
+    }
+  
+    #de{
+        height: auto;
 
-    
+    }
+    .cin{
+        width: 98%;
+          text-align: right; 
+        font-size: 16px;
+        background-color: rgb(10, 248, 224);
+       // font-weight: bold;
+    }
+    #qi{
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        top:1%;
+        left:1%;
+        color:rgb(212, 31, 31);
+        background-color: rgb(67, 246, 22);;
+        border-radius: 100px;
+        border-style: double;
+        box-shadow: -10px 10px 15px 1px  rgba(0,0,0, .51);
+        opacity: .75;
+        font-weight: bold;
+        font-size: 16px;
+        padding:15px;
+ 
+    }
+    #qt{
+  
+       width: 50%;
+    }
+    .cpu{
+        font-size:15px;
+
+    }
+
+
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -166,10 +223,10 @@
 
 <button id="brecover" onclick="recover()">Prepare Tags</button>
 <button id="bfil" onclick="filter()">Load Inventory</button>
-
+<button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
 <button id="brecover" onclick="copyCl()">Copy</button>
 <button id="btprep" onclick="delTag()">Set Delete Mode</button>
-<button id="showall" onclick="showAll()">Reset All</button><br>
+<button id="showall" onclick="showAll()">Reset All</button>
 <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
 <label for="width">width</label>
 
@@ -190,17 +247,42 @@
 <br>
 <div id="fil"><br>---------- Search/Filter...<br>
  <textarea id="tfil" oninput="search(this.value)"></textarea><br>
-<button id="sall" onclick="selectAll()">Select All</button>
-<button id="brecover" onclick="clrPart()">Clear Selection</button>
-<button id="clfil" onclick="fil.style.display='none';recover()">Done</button><br>
+<button id="sall" onclick="selectAll()">Sel. All</button>
+<button id="brecover" onclick="clrPart()">Clr. All</button>
+<button id="clfil" onclick="fil.style.display='none';recover()">Done</button>
+<button class="cpu" onclick="fil.style.display='none'">Close</button><br>
 ---------- Touch Item To Select...
+<div id="dinv"></div>
+
 </div>
 
 <button id="bsh" onclick="showM();">M</button>
-<script src="html5-qrcode.min.js"></script>
+    <div id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')"></div> . . . 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-      
+<div id="dor"> 
+    Qty: <input id="qt" type="number" class="cin"><br><br>
+ Inv. Class: <input id="cla" type="text" class="cin"><br><br>
+Kw: <input id="kw" type="text" class="cin"><br><br>
+Qty Obs: <input id="obs" type="text" class="cin"><br><br>
+
+ Part No. <input id="pno" type="text" class="cin"><br><br>
+ desc: <input id="de" type="text" class="cin"><br><br>
+  Mech <input id="me" type="text" class="cin"><br> <br>  
+
+ Note <input id="no" type="text" class="cin"><br>     
+ <button class="cpu" onclick="dor.style.display='none';send('pull')"   style="background-color: rgb(39, 221, 39);">Send To Clipboard (Pull)</button><br>
+ <button class="cpu" onclick="dor.style.display='none';send('return')">Send To Clipboard (Return)</button><br>
+ <button class="cpu" onclick="dor.style.display='none'">Close</button>
+   
+</div>
+
+
+
+
+
+<script src="html5-qrcode.min.js"></script>
+<script src="qr.js"></script>
+
 <script>
     mode="add",Obj={},Parts=[];
     // window.location.reload();
@@ -210,6 +292,7 @@
  //   var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
     
     linkp="https://jsonblob.com/api/892533157149294592";
+   // linkp="rep.txt";
     var w = window.innerWidth;
     var h = window.innerHeight;
     var radio = h / w;
@@ -218,9 +301,10 @@
         tags.setAttribute("class", "c2")
     } else {}
 
-
+//loadDoc(linkp,function(res){alert(res)})
 
     function loadDoc(url, callback) {
+     //   alert(url)
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", url, false);
         xhttp.send();
@@ -252,7 +336,7 @@
           d.setAttribute("id",ob.pn)
           d.value=ob.qty;
          
-            d.name=ob.des;
+            d.name=ob;//.des;
       }
   //  alert("oh")
       var im=document.createElement("img");
@@ -291,78 +375,19 @@
         tags.innerHTML = cont
 
     }
-    function sTag(e) {
-      alert("still working on edit tag")
-/*
-       GetJ(linkp, function(obj) {
-           var o = {};
-           if(mode!="delete"){
-           var pn = prompt("Part Number?", e.id);
-           if (pn === null || pn === "" || pn === undefined) return
-           var desc = prompt("Description?", e.name);
-           var qty = prompt("Quantity?", e.value);
-           qty = qty * 1;
-           if (isNaN(qty)){alert("Type a number"); return}
-           if (desc === null || desc === "" || desc === undefined) desc = "";;
-           var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + pn + ' ' + desc + '&amp;size=400x400';
-           o.pn = pn;
-           o.des = desc;
-           o.qty = qty;
-           o.url = url;
-           o.printed = false;
-           o.created = new Date().toString();
-         //  alert(e.id)
-             if (e.id.length!=0) {//e.id != undefined ||
-  //              alert(e.id)
-               GetJ(linkp, function(obj) {
-                  for (var i = 0; i < obj.parts.length; i++) {
-                       var p = obj.parts[i];
-                       if (p.pn === e.id) {
+    function sTag(e) {  alert(JSON.stringify(e.name))
 
-                           if (confirm("Replace it??")) {
-                               e.src=o.url;
-                               obj.parts[i] = o;
-                               UpdateJ(linkp, obj, function() {
-                                   alert("part has been replaced");
-                                   i= obj.parts.length;
-                                   recover();
-                               });
-                                i=obj.parts.length;
-                           }
-                       }
-                   }
-               })
-           } else {
-              // alert("oooo");
-               obj.parts.push(o);
-             
-               e.getElementsByTagName("img")[0].src=o.url;
-               e.innerHTML=o.pn+" _ "+e.innerHTML;
-          //   alert(e.children.length)
-               UpdateJ(linkp, obj, function() {});
-           }
-         
-      
-        }
-        else{//de modo delete
-          if(confirm("Are you sure you wat to DELETE "+e.id)){
-            var ps=obj.parts;
-            for(var i=0;i<ps.length;i++){
-                if(e.id===ps[i].pn){
-                   obj.trash.push(ps[i])
-                    obj.parts.splice(i,1);
-                         i=ps.length;
-                    UpdateJ(linkp,obj,function(){alert("Part Moved to Trash");recover()})
-                }
+        dor.style.display="block";
+        qt.value=e.name.qtyInv*1;
+        pno.value=e.name.pn;
+        de.value=e.name.des;
+        kw.value=e.name.kw;
+        me.value=e.name.user;
+        cla.value=e.name.clase;
+        no.value=e.name.note;
+        obs.value=e.name.qtyObs;
+        alert(JSON.stringify(e.name))
 
-            }
-              mode="";
-              tags.style.background="white";
-          }
-        }
-       });
-    */
- 
    }
 function chkId(id){
 
@@ -432,23 +457,29 @@ fil.style.display="none";
 
     function GetJ(url, callback) {
 
-        //var url  = "http://localhost:8080/api/v1/users";
-        var xhr = new XMLHttpRequest()
-        xhr.open('GET', url + '/1', true)
-        xhr.onload = function() {
-            //         (xhr.responseText)
-            var users = JSON.parse(xhr.responseText);
-            //     var obb=decoding(users.prim);
+//var url  = "http://localhost:8080/api/v1/users";
+var xhr = new XMLHttpRequest()
+xhr.open('GET', url + '/1', true)
+xhr.onload = function() {
+ 
+    var users = JSON.parse(xhr.responseText);
+    //     var obb=decoding(users.prim);
 
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                callback(users);
-            } else {
-                console.error(users);
-            }
-        }
-        xhr.send(null);
+    if (xhr.readyState == 4 && xhr.status == "200") {
+        callback(users);
+    } else {
+        console.error(users);
     }
+}
+xhr.send(null);
+}
+ /*   function GetJ(url, callback) {
+        loadDoc(url,function(res){
+                      callback(JSON.parse(res))
 
+        })
+    }
+*/
     // Update a user
     function UpdateJ(url, ob, callback) {
         //   var o={};
@@ -468,7 +499,7 @@ fil.style.display="none";
         }
         xhr.send(json);
     }
-    
+  
        function genTag(tx){
         
         var c=document.createElement("canvaS");
@@ -497,11 +528,11 @@ fil.style.display="none";
                            for(var i=0;i<obj.parts.length;i++){
                     var p=document.createElement("p");
                     p.setAttribute("class","ctt");
-                    p.setAttribute("onclick","sel(this);this.style.background='#0f0';");
+                    p.setAttribute("onclick","sel(this);");
                     p.name=obj.parts[i];
                     p.id=obj.parts[i].pn;
                     p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
-                    fil.appendChild(p)
+                    dinv.appendChild(p);// fil.appendChild(p)
                 }
 
 
@@ -530,11 +561,23 @@ fil.style.display="none";
    
  }
     function sel(e){
+    var enc=false;
+        for(var i=0;i<Parts.length;i++){
+            if(Parts[i].pn===e.name.pn){
+                e.style.background="white";
+                enc=true; 
+                Parts.splice(i,1);
+                   i=Parts.length+2;
+             }
+        }
+        if(!enc){
+     e.style.background='#0f0';
      Parts.push(e.name)
-
+}
+qi.innerHTML=Parts.length;
     }
     function showM(){
-        if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';}
+        if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';fil.style.display="none"}
   
     }
     function selectAll(){
