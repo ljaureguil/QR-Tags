@@ -163,6 +163,7 @@
    margin:3%;
    border:solid;
    font-size: 18px;
+   display: block;
 }
 #dor{
         position: absolute;
@@ -192,19 +193,20 @@
     }
     #qi{
         position: absolute;
-        width: 6px;
-        height: 6px;
+        width: 16px;
+        height: 16px;
         top:1%;
         left:1%;
-        color:rgb(212, 31, 31);
-        background-color: rgb(67, 246, 22);;
+ color:rgb(212, 31, 31);
+ background: none;
         border-radius: 100px;
         border-style: double;
         box-shadow: -10px 10px 15px 1px  rgba(0,0,0, .51);
-        opacity: .75;
+       
         font-weight: bold;
-        font-size: 16px;
-        padding:15px;
+        font-size: 10px;
+        //   padding:15px;      //  opacity: .75;
+       // background-color: rgb(67, 246, 22);;
  
     }
     #qt{
@@ -223,28 +225,22 @@
         width:55px;
         height:55px;
     }
+    #tsa{
+        border-style: double;
+        border-color: white;
+    }
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
 </div>
 <div id="menu">
 
-Load Inventory: <select id="selin" oninput="filter(this.value)">
-    <option>Choose Inventory</option>
-   <option>Main Inventory</option>
-<option>Miselanius</option>
-<option>Other</option>
-<option>All</option>
-</select><br>
-
-<button id="brecover" onclick="recover()">Prepare Tags</button>
-
 
 <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
 <button id="brecover" onclick="reset()">Reset All</button>
-<button id="brecover" onclick="copyCl()">Copy</button>
-<button id="btprep" onclick="delTag()">Set Delete Mode</button>
-<button id="showall" onclick="showAll()">Reset All</button>
+<button id="brecover" onclick="copyCl()">Copy</button><br>
+<div id="tsa">
+
 <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
 <label for="width">width</label>
 
@@ -257,28 +253,60 @@ Load Inventory: <select id="selin" oninput="filter(this.value)">
 <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
 <label for="fon">Font</label>
 <br>
+</div>
 
 
 </div>
 <br>
 <br><br>
+
 <br>
-<div id="fil"><br>---------- Search/Filter...<br>
+<div id="fil"><br>
+-- Load Inventory ...
+<select id="selaction" >
+<option>Main Inventory</option>
+ <option onclick="filter(this.value)">Miselanius</option>
+ <option onclick="filter(this.value)">Other</option>
+ <option onclick="filter(this.value)">Basquet</option>
+ <option onclick="filter(this.value)">All</option>
+ </select> <br><br>
+    
+    
+-- Search/Filter...<br>
  <textarea id="tfil" oninput="search(this.value)"></textarea><br>
-<button id="sall" onclick="selectAll()">Sel. All</button>
-<button id="brecover" onclick="clrPart()">Clr. All</button>
-<button id="clfil" onclick="fil.style.display='none';recover()">Done</button>
-<button class="cpu" onclick="fil.style.display='none'">Close</button><br>
+
+
 <img id="plus" onclick="dor.style.display='block';obs.value=0;pno.value='';de.value='';loc.value='';qt.value=0;" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
 
----------- Touch Item To Select...
+<br><br>
+-- Action ...<br>
+<select id="selaction" >
+<option  onclick="clrPart()">Clear Selection</option>
+ <option onclick="selectAll()">Select All</option>
+ 
+ <option  onclick="fil.style.display='none';recover()">Pring Tags</option>
+ <option onclick="sendTo('Basquet')">Sent to Basquet</option>
+ <option onclick="sendTo('Main')">Send to Master</option>
+ <option onclick="sendTo('Miselanius')">Send to Miselanius</option>
+ <option onclick="sendTo('Other')">Send to Other</option>
+
+</select>
+ 
+<br>
+<button class="cpu" onclick="fil.style.display='none'">Close</button><br>
+
+---------- Touch Item To Select ...<br>
+
+ 
+ 
+ <button id="brecover" onclick="recover()">Prepare Tags</button><br>
+
 <div id="dinv"></div>
 
 </div>
 
 <button id="bsh" onclick="showM();">M</button>
-    <div id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')"></div> . . . 
-
+    <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')">0</button>
 <div id="dor"> 
     Qty: <input id="qt" type="number" class="cin"><br>
  Inv. Class: <input id="cla" type="text" class="cin"><br>
@@ -538,6 +566,7 @@ xhr.send(null);
      var link=linkp;
      if(op==="Other") link=linko;
      if(op==="Miselanius") link=linkm;
+     if(op==="Basquet") link=linkb;
      fil.style.display="block";
      menu.style.display="none"
              GetJ(link, function(obj) { 
@@ -545,6 +574,7 @@ xhr.send(null);
                            for(var i=0;i<obj.parts.length;i++){
                     var p=document.createElement("p");
                     p.setAttribute("class","ctt");
+                    p.style.display="block";
                     p.setAttribute("onclick","sel(this);");
                     p.name=obj.parts[i];
                     p.id=obj.parts[i].pn;
@@ -599,10 +629,11 @@ qi.innerHTML=Parts.length;
     }
     function selectAll(){
         var pa=document.getElementsByClassName("ctt");
+        qi.innerHTML=pa.length;
             for(var i=0;i<pa.length;i++){
- 
                 if(pa[i].style.display==="block"){
                     pa[i].style.background="#0f0";
+
                Parts.push(pa[i].name);
                
                 } 
@@ -610,14 +641,14 @@ qi.innerHTML=Parts.length;
             }
     }
     function clrPart(){
-     
+            qi.innerHTML=0;
             Parts.splice(0,Parts.length)
             var pa=document.getElementsByClassName("ctt");
             for(var i=0;i<pa.length;i++){
                        pa[i].style.background="#fff";
              }
     }
-    function reset(){
+    function reset(){      qi.innerHTML=0;
         Parts.splice(0,Parts.length);
         while (dinv.firstChild) {
             dinv.removeChild(dinv.firstChild);
@@ -701,6 +732,53 @@ qi.innerHTML=Parts.length;
 
 
     }
+function sendTo(to){
+    if(to==='Basquet'){
+  
+  GetJ(linkb,function(obj){
+        var p=obj.parts;
+        if(p.length>0){
+            if(confirm("There are "+p.length+" Items in basquet.\nDo you want to add parts to basquet?")){
+                for(var i=0;p.length;i++){
+                    obj.parts.push(Parts[i]);
+                            }
+                            UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+
+            }
+            else{
+                if(confirm("Do you want to replace Basquet with your Parts?")){
+                    obj.parts=Parts;
+                    UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+                }
+
+            }
+
+        
+        }
+        else{
+            obj.parts=Parts;
+            UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")}) 
+        }
+      //  UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+        
+        
+
+  })
+}
+if(to==='Main'){
+alert(to)
+}
+if(to==='Miselanius'){
+    alert(to)
+}
+if(to==='Other'){
+    alert(to)
+}
+
+}
+
+//<button id="btprep" onclick="delTag()">Set Delete Mode</button>
+
 </script>
 
 </html>
