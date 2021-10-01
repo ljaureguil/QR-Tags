@@ -25,11 +25,11 @@
         right: 1%;
     }
     button {
-        width: 30%;
-        font-size: 20px;
+       // width: 30%;
+        font-size: 18px;
         border-radius: 10px;
         background: rgb(255, 129, 11);
-        margin: 10px;
+        margin: 8px;
         color: white;
     }
     #reader {
@@ -166,7 +166,7 @@
 }
 #dor{
         position: absolute;
-        text-align: right;
+        text-align: left;
         padding:15px;
         top:5%;
         width: 50%;
@@ -175,6 +175,7 @@
         border-style: solid;
         background-color: rgb(154, 209, 180);
         display: none;
+        height:103%;
     }
   
     #de{
@@ -186,6 +187,7 @@
           text-align: right; 
         font-size: 16px;
         background-color: rgb(10, 248, 224);
+        margin:5px;
        // font-weight: bold;
     }
     #qi{
@@ -214,7 +216,13 @@
 
     }
 
-
+  #plus{
+        position:absolute;
+        right:10%;
+        top:3%;
+        width:55px;
+        height:55px;
+    }
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -261,6 +269,8 @@ Load Inventory: <select id="selin" oninput="filter(this.value)">
 <button id="brecover" onclick="clrPart()">Clr. All</button>
 <button id="clfil" onclick="fil.style.display='none';recover()">Done</button>
 <button class="cpu" onclick="fil.style.display='none'">Close</button><br>
+<img id="plus" onclick="dor.style.display='block';obs.value=0;pno.value='';de.value='';loc.value='';qt.value=0;" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
+
 ---------- Touch Item To Select...
 <div id="dinv"></div>
 
@@ -270,18 +280,19 @@ Load Inventory: <select id="selin" oninput="filter(this.value)">
     <div id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')"></div> . . . 
 
 <div id="dor"> 
-    Qty: <input id="qt" type="number" class="cin"><br><br>
- Inv. Class: <input id="cla" type="text" class="cin"><br><br>
-Kw: <input id="kw" type="text" class="cin"><br><br>
-Qty Obs: <input id="obs" type="text" class="cin"><br><br>
+    Qty: <input id="qt" type="number" class="cin"><br>
+ Inv. Class: <input id="cla" type="text" class="cin"><br>
+Kw: <input id="kw" type="text" class="cin"><br>
+Qty Obs: <input id="obs" type="number" class="cin"><br>
 
- Part No. <input id="pno" type="text" class="cin"><br><br>
- desc: <input id="de" type="text" class="cin"><br><br>
-  Mech <input id="me" type="text" class="cin"><br> <br>  
-
+ Part No. <input id="pno" type="text" class="cin"><br>
+ desc: <input id="de" type="text" class="cin"><br>
+  Mech <input id="mec" type="text" class="cin"><br> 
+ Loc <input id="loc" type="text" class="cin"><br> 
  Note <input id="no" type="text" class="cin"><br>     
- <button class="cpu" onclick="dor.style.display='none';send('pull')"   style="background-color: rgb(39, 221, 39);">Send To Clipboard (Pull)</button><br>
- <button class="cpu" onclick="dor.style.display='none';send('return')">Send To Clipboard (Return)</button><br>
+ <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)"   style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button><br>
+ <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button><br>
+  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button><br>
  <button class="cpu" onclick="dor.style.display='none'">Close</button>
    
 </div>
@@ -300,7 +311,7 @@ Qty Obs: <input id="obs" type="text" class="cin"><br><br>
     // alert(s1.innerHTML)
     tags.style.gridIemplateColumns = "10% 10% 10% 10%"
     var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
-    
+    linkb="https://jsonblob.com/api/893339508880457728"
     linkp="https://jsonblob.com/api/892533157149294592";
     linko="http://jsonblob.com/api/893246438927253504";
     var w = window.innerWidth;
@@ -388,11 +399,12 @@ Qty Obs: <input id="obs" type="text" class="cin"><br><br>
     function sTag(e) { 
 
         dor.style.display="block";
+        dor.name=e.name;
         qt.value=e.name.qtyInv*1;
         pno.value=e.name.pn;
         de.value=e.name.des;
         kw.value=e.name.kw;
-        me.value=e.name.user;
+        mec.value=e.name.user;
         cla.value=e.name.clase;
         no.value=e.name.note;
         obs.value=e.name.qtyObs;
@@ -486,7 +498,6 @@ xhr.send(null);
  /*   function GetJ(url, callback) {
         loadDoc(url,function(res){
                       callback(JSON.parse(res))
-
         })
     }
 */
@@ -614,6 +625,77 @@ qi.innerHTML=Parts.length;
     while (tags.firstChild) {
             tags.removeChild(tags.firstChild);
     }
+    }
+    function send(to,ob){
+        link="";
+        var o={
+      "pn": pno.value,
+      "des": de.value,
+      "qtyInv": qt.value,
+      "qtyObs": obs.value,
+      "kw": kw.value,
+      "clase": cla.value,
+      "createdBy": mec.value,
+      "location": loc.value,
+      "note": no.value,
+      "created": new Date().toString()
+    };
+        if(to==="main"){
+            link=linkp;
+            o.clase="Inv"
+            
+        }
+        if(to==="miselanius"){
+            link=linkm;
+            o.clase="Misc";
+        }
+        if(to==="other"){
+            link=linko;
+            o.clase="other";
+        }
+        GetJ(link,function(obj){
+            var pa=obj.parts;var i=0;
+            for(i=0;i<pa.length;i++){
+                if(pa[i].on===o.pn){
+                 
+                    if(confirm("Part Exist in "+to+", Do you want to replace it?")){
+                        alert("reemplasar"+JSON.sttringify(o));
+                        obj.parts[i]=o;
+                       if(to!="main") UpdateJ(link,obj,function(){alert("Part has been replaced...");return});
+                       else{alert("n=... not yet to the main inventory");
+                          i=pa.length; 
+                          return;
+                       }
+                        
+                   
+                    }
+                    else{
+                       //  
+                        
+                    }
+                }
+                else{
+                    
+                }
+            }
+            if(i>=pa.length){
+                alert("enviar"+JSON.stringify(o));
+                obj.parts.push(o);
+                    if(to!="main") UpdateJ(link,obj,function(){alert("Part has been sent...");return});
+                       else{alert("n=... not yet to the main inventory");
+                          i=pa.length; 
+                          return;
+                       }
+                
+            }
+            
+            
+            
+            
+            
+            
+            });
+        
     }
     function loadInventories(){
 
