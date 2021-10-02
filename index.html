@@ -229,6 +229,11 @@
         border-style: double;
         border-color: white;
     }
+    .csel{
+        font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+        
+    }
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -262,14 +267,16 @@
 
 <br>
 <div id="fil"><br>
--- Load Inventory ...
-<select id="selaction" oninput="actionA(this.value)" >
+-- Load Inventory ...<br>
+<select id="selinv" class="csel" oninput="actionA(this.value)" >
 <option>Main Inventory</option>
  <option onclick="filter(this.value)">Miselanius</option>
  <option onclick="filter(this.value)">Other</option>
  <option onclick="filter(this.value)">Basquet</option>
  <option onclick="filter(this.value)">All</option>
- </select> <br><br>
+ </select> 
+ <button onclick="actionA(selinv.value);">Go</button>
+ <br><br>
     
     
 -- Search/Filter...<br>
@@ -280,26 +287,24 @@
 
 <br><br>
 -- Action ...<br>
-<select id="slaction" oninput="actionB(this.value)" >
+<select id="selaction" class="csel" oninput="actionB(this.value)" >
 <option >Clear Selection</option>
- <option">Select All</option>
+ <option>Select All</option>
  
  <option>Pring Tags</option>
  <option>Sent to Basquet</option>
  <option>Send to Master</option>
  <option>Send to Miselanius</option>
  <option>Send to Other</option>
+ <option>Reset and Refresh</option>
 
 </select>
- 
+<button onclick="actionB(selaction.value);">Go</button>
 <br>
 <button class="cpu" onclick="fil.style.display='none'">Close</button><br>
 
 ---------- Touch Item To Select ...<br>
 
- 
- 
- <button id="brecover" onclick="recover()">Prepare Tags</button><br>
 
 <div id="dinv"></div>
 
@@ -777,7 +782,9 @@ if(to==='Other'){
 
 }
 
+function deleteItems(){
 
+}
 function actionA(a){
     if(a!="") filter(a);
 
@@ -796,18 +803,22 @@ function actionA(a){
      */
 }
 function actionB(a){
-  
+    if(a=="Select All"){selectAll()}
+        if(a=="Reset and Refresh")reset();
+  if(Parts.length===0 && a!="Select All" ){alert("No Items selected...")}
+  else{
      if(a=="Clear Selection"){clrPart()}
-     if(a=="Select All"){selectAll()}
+    // if(a=="Select All"){selectAll()}
      if(a=="Pring Tags"){fil.style.display='none';recover()}
      if(a=="Sent to Basquet"){sendTo('Basquet')}
      if(a=="Send to Master"){sendTo('Main')}
      if(a=="Send to Miselanius"){sendTo('Miselanius')}
      if(a=="Send to Other"){sendTo('Other')}
-     if(a==""){}
-     if(a==""){}
+     if(a=="Select All"){selectAll()}
+     if(a=="Delete Items"){deleteItems()}
+ 
 
-
+}
 
 /* <select id="selaction" >
 <option  onclick="clrPart()">Clear Selection</option>
