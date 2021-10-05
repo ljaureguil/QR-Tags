@@ -1,0 +1,839 @@
+<html>
+
+<head id="h1">
+    <meta id="me" name="viewport" content="width=device-width">
+</head>
+
+<style id="s1">
+    body {
+        text-align: center;
+    }
+    #todo {
+        display: none;
+    }
+    body {
+        // text-align: center;
+        font-size: 15px;
+        margin: 20px;
+        background: white;
+    }
+    code# {
+        margin: 5%;
+        width: 10%;
+        position: absolute;
+        bottom: 2%;
+        right: 1%;
+    }
+    button {
+       // width: 30%;
+        font-size: 18px;
+        border-radius: 10px;
+        background: rgb(255, 129, 11);
+        margin: 8px;
+        color: white;
+    }
+    #reader {
+        width: 100%;
+        color: white;
+        font-size: 15px;
+    }
+    #ta {
+        width: 95%;
+        display: none;
+    }
+    #tx {
+        margin: 5%;
+        width: 90%;
+        font-size: 15px;
+        height: 20%;
+        background-color: turquoise;
+    }
+    .c2 {
+        display: grid;
+        grid-column-gap: 30px;
+        // grid-template-columns: auto;
+        grid-template-columns: 80%;
+        background-color: white;
+        padding: 30px;
+    }
+    .grid-container {
+     
+        width: 100%;
+        display: grid;
+        grid-column-gap: 5%;
+        // grid-template-columns: auto auto auto;
+        grid-template-columns: 45% 45%;
+        background-color: white;
+        padding: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        
+    }
+    .grid-item {
+        height: 50px;
+        margin: 15px;
+        border: .5px solid rgba(0, 0, 0, 0.8);
+        padding: 12px;
+        text-align: right;
+    }
+    .cdt {
+        border-style: solid;
+        height: 5%;
+        width: 30%;
+        background-color: green;
+    }
+    .cimg {
+        width: 50px;
+        height: 50px;
+    }
+    .cpn {
+        width: 50%;
+        background-color: white;
+        font-weight: bold;
+        font-size: 20px;
+        margin: 5px;
+    }
+    .cbq {
+        margin: 5px;
+        color: white;
+        background-color: black;
+        height: 5%;
+    }
+    .cadj {
+        width: 50%;
+        z-index: 1;
+    }
+    #bsh{
+        position: absolute;
+        top:0%;
+        right:0%;
+        width: auto;
+        font-size: 15px;
+    }
+    #menu{
+        width: 85%;
+        padding: 30px;
+        position: absolute;
+        top:10%;
+        left:3%;
+       
+        border-style: double;;
+        border-color: white;
+        background-color: rgba(10, 148, 179, 81);
+        z-index: 2;
+        box-shadow: -10px 10px 15px 1px  rgba(0,0,0, .51);
+    }
+    #spacer{
+        width:100%;
+        height:.1%;
+    
+    }
+    #fil{
+        position: absolute;
+        width:90%;
+        left:5%;
+        top:5%;
+      display: none;
+        height:90%;
+        overflow:hidden;
+        background: White;
+        border-style:solid;
+        text-align: left;
+        margin: 3%;
+
+   }
+   #dinv{
+       width: 100%;
+       height:60%;
+       overflow: auto;
+       border-radius: 5px;;
+       border-style: solid;
+   }
+   #tfil{
+       width:60%; 
+       height:4%;
+           text-align: left;
+           margin:5px;;
+           
+        
+   }
+
+.ctt{
+   width:90%;
+   margin:3%;
+   border:solid;
+   font-size: 18px;
+   display: block;
+}
+#dor{
+        position: absolute;
+        text-align: left;
+        padding:15px;
+        top:5%;
+        width: 50%;
+        left: 25%;
+        z-index: 2;
+        border-style: solid;
+        background-color: rgb(154, 209, 180);
+        display: none;
+        height:103%;
+    }
+  
+    #de{
+        height: auto;
+
+    }
+    .cin{
+        width: 98%;
+          text-align: right; 
+        font-size: 16px;
+        background-color: rgb(10, 248, 224);
+        margin:5px;
+       // font-weight: bold;
+    }
+    #qi{
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top:1%;
+        left:1%;
+ color:rgb(212, 31, 31);
+ background: none;
+        border-radius: 100px;
+        border-style: double;
+        box-shadow: -10px 10px 15px 1px  rgba(0,0,0, .51);
+       
+        font-weight: bold;
+        font-size: 10px;
+        //   padding:15px;      //  opacity: .75;
+       // background-color: rgb(67, 246, 22);;
+ 
+    }
+    #qt{
+  
+       width: 50%;
+    }
+    .cpu{
+        font-size:15px;
+
+    }
+
+  #plus{
+        position:absolute;
+        right:10%;
+        top:3%;
+        width:55px;
+        height:55px;
+    }
+    #tsa{
+        border-style: double;
+        border-color: white;
+    }
+    .csel{
+        font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+        
+    }
+</style>
+<div id="spacer"></div>
+<div class="grid-container" id="tags">
+</div>
+<div id="menu">
+
+
+<button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
+<button id="brecover" onclick="reset()">Reset All</button>
+<button id="brecover" onclick="copyCl()">Copy</button><br>
+<div id="tsa">
+
+<input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
+<label for="width">width</label>
+
+<input class="cadj" type="range" id="iheight" name="h" min="0" max="300" value="100" step="1" oninput="sca(iwidth.value,this.value)">
+<label for="height">Height</label>
+
+<input class="cadj" type="range" id="iupdw" name="fon" min="0" max="80" value="0" step="1" oninput="spacer.style.height=this.value+'%'">
+<label for="fon">Up/Dwn</label>
+
+<input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
+<label for="fon">Font</label>
+<br>
+</div>
+
+
+</div>
+<br>
+<br><br>
+
+<br>
+<div id="fil"><br>
+-- Load Inventory ...<br>
+<select id="selinv" class="csel" oninput="actionA(this.value)" >
+<option>Main Inventory</option>
+ <option onclick="filter(this.value)">Miselanius</option>
+ <option onclick="filter(this.value)">Other</option>
+ <option onclick="filter(this.value)">Basquet</option>
+ <option onclick="filter(this.value)">All</option>
+ </select> 
+ <button onclick="actionA(selinv.value);">Go</button>
+ <br><br>
+    
+    
+-- Search/Filter...<br>
+ <textarea id="tfil" oninput="search(this.value)"></textarea><br>
+
+
+<img id="plus" onclick="dor.style.display='block';obs.value=0;pno.value='';de.value='';loc.value='';qt.value=0;" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
+
+<br><br>
+-- Action ...<br>
+<select id="selaction" class="csel" oninput="actionB(this.value)" >
+<option >Clear Selection</option>
+ <option>Select All</option>
+ 
+ <option>Pring Tags</option>
+ <option>Sent to Basquet</option>
+ <option>Send to Master</option>
+ <option>Send to Miselanius</option>
+ <option>Send to Other</option>
+ <option>Reset and Refresh</option>
+
+</select>
+<button onclick="actionB(selaction.value);">Go</button>
+<br>
+<button class="cpu" onclick="fil.style.display='none'">Close</button><br>
+
+---------- Touch Item To Select ...<br>
+
+
+<div id="dinv"></div>
+
+</div>
+
+<button id="bsh" onclick="showM();">M</button>
+    <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')">0</button>
+<div id="dor"> 
+    Qty: <input id="qt" type="number" class="cin"><br>
+ Inv. Class: <input id="cla" type="text" class="cin"><br>
+Kw: <input id="kw" type="text" class="cin"><br>
+Qty Obs: <input id="obs" type="number" class="cin"><br>
+
+ Part No. <input id="pno" type="text" class="cin"><br>
+ desc: <input id="de" type="text" class="cin"><br>
+  Mech <input id="mec" type="text" class="cin"><br> 
+ Loc <input id="loc" type="text" class="cin"><br> 
+ Note <input id="no" type="text" class="cin"><br>     
+ <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)"   style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button><br>
+ <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button><br>
+  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button><br>
+ <button class="cpu" onclick="dor.style.display='none'">Close</button>
+   
+</div>
+
+
+
+
+
+<script src="html5-qrcode.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+    mode="add",Obj={},Parts=[];
+    // window.location.reload();
+    var R = 11 / 8.5;
+    // alert(s1.innerHTML)
+    tags.style.gridIemplateColumns = "10% 10% 10% 10%"
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+    linkb="https://jsonblob.com/api/893339508880457728"
+    linkp="https://jsonblob.com/api/892533157149294592";
+    linko="https://jsonblob.com/api/893246438927253504";
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var radio = h / w;
+    if (radio > 1.1) {
+        //         tags.removeClass();
+        tags.setAttribute("class", "c2")
+    } else {}
+
+//loadDoc(linkp,function(res){alert(res)})
+
+    function loadDoc(url, callback) {
+     //   alert(url)
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url, false);
+        xhttp.send();
+        callback(xhttp.responseText);
+
+    }
+    var cont = ""
+    setTags()
+
+    function setTags() {
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        for (var i = 0; i < 18; i++) {
+     //            tags.appendChild(crTag())    
+                    }
+        cont = tags.innerHTML;
+    }
+
+    function crTag(ob) {
+//alert("oh")
+          var d=document.createElement("div");
+          d.setAttribute("class","grid-item")
+                 d.id="";
+          d.setAttribute("onclick","sTag(this)")
+          if(ob!=undefined){ 
+              d.innerHTML=ob.pn+" _ ";
+          d.setAttribute("id",ob.pn)
+          d.value=ob.qty;
+         
+            d.name=ob;//.des;
+      }
+  //  alert("oh")
+      var im=document.createElement("img");
+   
+     if(ob!=undefined) im.src=genTag(ob.pn+" : "+ob.des);//   b.url;
+      im.setAttribute("class","cimg");
+      d.appendChild(im);
+      return d;
+
+    }
+
+    function delTag(){
+        if(mode!="delete"){
+        mode='delete';
+        menu.style.display='none';
+        tags.style.background='#00ff00'
+    }
+    else{
+
+        mode="";
+        tags.style.background="white";
+
+    }
+    }
+
+    function readySc() {
+        cont = tags.innerHTML;
+        var tgs = tags.getElementsByTagName("div");
+        for (var i = 0; i < tgs.length; i++) {
+            if (tgs[i].value == "" || tgs[i].value == undefined) tgs[i].style.display = "none";
+
+        }
+    }
+
+    function showAll() {
+        tags.innerHTML = cont
+
+    }
+    function sTag(e) { 
+
+        dor.style.display="block";
+        dor.name=e.name;
+        qt.value=e.name.qtyInv*1;
+        pno.value=e.name.pn;
+        de.value=e.name.des;
+        kw.value=e.name.kw;
+        mec.value=e.name.user;
+        cla.value=e.name.clase;
+        no.value=e.name.note;
+        obs.value=e.name.qtyObs;
+     
+
+   }
+function chkId(id){
+
+         GetJ(linkp, function(obj) {
+            for (var i = 0; i < obj.parts.length; i++) {
+                var p = obj.parts[i];
+                if(o.pn===id) return i;
+            //    tags.appendChild(  crTag(p))
+               }
+               return -1;
+
+        })
+
+}
+ 
+    function recover() {
+        if(Parts.length===0){
+            alert("No part selected yet")
+        }
+        else{
+        tags.innerHTML = "";
+          var i=0;
+          var pq=0;
+            var t1=prompt("No more than 48 items Recomended.\n\n From","1")*1;
+          var t2=prompt("No more than 48 items Recomended.\n\n To",Parts.length)*1;
+          if(isNaN(t1) || isNaN(t2)) {alert("Type a number");recover()}
+          if(t2-t1>150){alert("Too Much Items...")}
+          else{
+           for(var i=t1-1;i<t2;i++){
+                var p = Parts[i];
+                   tags.appendChild(crTag(p))
+}
+menu.style.display="none";
+fil.style.display="none";
+}
+}
+
+    }
+ 
+    function copyCl() {
+
+        GetJ(linkp, function(obj) {
+            var ps = obj.parts;
+            var so = ""
+            var t = document.createElement("textarea");
+            document.body.appendChild(t);
+
+            for (var i = 0; i < ps.length; i++) {
+                so += ps[i].qty + String.fromCharCode(9) + ps[i].pn + String.fromCharCode(9) + ps[i].des + "\n"
+            }
+            t.innerHTML = so;
+            t.select();
+            document.execCommand("copy");
+
+            alert(so);
+            document.body.removeChild(t)
+        });
+    }
+
+    function sca(x, y) {
+        // 
+        x = x / 100;
+        y = y / 100;
+        tags.style.transform = 'scale(' + x + ',' + y + ')';
+       tags.style.zIndex=-1
+    }
+
+    function GetJ(url, callback) {
+
+//var url  = "http://localhost:8080/api/v1/users";
+var xhr = new XMLHttpRequest()
+xhr.open('GET', url + '/1', true)
+xhr.onload = function() {
+ 
+    var users = JSON.parse(xhr.responseText);
+    //     var obb=decoding(users.prim);
+
+    if (xhr.readyState == 4 && xhr.status == "200") {
+        callback(users);
+    } else {
+        console.error(users);
+    }
+}
+xhr.send(null);
+}
+ /*   function GetJ(url, callback) {
+        loadDoc(url,function(res){
+                      callback(JSON.parse(res))
+        })
+    }
+*/
+    // Update a user
+    function UpdateJ(url, ob, callback) {
+        //   var o={};
+        //   o.prim=encoding(ob);
+        json = JSON.stringify(ob);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url + '/12', true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onload = function() {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                //  alert("Tu Forma ha sido Enviada");
+                if (callback != undefined) callback(users);
+            } else {
+                (users);
+            }
+        }
+        xhr.send(json);
+    }
+  
+       function genTag(tx){
+        
+        var c=document.createElement("canvaS");
+        qr = new QRious({
+                    element: c, 
+                    size: 800,
+                    value: tx
+                });
+             
+          return qr.toDataURL();
+         }
+         
+ function filter(op){
+  
+     var link=linkp;
+     if(op==="Other") link=linko;
+     if(op==="Miselanius") link=linkm;
+     if(op==="Basquet") link=linkb;
+     fil.style.display="block";
+     menu.style.display="none"
+             GetJ(link, function(obj) { 
+                Obj=obj;
+                           for(var i=0;i<obj.parts.length;i++){
+                    var p=document.createElement("p");
+                    p.setAttribute("class","ctt");
+                    p.style.display="block";
+                    p.setAttribute("onclick","sel(this);");
+                    p.name=obj.parts[i];
+                    p.id=obj.parts[i].pn;
+                    p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
+                    dinv.appendChild(p);// fil.appendChild(p)
+                }
+
+
+
+      });
+ 
+ }
+ function search(v){
+   
+     var ar=[];
+        if(Obj.parts===undefined){alert("lets recover and search again");filter();}
+        else{
+            var pa=document.getElementsByClassName("ctt");
+            for(var i=0;i<pa.length;i++){
+                var s=JSON.stringify(pa[i]);
+                s=s.toUpperCase();
+                v=v.toUpperCase();
+                if(s.indexOf(v)>-1){
+                    pa[i].style.display="block"
+                 //   ar.push(pa[i]);
+                 }
+                else{ pa[i].style.display="none"}
+            }
+         }
+
+   
+ }
+    function sel(e){
+    var enc=false;
+        for(var i=0;i<Parts.length;i++){
+            if(Parts[i].pn===e.name.pn){
+                e.style.background="white";
+                enc=true; 
+                Parts.splice(i,1);
+                   i=Parts.length+2;
+             }
+        }
+        if(!enc){
+     e.style.background='#0f0';
+     Parts.push(e.name)
+}
+qi.innerHTML=Parts.length;
+    }
+    function showM(){
+        if(menu.style.display==='block'){menu.style.display='none'}else{ menu.style.display='block';fil.style.display='none'}
+  
+    }
+    function selectAll(){
+        var pa=document.getElementsByClassName("ctt");
+        qi.innerHTML=pa.length;
+            for(var i=0;i<pa.length;i++){
+                if(pa[i].style.display==="block"){
+                    pa[i].style.background="#0f0";
+
+               Parts.push(pa[i].name);
+               
+                } 
+
+            }
+    }
+    function clrPart(){
+            qi.innerHTML=0;
+            Parts.splice(0,Parts.length)
+            var pa=document.getElementsByClassName("ctt");
+            for(var i=0;i<pa.length;i++){
+                       pa[i].style.background="#fff";
+             }
+    }
+    function reset(){      qi.innerHTML=0;
+        Parts.splice(0,Parts.length);
+        while (dinv.firstChild) {
+            dinv.removeChild(dinv.firstChild);
+    }
+    while (tags.firstChild) {
+            tags.removeChild(tags.firstChild);
+    }
+    }
+    function send(to,ob){
+        link="";
+        var o={
+      "pn": pno.value,
+      "des": de.value,
+      "qtyInv": qt.value,
+      "qtyObs": obs.value,
+      "kw": kw.value,
+      "clase": cla.value,
+      "createdBy": mec.value,
+      "location": loc.value,
+      "note": no.value,
+      "created": new Date().toString()
+    };
+        if(to==="main"){
+            link=linkp;
+            o.clase="Inv"
+            
+        }
+        if(to==="miselanius"){
+            link=linkm;
+            o.clase="Misc";
+        }
+        if(to==="other"){
+            link=linko;
+            o.clase="other";
+        }
+        GetJ(link,function(obj){
+            var pa=obj.parts;var i=0;
+            for(i=0;i<pa.length;i++){
+                if(pa[i].on===o.pn){
+                 
+                    if(confirm("Part Exist in "+to+", Do you want to replace it?")){
+                        alert("reemplasar"+JSON.sttringify(o));
+                        obj.parts[i]=o;
+                       if(to!="main") UpdateJ(link,obj,function(){alert("Part has been replaced...");return});
+                       else{alert("n=... not yet to the main inventory");
+                          i=pa.length; 
+                          return;
+                       }
+                        
+                   
+                    }
+                    else{
+                       //  
+                        
+                    }
+                }
+                else{
+                    
+                }
+            }
+            if(i>=pa.length){
+                alert("enviar"+JSON.stringify(o));
+                obj.parts.push(o);
+                    if(to!="main") UpdateJ(link,obj,function(){alert("Part has been sent...");return});
+                       else{alert("n=... not yet to the main inventory");
+                          i=pa.length; 
+                          return;
+                       }
+                
+            }
+            
+            
+            
+            
+            
+            
+            });
+        
+    }
+    function loadInventories(){
+
+
+    }
+function sendTo(to){
+    if(to==='Basquet'){
+  
+  GetJ(linkb,function(obj){
+        var p=obj.parts;
+        if(p.length>0){
+            if(confirm("There are "+p.length+" Items in basquet.\nDo you want to add parts to basquet?")){
+                for(var i=0;p.length;i++){
+                    obj.parts.push(Parts[i]);
+                            }
+                            UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+
+            }
+            else{
+                if(confirm("Do you want to replace Basquet with your Parts?")){
+                    obj.parts=Parts;
+                    UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+                }
+
+            }
+
+        
+        }
+        else{
+            obj.parts=Parts;
+            UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")}) 
+        }
+      //  UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+        
+        
+
+  })
+}
+if(to==='Main'){
+alert(to)
+}
+if(to==='Miselanius'){
+    alert(to)
+}
+if(to==='Other'){
+    alert(to)
+}
+
+}
+
+function deleteItems(){
+
+}
+function actionA(a){
+    if(a!="") filter(a);
+
+
+
+
+
+
+/* <select id="selaction" onclick="actionA(this.value)" >
+<option>Main Inventory</option>
+ <option onclick="filter(this.value)">Miselanius</option>
+ <option onclick="filter(this.value)">Other</option>
+ <option onclick="filter(this.value)">Basquet</option>
+ <option onclick="filter(this.value)">All</option>
+ </select> <br><br>
+     */
+}
+function actionB(a){
+    if(a=="Select All"){selectAll()}
+        if(a=="Reset and Refresh")reset();
+  if(Parts.length===0 && a!="Select All" ){alert("No Items selected...")}
+  else{
+     if(a=="Clear Selection"){clrPart()}
+    // if(a=="Select All"){selectAll()}
+     if(a=="Pring Tags"){fil.style.display='none';recover()}
+     if(a=="Sent to Basquet"){sendTo('Basquet')}
+     if(a=="Send to Master"){sendTo('Main')}
+     if(a=="Send to Miselanius"){sendTo('Miselanius')}
+     if(a=="Send to Other"){sendTo('Other')}
+     if(a=="Select All"){selectAll()}
+     if(a=="Delete Items"){deleteItems()}
+ 
+
+}
+
+/* <select id="selaction" >
+<option  onclick="clrPart()">Clear Selection</option>
+ <option onclick="selectAll()">Select All</option>
+ 
+ <option  onclick="fil.style.display='none';recover()">Pring Tags</option>
+ <option onclick="sendTo('Basquet')">Sent to Basquet</option>
+ <option onclick="sendTo('Main')">Send to Master</option>
+ <option onclick="sendTo('Miselanius')">Send to Miselanius</option>
+ <option onclick="sendTo('Other')">Send to Other</option>
+</select>
+  */
+}
+//<button id="btprep" onclick="delTag()">Set Delete Mode</button>
+
+</script>
+
+</html>
