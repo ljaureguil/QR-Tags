@@ -220,17 +220,17 @@
 
   #plus{
         position:absolute;
-        right:10%;
-        top:3%;
+        right:1%;
+        top:2%;
         width:55px;
         height:55px;
     }
     #tsa{
-        border-style: double;
+        border-style: double;f
         border-color: white;
     }
     .csel{
-        font-size: 30px;
+        font-size: 25px;
     font-family: 'Courier New', Courier, monospace;
         
     }
@@ -297,6 +297,7 @@
  <option>Send to Miselanius</option>
  <option>Send to Other</option>
  <option>Reset and Refresh</option>
+ <option>Send to Trash</option>
 
 </select>
 <button onclick="actionB(selaction.value);">Go</button>
@@ -347,6 +348,8 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
     linkb="https://jsonblob.com/api/893339508880457728"
     linkp="https://jsonblob.com/api/892533157149294592";
     linko="https://jsonblob.com/api/893246438927253504";
+    linkt='https://jsonblob.com/api/893855119448489984'
+
     var w = window.innerWidth;
     var h = window.innerHeight;
     var radio = h / w;
@@ -574,9 +577,11 @@ xhr.send(null);
      if(op==="Basquet") link=linkb;
      fil.style.display="block";
      menu.style.display="none"
-             GetJ(link, function(obj) { 
+                 GetJ(link, function(obj) { 
+                 obj.link=link;
                 Obj=obj;
-                           for(var i=0;i<obj.parts.length;i++){
+
+                    for(var i=0;i<obj.parts.length;i++){
                     var p=document.createElement("p");
                     p.setAttribute("class","ctt");
                     p.style.display="block";
@@ -586,9 +591,7 @@ xhr.send(null);
                     p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
                     dinv.appendChild(p);// fil.appendChild(p)
                 }
-
-
-
+              //  UpdateJ(link,obj,function(){alert('updated...')})
       });
  
  }
@@ -782,25 +785,38 @@ if(to==='Other'){
 
 }
 
-function deleteItems(){
+function moveTo(linkFrom,linkTo,parts){
+     GetJ(linkFrom,function(obf){
+        GetJ(linkTo,function(obt){
+      alert(obf.link)
+      alert(obt.link)
+      if(obt.name==="trash"){
+              for(var i=0;i<parts.length;i++){
+                    obt.parts.push(parts[i]);
+                    var so=JSON.stringify(obf.parts);
+                    alert(so)
+                    alert(so.indexOf(JSON.stringify([i])))
+           
+           
+           
+           
+              }
+           //  UpdateJ(linkt,obt,function(){alert("Items moved to trash...")});
+      }
+      else{
 
+
+      }
+      
+       
+    })
+      
+       
+     })
 }
 function actionA(a){
     if(a!="") filter(a);
 
-
-
-
-
-
-/* <select id="selaction" onclick="actionA(this.value)" >
-<option>Main Inventory</option>
- <option onclick="filter(this.value)">Miselanius</option>
- <option onclick="filter(this.value)">Other</option>
- <option onclick="filter(this.value)">Basquet</option>
- <option onclick="filter(this.value)">All</option>
- </select> <br><br>
-     */
 }
 function actionB(a){
     if(a=="Select All"){selectAll()}
@@ -815,23 +831,10 @@ function actionB(a){
      if(a=="Send to Miselanius"){sendTo('Miselanius')}
      if(a=="Send to Other"){sendTo('Other')}
      if(a=="Select All"){selectAll()}
-     if(a=="Delete Items"){deleteItems()}
- 
+     if(a=="Send to Trash"){moveTo(Obj.link,linkt,Parts)}
+   //  if(a=="Delete Items"){deleteItems()}
 
 }
-
-/* <select id="selaction" >
-<option  onclick="clrPart()">Clear Selection</option>
- <option onclick="selectAll()">Select All</option>
- 
- <option  onclick="fil.style.display='none';recover()">Pring Tags</option>
- <option onclick="sendTo('Basquet')">Sent to Basquet</option>
- <option onclick="sendTo('Main')">Send to Master</option>
- <option onclick="sendTo('Miselanius')">Send to Miselanius</option>
- <option onclick="sendTo('Other')">Send to Other</option>
-
-</select>
-  */
 }
 //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
 
