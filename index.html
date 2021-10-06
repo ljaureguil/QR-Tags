@@ -144,7 +144,7 @@
    }
    #dinv{
        width: 100%;
-       height:60%;
+       height:40%;
        overflow: auto;
        border-radius: 5px;;
        border-style: solid;
@@ -160,7 +160,7 @@
 
 .ctt{
    width:90%;
-   margin:6%;
+   margin:3%;
    border:solid;
    font-size: 16px;
    display: block;
@@ -169,7 +169,7 @@
         position: absolute;
         text-align: left;
         padding:15px;
-        top:5%;
+        top:1%;
         width: 50%;
         left: 25%;
         z-index: 2;
@@ -234,6 +234,9 @@
     font-family: 'Courier New', Courier, monospace;
         
     }
+    #bdelete{
+        display:none;
+    }
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -297,6 +300,8 @@
  <option>Copy to Miselanius</option>
  <option>Copy to Other</option>
   <option>Send to Trash</option>
+  <option>EDIT MODE</option>
+    <option>CLEAR EDIT MODE</option>
 <option>Reset and Refresh</option>
 </select>
 <button onclick="actionB(selaction.value);">Go</button>
@@ -309,6 +314,7 @@
 <div id="dinv"></div>
 
 </div>
+
 
 <button id="bsh" onclick="showM();">M</button>
     <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')">0</button>
@@ -323,10 +329,11 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
   Mech <input id="mec" type="text" class="cin"><br> 
  Loc <input id="loc" type="text" class="cin"><br> 
  Note <input id="no" type="text" class="cin"><br>     
- <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)"   style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button><br>
- <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button><br>
-  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button><br>
- <button class="cpu" onclick="dor.style.display='none'">Close</button>
+ <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)"   style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button>
+ <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button>
+  <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button>
+  <button id="bdelete" class="cpu" onclick="deletePart(dor.name);">DELETE</button><button class="cpu" onclick="dor.style.display='none'">Close</button>
+ 
    
 </div>
 
@@ -338,7 +345,7 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
-    mode="add",Obj={},Parts=[];
+    mode="add",Obj={},Parts=[], editM=false;
     // window.location.reload();
     var R = 11 / 8.5;
     // alert(s1.innerHTML)
@@ -615,6 +622,7 @@ xhr.send(null);
    
  }
     function sel(e){
+if(!editM){
     var enc=false;
         for(var i=0;i<Parts.length;i++){
             if(Parts[i].pn===e.name.pn){
@@ -627,7 +635,10 @@ xhr.send(null);
         if(!enc){
      e.style.background='#0f0';
      Parts.push(e.name)
-}
+        }
+    }
+        else sTag(e)
+
 qi.innerHTML=Parts.length;
     }
     function showM(){
@@ -690,11 +701,11 @@ if(link===linkp){
                     UpdateJ(link,obj,function(){alert("Part has been replaced...");return});
 
                 }
-                       if(link!=linkp) UpdateJ(link,obj,function(){alert("Part has been replaced...");return});
-                       else{alert("n=... not yet to the main inventory");
-                          i=pa.length; 
-                          return;
-                       }
+                   //    if(link!=linkp) UpdateJ(link,obj,function(){alert("Part has been replaced...");return});
+                   //    else{alert("n=... not yet to the main inventory");
+                  //        i=pa.length; 
+                  //        return;
+                 //      }
                     }
                     else return;
                 }
@@ -749,7 +760,7 @@ if(link===linkp){
             link=linko;
             o.clase="other";
         }
-
+//alert(JSON.stringify(o))
 
   enviar(link,o);  
   
@@ -857,9 +868,12 @@ function actionA(a){
 
 }
 function actionB(a){
+  if(a=="EDIT MODE"){editM=true;dinv.style.background="#efe";bdelete.style.display="block"}
+   if(a=="CLEAR EDIT MODE"){editM=false;dinv.style.background="white";bdelete.style.display="none"}
+
     if(a=="Select All"){selectAll()}
         if(a=="Reset and Refresh")reset();
-  if(Parts.length===0 && a!="Select All" ){alert("No Items selected...")}
+  if(Parts.length===0 && a!="Select All" && a!="CLEAR EDIT MODE" && a!="EDIT MODE" ){alert("No Items selected...")}
   else{
      if(a=="Clear Selection"){clrPart()}
     // if(a=="Select All"){selectAll()}
@@ -868,11 +882,19 @@ function actionB(a){
      if(a=="Copy to Master"){sendTo('main')}
      if(a=="Copy to Miselanius"){sendTo('miselanius')}
      if(a=="Copy to Other"){sendTo('other')}
-     if(a=="Select All"){selectAll()}
-     if(a=="Send to Trash"){moveTo(Obj.link,linkt,Parts)}
+  //   if(a=="Select All"){selectAll()}
+     if(a=="Send to Trash"){moveTo(Obj.link,linkt,Parts)};
+ 
+  
+
+
    //  if(a=="Delete Items"){deleteItems()}
 
 }
+}
+function deletePart(p){
+      alert(p)
+
 }
 //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
 
