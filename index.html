@@ -234,6 +234,10 @@
     font-family: 'Courier New', Courier, monospace;
         
     }
+    #claseInv{
+  font-size: 25px;
+
+    }
    
 </style>
 <div id="spacer"></div>
@@ -305,7 +309,6 @@
 
 
 <button onclick="actionB(selaction.value);">Go</button><button onclick='reset();'>Clr All</button>
-<br>
 <button class="cpu" onclick="fil.style.display='none'">Close</button><br>
 
 ---------- Touch Item To Select ...<br>
@@ -321,6 +324,14 @@
 <div id="dor"> 
     Qty: <input id="qt" type="number" class="cin"><br>
  Inv. Class: <input id="cla" type="text" class="cin"><br>
+
+<select id="claseInv" oninput="">
+     <option>misc</option>
+    <option>inv</option>   
+    <option>other</option>
+</select><br>
+
+
 Kw: <input id="kw" type="text" class="cin"><br>
 Qty Obs: <input id="obs" type="number" class="cin"><br>
 
@@ -638,7 +649,7 @@ if(!editM){
         }
     }
         else {
-          
+            claseInv.value=e.name.clase;
             sTag(e);
         }
 
@@ -723,6 +734,7 @@ qi.innerHTML=Parts.length;
 
  }
     function send(to,ob){
+        if(pno.value!="" && pno.value!=undefined || de.value!="" && de.value!=undefined){
         link="";
         var o={
       "pn": pno.value,
@@ -758,7 +770,8 @@ qi.innerHTML=Parts.length;
 //alert(JSON.stringify(o))
 
   enviar(link,o);  
-  
+    }
+  else alert("Missing Type Part Number or Description")
 
     }
     function loadInventories(){
