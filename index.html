@@ -41,7 +41,13 @@
         width: 95%;
         display: none;
     }
-    
+    #tx {
+        margin: 5%;
+        width: 90%;
+        font-size: 15px;
+        height: 20%;
+        background-color: turquoise;
+    }
     .c2 {
         display: grid;
         grid-column-gap: 30px;
@@ -106,8 +112,7 @@
     }
     #menu{
         width: 85%;
-        height:60%;
-     overflow:auto;
+        padding: 30px;
         position: absolute;
         top:10%;
         left:3%;
@@ -233,12 +238,6 @@
   font-size: 25px;
 
     }
-    #tx{
-         padding:5px;
-          width:96%;
-        height: 40%;
-        font-size:12px;
-    }
    
 </style>
 <div id="spacer"></div>
@@ -249,7 +248,7 @@
 
 <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
 <button id="brecover" onclick="reset()">Reset All</button>
-
+<button id="brecover" onclick="copyCl()">Copy</button><br>
 <div id="tsa">
 
 <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
@@ -264,13 +263,9 @@
 <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
 <label for="fon">Font</label>
 <br>
-
-
 </div>
 
-<button id="brecover" onclick="copyCl()">Copy Clipboard</button><br>
-<textarea id="tx"></textarea>
-<button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy</button>
+
 </div>
 <br>
 <br><br>
@@ -280,10 +275,10 @@
 -- Load Inventory ...<br>
 <select id="selinv" class="csel" oninput="actionA(this.value)" >
 <option>Main Inventory</option>
- <option onclick="filter(this.value)">Miselanius</option>
- <option onclick="filter(this.value)">Other</option>
- <option onclick="filter(this.value)">Basquet</option>
- <option onclick="filter(this.value)">All</option>
+ <option>Miselanius</option>
+ <option>Other</option>
+ <option>Basquet</option>
+ <option>All</option>
  </select> 
  <button onclick="actionA(selinv.value);">Go</button>
  <br><br>
@@ -328,8 +323,9 @@
     <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')">0</button>
 <div id="dor"> 
     Qty: <input id="qt" type="number" class="cin"><br>
- Inv. Class:
-<select id="cla" oninput=""  class="cin">
+ Inv. Class: <input id="cla" type="text" class="cin"><br>
+
+<select id="claseInv" oninput="">
      <option>misc</option>
     <option>inv</option>   
     <option>other</option>
@@ -369,8 +365,7 @@ Qty Obs: <input id="obs" type="number" class="cin"><br>
     linkb="https://jsonblob.com/api/893339508880457728"
     linkp="https://jsonblob.com/api/892533157149294592";
     linko="https://jsonblob.com/api/893246438927253504";
-    linkt='https://jsonblob.com/api/893855119448489984';
-    var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
+    linkt='https://jsonblob.com/api/893855119448489984'
 
     var w = window.innerWidth;
     var h = window.innerHeight;
@@ -508,29 +503,24 @@ fil.style.display="none";
     }
  
     function copyCl() {
-        GetJ(linkme, function(ob) {
-           var ps = ob.parts; //alert(ps)
-           //var e=charCodeAt(9);
-           var e = String.fromCharCode(9);
-           var c="";
-           for (i = 0; i < ps.length; i++) {
-               var p = ps[i]
-               var t = JSON.stringify(p);
-         var f=getFe(p.created);
-                c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs + e + p.note+"\n";
-            }
-            var h=""
-            if(confirm("You want to copy with the Headers?")){
-                h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Qty. Obs."+ e + "Note"+"\n";
-            }
-           tx.value = h+c;
-           
-      //     tx.value=reader.innerHTML;
 
+        GetJ(linkp, function(obj) {
+            var ps = obj.parts;
+            var so = ""
+            var t = document.createElement("textarea");
+            document.body.appendChild(t);
 
-       })
-       /**/
-   }
+            for (var i = 0; i < ps.length; i++) {
+                so += ps[i].qty + String.fromCharCode(9) + ps[i].pn + String.fromCharCode(9) + ps[i].des + "\n"
+            }
+            t.innerHTML = so;
+            t.select();
+            document.execCommand("copy");
+
+         //   alert(so);
+            document.body.removeChild(t)
+        });
+    }
 
     function sca(x, y) {
         // 
@@ -596,7 +586,7 @@ xhr.send(null);
           return qr.toDataURL();
          }
          
- function filter(op){
+ function filter(op,callback){
   
      var link=linkp;
      if(op==="Other") link=linko;
@@ -618,6 +608,7 @@ xhr.send(null);
                     p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
                     dinv.appendChild(p);// fil.appendChild(p)
                 }
+                if(callback!=undefined) callback();
             
       });
  
@@ -659,7 +650,7 @@ if(!editM){
         }
     }
         else {
-            cla.value=e.name.clase;
+            claseInv.value=e.name.clase;
             sTag(e);
         }
 
@@ -881,7 +872,19 @@ function moveTo(linkFrom,linkTo,parts){
    
 }
 function actionA(a){
-    if(a!="") filter(a);
+
+    if(a==="All"){
+        filter("Main",function(){
+
+        filter("Miselanius",function(){
+        filter("Other")
+     }) })
+    }
+    else{
+      if(a!="")  filter(a)
+    
+    }
+    
 
 }
 function actionB(a){
@@ -906,18 +909,6 @@ function deletePart(p){
       alert(p)
 
 }
-
-function getFe(fr){
-             var f=new Date()
-           var v=Date.parse(fr);
-           f.setTime(v);
-           var fe=f.getMonth()+"-"+f.getDate()+"-"+f.getFullYear();
-           var t=f.getHours()+":"+f.getMinutes();
-         return {fecha:fe,tiempo:t};
-
-
-}
-
 //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
 
 </script>
