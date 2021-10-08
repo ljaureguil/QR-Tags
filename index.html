@@ -323,9 +323,8 @@
     <button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')">0</button>
 <div id="dor"> 
     Qty: <input id="qt" type="number" class="cin"><br>
- Inv. Class: <input id="cla" type="text" class="cin"><br>
-
-<select id="claseInv" oninput="">
+ Inv. Class:
+<select id="cla" oninput=""  class="cin">
      <option>misc</option>
     <option>inv</option>   
     <option>other</option>
@@ -649,7 +648,7 @@ if(!editM){
         }
     }
         else {
-            claseInv.value=e.name.clase;
+            cla.value=e.name.clase;
             sTag(e);
         }
 
