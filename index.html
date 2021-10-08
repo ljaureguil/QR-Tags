@@ -280,10 +280,10 @@
 -- Load Inventory ...<br>
 <select id="selinv" class="csel" oninput="actionA(this.value)" >
 <option>Main Inventory</option>
- <option onclick="filter(this.value)">Miselanius</option>
- <option onclick="filter(this.value)">Other</option>
- <option onclick="filter(this.value)">Basquet</option>
- <option onclick="filter(this.value)">All</option>
+ <option>Miselanius</option>
+ <option>Other</option>
+ <option>Basquet</option>
+ <option>All</option>
  </select> 
  <button onclick="actionA(selinv.value);">Go</button>
  <br><br>
@@ -596,8 +596,8 @@ xhr.send(null);
           return qr.toDataURL();
          }
          
- function filter(op){
-  
+ function filter(op,callback){
+   if(op!=undefined) alert(op+" loaded...")
      var link=linkp;
      if(op==="Other") link=linko;
      if(op==="Miselanius") link=linkm;
@@ -618,6 +618,7 @@ xhr.send(null);
                     p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
                     dinv.appendChild(p);// fil.appendChild(p)
                 }
+                if(callback!=undefined) callback(obj);
             
       });
  
@@ -881,7 +882,20 @@ function moveTo(linkFrom,linkTo,parts){
    
 }
 function actionA(a){
-    if(a!="") filter(a);
+ 
+    if(a==="All"){
+        filter("Main",function(){
+         
+        filter("Miselanius",function(){
+
+        filter("Other")
+     }) })
+    }
+    else{
+      if(a!="")  filter(a)
+    
+    }
+    
 
 }
 function actionB(a){
