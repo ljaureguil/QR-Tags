@@ -267,8 +267,17 @@
 
 
 </div>
-
-<button id="brecover" onclick="copyCl()">Copy Clipboard</button><br>
+<br>
+Copy Clipboard<select id="selcopy"">
+<option>All</option>
+<option>By job No.</option>
+<option>By date</option>
+<option>By Mechanic</option>
+<option>By Part No.</option>
+<option></option>
+<option></option>
+</select><button onclick="copyCl(selcopy.value)">Go</button>
+<br><br>
 <textarea id="tx"></textarea>
 <button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy</button>
 </div>
@@ -507,7 +516,8 @@ fil.style.display="none";
 
     }
  
-    function copyCl() {
+    function copyCl(op) {
+        if(op==="All"){
         GetJ(linkme, function(ob) {
            var ps = ob.parts; //alert(ps)
            //var e=charCodeAt(9);
@@ -524,13 +534,10 @@ fil.style.display="none";
                 h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Qty. Obs."+ e + "Note"+"\n";
             }
            tx.value = h+c;
-           
-      //     tx.value=reader.innerHTML;
+             })
 
-
-       })
-       /**/
-   }
+    }
+    }
 
     function sca(x, y) {
         // 
@@ -597,7 +604,7 @@ xhr.send(null);
          }
          
  function filter(op,callback){
-   if(op!=undefined) alert(op+" loaded...")
+ 
      var link=linkp;
      if(op==="Other") link=linko;
      if(op==="Miselanius") link=linkm;
@@ -618,6 +625,7 @@ xhr.send(null);
                     p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
                     dinv.appendChild(p);// fil.appendChild(p)
                 }
+                if(op!=undefined) alert(op+" loaded...")
                 if(callback!=undefined) callback(obj);
             
       });
@@ -725,10 +733,11 @@ qi.innerHTML=Parts.length;
          for (i = 0; i < pa.length; i++) {
              if (pa[i].pn === ob.pn) {
                  if (confirm("Part: "+pa[i].pn+" Exist in "+pa[i].clase+", Do you want to replace it?")) {
-                     obj.parts[i] = ob;
+                    i = pa.length+1;
+                    obj.parts[i] = ob;
                      UpdateJ(link, obj, function() {
                          alert("Part: "+pa[i].pn+" has been replaced...");
-                         return
+                         return;
                      });
                  } else return;
              }
@@ -858,21 +867,22 @@ function moveTo(linkFrom,linkTo,parts){
      GetJ(linkFrom,function(obf){
          var pf=obf.parts;
         GetJ(linkTo,function(obt){
+
        if(obt.name==="trash"){
            for(var ii=0;ii<parts.length;ii++){
               for(var i=0;i<pf.length;i++){
-                   // obt.parts.push(parts[i]);
-                    var so=JSON.stringify(pf[i]);
-                 //   alert(pf[i].pn.toUpperCase()+"\n"+parts[ii].pn.toUpperCase())
                     if(pf[i].pn.toUpperCase()===parts[ii].pn.toUpperCase()){
                       f=true;
-                        if(confirm("Confirm to delete "+pf[i].pn)) obf.parts.splice(i,1);
+                        if(confirm("Confirm to Move "+pf[i].pn)) obf.parts.splice(i,1);
+                        obt.parts.push(pf[i]);
+                        i=pf.length+1;
                     }
                 }
              }
-              if(f && confirm("Ready to delete items?")){
+              if(f && confirm("Ready to Move items?")){
                 obf.parts=pf;
-             UpdateJ(linkTo,obt,function(){UpdateJ(linkFrom,obf,function(){alert("Items moved to trash...");reset()}) });
+               
+             UpdateJ(linkTo,obt,function(){UpdateJ(linkFrom,obf,function(){alert("Items moved to "+obt.name+"...");reset()}) });
         }
         else alert("no parts found")
       }
