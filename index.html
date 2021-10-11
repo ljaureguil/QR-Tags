@@ -614,12 +614,14 @@ xhr.send(null);
                  GetJ(link, function(obj) { 
                  obj.link=link;
                 Obj=obj;
-
+               // alert(link)
+              // alert(obj.name);
                     for(var i=0;i<obj.parts.length;i++){
                     var p=document.createElement("p");
                     p.setAttribute("class","ctt");
                     p.style.display="block";
                     p.setAttribute("onclick","sel(this);");
+                   // if(obj.parts[i]===null) alert(obj.name+"\n"+i);;
                     p.name=obj.parts[i];
                     p.id=obj.parts[i].pn;
                     p.innerHTML="P/N: "+obj.parts[i].pn+ ", Desc.: "+obj.parts[i].des;
@@ -733,10 +735,12 @@ qi.innerHTML=Parts.length;
          for (i = 0; i < pa.length; i++) {
              if (pa[i].pn === ob.pn) {
                  if (confirm("Part: "+pa[i].pn+" Exist in "+pa[i].clase+", Do you want to replace it?")) {
-                    i = pa.length+1;
+                  
                     obj.parts[i] = ob;
+                    var bi=i;
+                      i = pa.length+1;
                      UpdateJ(link, obj, function() {
-                         alert("Part: "+pa[i].pn+" has been replaced...");
+                         alert("Part: "+ob.pn+" has been replaced...");
                          return;
                      });
                  } else return;
@@ -745,7 +749,7 @@ qi.innerHTML=Parts.length;
          if (i >= pa.length) {
              obj.parts.push(ob);
              UpdateJ(link, obj, function() {
-                 alert("Part: "+pa[i].pn+" has been sent to "+pa[i].clase+"...");
+                 alert("Part: "+ob.pn+" has been sent to "+ob.clase+"...");
                  return
              });
          }
@@ -895,9 +899,9 @@ function actionA(a){
  
     if(a==="All"){
         filter("Main",function(){
-         
+         alert("okm")
         filter("Miselanius",function(){
-
+            alert("okmisel")
         filter("Other")
      }) })
     }
