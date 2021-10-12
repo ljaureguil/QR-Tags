@@ -1,17 +1,23 @@
 <html>
 
 <head id="h1">
-    <meta name="viewport" content="width=device-width">
+    <meta id="me" name="viewport" content="width=device-width">
 </head>
 
 <style id="s1">
     body {
         text-align: center;
-        font-size: 25px;
+    }
+    #todo {
+        display: none;
+    }
+    body {
+        // text-align: center;
+        font-size: 15px;
         margin: 20px;
         background: white;
     }
-    code {
+    code# {
         margin: 5%;
         width: 10%;
         position: absolute;
@@ -19,314 +25,616 @@
         right: 1%;
     }
     button {
-   
-        font-size: 25px;
-        font-weight: bolder;
+        // width: 30%;
+        font-size: 18px;
         border-radius: 10px;
-        background-color: rgb(8, 38, 212);
-        margin: 2px;
+        background: rgb(255, 129, 11);
+        margin: 8px;
         color: white;
-        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
-
     }
-   
     #reader {
         width: 100%;
         color: white;
-        font-size: 25px;
-        display:none;
+        font-size: 15px;
     }
     #ta {
         width: 95%;
         display: none;
     }
-    #tx {
-        margin: 5%;
-        width: 90%;
-        font-size: 14px;
-        height: 20%;
-        
+    .c2 {
+        display: grid;
+        grid-column-gap: 30px;
+        // grid-template-columns: auto;
+        grid-template-columns: 80%;
+        background-color: white;
+        padding: 30px;
     }
-    #dor {
-      
-        position: absolute;
-        text-align: left;
-        padding: 15px;
-        top: 2%;
-        width: 50%;
-        left: 25%;
-        z-index: 2;
-        border-style: solid;
-        background-color: rgb(154, 209, 180);
-        height: 130%;
-            transition: opacity 1s, top 1s;
-            display:none;
+    .grid-container {
+        width: 100%;
+        display: grid;
+        grid-column-gap: 5%;
+        // grid-template-columns: auto auto auto;
+        grid-template-columns: 45% 45%;
+        background-color: white;
+        padding: 8px;
+        font-size: 18px;
+        font-weight: bold;
     }
-    .cin {
+    .grid-item {
+        height: 50px;
+        margin: 15px;
+        border: .5px solid rgba(0, 0, 0, 0.8);
+        padding: 12px;
         text-align: right;
-        width: 90%;
     }
-    #de {
-        height: auto;
+    .cdt {
+        border-style: solid;
+        height: 5%;
+        width: 30%;
+        background-color: green;
     }
-    #tfil {
-        width: 99%;
+    .cimg {
+        width: 50px;
+        height: 50px;
+    }
+    .cpn {
+        width: 50%;
+        background-color: white;
+        font-weight: bold;
+        font-size: 20px;
+        margin: 5px;
+    }
+    .cbq {
+        margin: 5px;
+        color: white;
+        background-color: black;
+        height: 5%;
+    }
+    .cadj {
+        width: 50%;
+        z-index: 1;
+    }
+    #bsh {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        width: auto;
+        font-size: 15px;
+    }
+    #menu {
+        color:white;
+        width: 85%;
+        height: 80%;
+        overflow: auto;
+        position: absolute;
+        top: 10%;
+        left: 3%;
+        border-style: double;
+        ;
+        border-color: white;
+        background-color: rgba(10, 148, 179, 81);
+        z-index: 2;
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
-        text-align: left;
-        margin: 3px;
-        font-size: 35px;
     }
-    .ctt {
+    #spacer {
+        width: 100%;
+        height: .1%;
+    }
+    #fil {
+        position: absolute;
         width: 90%;
-        margin: 5%;
-        border: solid;
-        font-size: 14px;
-        display: block;
-        background: white;
-  
+        left: 5%;
+        top: 5%;
+        display: none;
+        height: 90%;
+        overflow: hidden;
+        background: White;
+        border-style: solid;
+        text-align: left;
+        margin: 3%;
     }
     #dinv {
         width: 100%;
         height: 40%;
         overflow: auto;
         border-radius: 5px;
+     
+    }
+    #tfil {
+        width: 60%;
+        height: 4%;
+        text-align: left;
+        margin: 5px;
         ;
-        border-style: solid;
-        display: none;
-        // background: black;
     }
-    #scla {
-        display: none;
-    }
-    #todo{
+ 
+    #dor {
         position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-     }
-     #rn{
-         background: red;
-         position: absolute;
-         top:1%;
-         right:5%;
-     }
+        text-align: left;
+        padding: 15px;
+        top: 1%;
+        width: 50%;
+        left: 25%;
+        z-index: 2;
+        border-style: solid;
+        background-color: rgb(154, 209, 180);
+        display: none;
+        height: 103%;
+    }
+    #de {
+        height: auto;
+    }
+    .cin {
+        width: 98%;
+        text-align: right;
+        font-size: 16px;
+        background-color: rgb(10, 248, 224);
+        margin: 5px;
+        // font-weight: bold;
+    }
+    #qi {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 1%;
+        left: 1%;
+        color: rgb(212, 31, 31);
+        background: none;
+        border-radius: 100px;
+        border-style: double;
+        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
+        font-weight: bold;
+        font-size: 10px;
+        // padding: 15px;
+        // opacity: .75;
+        // background-color: rgb(67, 246, 22);
+        ;
+    }
+    #qt {
+        width: 50%;
+    }
+    .cpu {
+        font-size: 15px;
+    }
+    #plus {
+        position: absolute;
+        right: 5%;
+        top: 3%;
+        width: 55px;
+        height: 55px;
+    }
+    #tsa {
+        border-style: double;
+        border-color: white;
+    }
+    .csel {
+        font-size: 25px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    #claseInv {
+        font-size: 25px;
+    }
+    #tx {
+        padding: 5px;
+        width: 96%;
+        height: 40%;
+        font-size: 12px;
+      
+    }
+
+     #dtx {
+     //    text-align: left;
+        padding: 1px;
+        width: 96%;
+        height: 40%;
+        font-size: 12px;
+          overflow:auto;
+          background:white;
+          border-style: solid;
+    }
+    .ctx{
+
+        width:98%;
+        padding:3px;
+        text-align: left;
+        margin:3px;
+         color:white;
+        font-size: 14px;
+        display: block;
+        background:rgb(5, 3, 151);
+        border-style: solid;
+ 
+    }
+    .ctt{
+
+width:98%;
+padding:3px;
+text-align: left;
+margin:3px;
+ color:black;
+font-size: 14px;
+display: block;
+background:white;
+border-style: solid;
+
+}
+
+    #opciones {
+        display: none;
+    }
+    #subs {
+        display: none;
+    }
 </style>
-<div id="todo">
-    
-<button onclick="reader.style.display='block'">Open Scanner</button>
-<button  id="rn" onclick="if(confirm('Are you sure you want to Reset your user name?')){localStorage.removeItem('mec');window.location.reload()}">RN</button>
-<div id="reader"></div><br>
-<button onclick="reader.style.display='none'">Close Scanner</button>
-<br>-- Search/Manually...<br>
-<textarea id="tfil" oninput="search(this.value)"></textarea><br>
-<button onclick="openClip()">Load Clipboard</button>
-<div id="dinv"></div>
-<div id="dparts"></div>
+<div id="spacer"></div>
+<div class="grid-container" id="tags">
+</div>
+<div id="menu">
 
-<a id="ta" href="" target="_blank"></a>
 
-<div id="dor">
-    Job No.
-    <input id="jn" type="text" class="cin" value="">
-    <br>Qty:
-    <input id="qt" type="number" class="cin" value=1>
-    <br>Qty Obs:
-    <input id="obs" type="number" class="cin" >
-    <br>Part No.
-    <input id="pno" type="text" class="cin" value="">
-    <br>desc:
-    <input id="de" type="text" class="cin" value="" readonly>
-    <br>Mech
-    <input id="mec" type="text" class="cin" value="" readonly>
-    <br>Inv. Class:
-    <input id="cla" type="text" class="cin" value="" readonly>
-    <br>Kw:
-    <input id="kw" type="text" class="cin" value="" readonly>
-    <br>Loc
-    <input id="loc" type="text" class="cin" value="" readonly>
-    <br>Note
-    <input id="no" type="text" class="cin" value="">
+    <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
+    <button id="brecover" onclick="reset()">Reset All</button>
+
+    <div id="tsa">
+
+        <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
+        <label for="width">width</label>
+
+        <input class="cadj" type="range" id="iheight" name="h" min="0" max="300" value="100" step="1" oninput="sca(iwidth.value,this.value)">
+        <label for="height">Height</label>
+
+        <input class="cadj" type="range" id="iupdw" name="fon" min="0" max="80" value="0" step="1" oninput="spacer.style.height=this.value+'%'">
+        <label for="fon">Up/Dwn</label>
+
+        <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
+        <label for="fon">Font</label>
+        <br>
+
+
+    </div>
     <br>
-    <button class="cpu" onclick="send('pull')">Pull</button>
-    <button class="cpu" onclick="send('return')">Return</button>
-    <button class="cpu" onclick="dor.style.display='none';dor.name.style.background='white'">Close</button>
+    <button onclick="opciones.style.display='block';copyCl('All')">Open Clipboard</button>
+    <span id="opciones">
+
+ From:<input id="fdate" type="date">.....To:<input id="tdate" type="date">
+ By Job: <select id="byjob"oninput="process(this.value,'job')"><option>All</option></select>
+ By Part: <select id="bypart"  oninput="process(this.value,'part')" > <option>All</option></select>
+ By Mechanic: <select id="bymech"  oninput="process(this.value,'mec')">    <option>All</option></select>
+ By Inventory: <select id="bycl"  oninput="process(this.value,'clase')">   <option>All</option></select>
+ <button onclick="process()">Process...</button>
+</span>
+
+    <br>
+    <br>
+    <div id="dtx"></div><br>
+    <textarea id="tx"></textarea>
+    <button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy</button>
+</div>
+<br>
+<br>
+<br>
+
+<br>
+<div id="fil">
+    <br>-- Load Inventory ...
+    <br>
+    <select id="selinv" class="csel" oninput="actionA(this.value)">
+        <option>Main Inventory</option>
+        <option>Miselanius</option>
+        <option>Other</option>
+        <option>Basquet</option>
+        <option>All</option>
+    </select>
+    <button onclick="actionA(selinv.value);">Go</button>
+    <br>
+    <br>-- Search/Filter...
+    <br>
+    <textarea id="tfil" oninput="search(this.value)"></textarea>
+    <br>
+
+
+    <img id="plus" onclick="dor.style.display='block';obs.value=0;pno.value='';de.value='';loc.value='';qt.value=0;" src="https://findicons.com/files/icons/1014/ivista/256/plus.png">
+
+    <br>
+    <br>-- Action ...
+    <br>
+    <select id="selaction" class="csel" oninput="actionB(this.value)">
+        <option>Clear Selection</option>
+        <option>Select All</option>
+
+        <option>Pring Tags</option>
+        <option>Copy to Basquet</option>
+        <option>Copy to Master</option>
+        <option>Copy to Miselanius</option>
+        <option>Copy to Other</option>
+        <option>Send to Trash</option>
+        <option>EDIT MODE</option>
+        <option>CLEAR EDIT MODE</option>
+
+    </select>
+
+
+    <button onclick="actionB(selaction.value);">Go</button>
+    <button onclick='reset();'>Clr All</button>
+    <button class="cpu" onclick="fil.style.display='none'">Close</button>
+    <br>---------- Touch Item To Select ...
+    <br>
+
+
+    <div id="dinv"></div>
 
 </div>
-<textarea id="tx" readonly></textarea>
-<button onclick='tx.select();document.execCommand("copy");'>Copy</button>
+
+
+<button id="bsh" onclick="showM();">M</button>
+<button id="qi" onclick="alert('This is what Inventory has '+this.innerHTML+' Pcs.')">0</button>
+<div id="dor">
+    Qty:
+    <input id="qt" type="number" class="cin">
+    <br>Inv. Class:
+    <select id="cla" oninput="" class="cin">
+        <option>misc</option>
+        <option>inv</option>
+        <option>other</option>
+    </select>
+    <br>Kw:
+    <input id="kw" type="text" class="cin">
+    <br>Qty Obs:
+    <input id="obs" type="number" class="cin">
+    <br>Part No.
+    <input id="pno" type="text" class="cin">
+    <br>desc:
+    <input id="de" type="text" class="cin">
+    <br>Mech
+    <input id="mec" type="text" class="cin">
+    <br>Loc
+    <input id="loc" type="text" class="cin">
+    <br>Note
+    <input id="no" type="text" class="cin">
+    <br>
+    <button class="cpu" onclick="dor.style.display='none';send('main',dor.name)" style="background-color: rgb(39, 221, 39);">Send To Main Inventory</button>
+    <button class="cpu" onclick="dor.style.display='none';send('miselanius',dor.name)">Send To Miselanius</button>
+    <button class="cpu" onclick="dor.style.display='none';send('other',dor.name)">Send To Other</button>
+    <button class="cpu" onclick="dor.style.display='none';">Close</button>
+
 
 </div>
+
+
+
+
+
 <script src="html5-qrcode.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
-     //var user=localStorage.getItem("mec");
-    //if(user===null) { user=prompt("Type your name");localStorage.setItem("mec",user);
-    var linkp = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
-    var linkc = 'https://jsonblob.com/api/0da2d184-f931-11eb-a6a9-8d2736c2c513'
+    pcl = [], tpcl = [];
+    mode = "add", Obj = {}, Parts = [], editM = false;
+    // window.location.reload();
+    var R = 11 / 8.5;
+    // alert(s1.innerHTML)
+    tags.style.gridIemplateColumns = "10% 10% 10% 10%"
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
+    linkb = "https://jsonblob.com/api/893339508880457728"
+    linkp = "https://jsonblob.com/api/892533157149294592";
+    linko = "https://jsonblob.com/api/893246438927253504";
+    linkt = 'https://jsonblob.com/api/893855119448489984';
     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
-    var linkcl='http://jsonblob.com/896389790531076096'; //clip demas
+    var linkcl='https://jsonblob.com/api/896389790531076096'; //clip demas
 
-    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb'; //miselanius
-    linkb = "https://jsonblob.com/api/893339508880457728"; //basquet
-    linkp = "https://jsonblob.com/api/892533157149294592"; //main
-    linko = "https://jsonblob.com/api/893246438927253504"; //other
-    linkt = 'https://jsonblob.com/api/893855119448489984'; //trash
-    var Parts = [],
-        Psel = [],
-        partsClip = [];
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var radio = h / w;
+    if (radio > 1.1) {
+        //         tags.removeClass();
+        tags.setAttribute("class", "c2")
+    } else {}
 
-    getInventories();
-
-
-
-    var mecanico = ""
-    mecanico = localStorage.getItem("mec");
-
-    if (mecanico === null || mecanico === "") {
-        mecanico = prompt("Type your Name");
-        mecanico=mecanico.replace(/ /g,"-");
-        mecanico=mecanico.toLocaleUpperCase();
-        localStorage.setItem("mec", mecanico);
-    } else {
-        if(mecanico.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
-              alert("Hi " + mecanico);
-    }
-    var s = document.getElementsByTagName("style")[0];
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", {
-            fps: 10,
-            qrbox: 250
-        });
-    html5QrcodeScanner.render(onScanSuccess, onScanError);
-
-    function onScanSuccess(decodedText, decodedResult) {
-        alert(decodedText);
-   
-      if (decodedText.indexOf("http") > -1) {
-            ta.style.display = "block";
-
-
-            ta.href = decodedText;
-            ta.innerHTML = decodedText;
-            ta.click();
-        }
-         else ta.style.display = "none";
-        tx.value = decodedText;
-             var pp = decodedText.split(" ");
-             tfil.value=pp[0];
-            search(pp[0]);
-         document.getElementsByTagName("style")[0].innerHTML = s.innerHTML;
-        var st = document.createElement("style");
-        st.innerHTML = s;
-        document.body.getElementsByTagName("style")[0] = st;
-    }
-
-    function onScanError(errorMessage) {
-        // handle on error condition, with error message
-    }
-
+    //loadDoc(linkp,function(res){alert(res)})
 
     function loadDoc(url, callback) {
+        //   alert(url)
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", url, false);
         xhttp.send();
         callback(xhttp.responseText);
 
     }
-    //  setupinventario();
+    var cont = ""
+    setTags()
 
-    function getInventories() {
+    function setTags() {
 
-        GetJ(linkp, function(obp) {
-            Parts = obp.parts;
-            GetJ(linkm, function(obm) {
-                for (var i = 0; i < obm.parts.length; i++) {
-                    Parts.push(obm.parts[i])
-                }
+        var w = window.innerWidth;
+        var h = window.innerHeight;
 
-                GetJ(linko, function(obo) {
-                    for (var ia = 0; ia < obo.parts.length; ia++) {
-                        Parts.push(obo.parts[ia])
-                    }
+        for (var i = 0; i < 18; i++) {
+            //            tags.appendChild(crTag())    
+        }
+        cont = tags.innerHTML;
+    }
 
-                    filter(Parts);
+    function crTag(ob) {
+        //alert("oh")
+        var d = document.createElement("div");
+        d.setAttribute("class", "grid-item")
+        d.id = "";
+        d.setAttribute("onclick", "sTag(this)")
+        if (ob != undefined) {
+            d.innerHTML = ob.pn + " _ ";
+            d.setAttribute("id", ob.pn)
+            d.value = ob.qty;
 
-                });
-            });
-        });
+            d.name = ob; //.des;
+        }
+        //  alert("oh")
+        var im = document.createElement("img");
+
+        if (ob != undefined) im.src = genTag(ob.pn + " : " + ob.des); //   b.url;
+        im.setAttribute("class", "cimg");
+        d.appendChild(im);
+        return d;
 
     }
 
+    function delTag() {
+        if (mode != "delete") {
+            mode = 'delete';
+            menu.style.display = 'none';
+            tags.style.background = '#00ff00'
+        } else {
 
-    function setupinventario() {
+            mode = "";
+            tags.style.background = "white";
+
+        }
+    }
+
+    function readySc() {
+        cont = tags.innerHTML;
+        var tgs = tags.getElementsByTagName("div");
+        for (var i = 0; i < tgs.length; i++) {
+            if (tgs[i].value == "" || tgs[i].value == undefined) tgs[i].style.display = "none";
+
+        }
+    }
+
+    function showAll() {
+        tags.innerHTML = cont
+
+    }
+
+    function sTag(e) {
+        dor.name = e.name;
+        dor.style.display = "block";
+        dor.name = e.name;
+        qt.value = e.name.qtyInv * 1;
+        pno.value = e.name.pn;
+        de.value = e.name.des;
+        kw.value = e.name.kw;
+        mec.value = e.name.user;
+        cla.value = e.name.clase;
+        no.value = e.name.note;
+        obs.value = e.name.qtyObs;
+
+
+    }
+
+    function chkId(id) {
 
         GetJ(linkp, function(obj) {
-
             for (var i = 0; i < obj.parts.length; i++) {
-                var s = obj.parts[i].pn;
-
-                s.replace(/ /g, "_");
-
+                var p = obj.parts[i];
+                if (obj.parts[i].pn === id) return i;
+                //    tags.appendChild(  crTag(p))
             }
-            UpdateJ(linkp, obj, function() {
-                alert("done")
-            })
+            return -1;
 
         })
+
     }
 
-    function getPart(pn, callback) {
-       GetJ(linkp, function(obj) {
-            p = obj.parts;
-            for (var i = 0; i < p.length; i++) {
-                if (pn === p[i].pn) {
-                    callback(p[i], obj);
-                    return p[i]
+    function recover() {
+        if (Parts.length === 0) {
+            alert("No part selected yet")
+        } else {
+            tags.innerHTML = "";
+            var i = 0;
+            var pq = 0;
+            var t1 = prompt("No more than 48 items Recomended.\n\n From", "1") * 1;
+            var t2 = prompt("No more than 48 items Recomended.\n\n To", Parts.length) * 1;
+            if (isNaN(t1) || isNaN(t2)) {
+                alert("Type a number");
+                recover()
+            }
+            if (t2 - t1 > 150) {
+                alert("Too Much Items...")
+            } else {
+                for (var i = t1 - 1; i < t2; i++) {
+                    var p = Parts[i];
+                    tags.appendChild(crTag(p))
+                }
+                menu.style.display = "none";
+                fil.style.display = "none";
+            }
+        }
+
+    }
+
+    function copyCl(op) {
+        if (op === "All") {
+            GetJ(linkme, function(ob) {
+                pcl = ob.parts; //,byp=[],bym=[],byj=[],byc=[];
+                var s1 = "<option>",
+                    s2 = "</option>";
+                for (var i = 0; i < pcl.length; i++) {
+                    var p = pcl[i];
+                    if (bypart.innerHTML.indexOf(p.pn) < 0) bypart.innerHTML += "<option>" + p.pn + "</option>";
+                    if (bymech.innerHTML.indexOf(p.mec) < 0) bymech.innerHTML += "<option>" + p.mec + "</option>";
+                    if (byjob.innerHTML.indexOf(p.job) < 0) byjob.innerHTML += "<option>" + p.job + "</option>";
+                    if (bycl.innerHTML.indexOf(p.clase) < 0) bycl.innerHTML += "<option>" + p.clase + "</option>";
 
                 }
-                callback(null, null)
+               
+                GetJ(linkcl, function(obj) {
+   
+                    for (var i = 0; i < obj.parts.length; i++) {
+                        pcl.push(obj.parts[i]);
 
-                //  
+                    }
+                    //var ps = obj.parts;
+   
+                    var c = "";
+                    for (i = 0; i < pcl.length; i++) {
+                 var e = String.fromCharCode(9);
+                        var p = pcl[i]
+                        var t = JSON.stringify(p);
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase+ e + p.qtyObs + e + p.note;
+                        c += cc + "\n";
+                 var l=document.createElement("p");
+                 e=" ............ "
+                    l.innerHTML=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e +e + p.clase+ e+ p.qtyObs + e + p.note+"<br>";
+                    l.id=pcl[i].pn;
+                     dtx.appendChild(l);
+                      l.name=pcl[i];
+                    l.setAttribute("class","ctx"); 
+                    l.onclick=function(){alert(this.id)};
+                    }
+                    var h = "";
+                     var e = String.fromCharCode(9);
+                    var dd=new Date(pcl[0].created).toISOString().split('T')[0];
+                     fdate.value=dd;//dd[2]+"-"+dd[0]+"-"+dd[1]
+                    tdate.value=new Date(pcl[pcl.length-1].created).toISOString().split('T')[0];
+                 tx.value = h + c;
+                    
+                })
+            });
+        } else {
+            if (pcl.length > 0) {
+                if (op === "By date") {
+
+                }
+                if (op === "By Part No.") {
+                    var pr = prompt("type part number");
+                }
+                if (op === "By Mechanic") {
+                    //   pro
+                }
+                if (op === "By job No.") {}
+
+
             }
 
-        })
-
+        }
     }
 
-    function send(to) {
-        if(qt.value===0 || qt.value===null || jn.value===""){
-            alert("No Quantity or Job number");
-        }
-        else{
-            dor.style.display='none';
-        GetJ(linkme, function(obj) {
-   
-            var o = {
-                "job": jn.value,
-                "pn": pno.value,
-                "des": de.value,
-                "qty": qt.value,
-                "qtyObs": obs.value,
-                "move":"",
-                "kw": kw.value,
-                "clase": cla.value,
-                "mec": mec.value,
-                "location": loc.value,
-                "note": no.value,
-                "created": new Date().toString()
-            };
-            if(to==="pull") o.move="pull"
-            else o.move="return"
-
-
-            obj.parts.push(o);
-            UpdateJ(linkme, obj, function() {
-                alert("Part/s sent to Clipboard...")
-            })
-
-
-        })}
-
+    function sca(x, y) {
+        // 
+        x = x / 100;
+        y = y / 100;
+        tags.style.transform = 'scale(' + x + ',' + y + ')';
+        tags.style.zIndex = -1
     }
 
     function GetJ(url, callback) {
@@ -335,24 +643,28 @@
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + '/1', true)
         xhr.onload = function() {
-            //         (xhr.responseText)
+
             var users = JSON.parse(xhr.responseText);
             //     var obb=decoding(users.prim);
 
             if (xhr.readyState == 4 && xhr.status == "200") {
-                callback(users);
+                if (callback != undefined) callback(users);
             } else {
                 console.error(users);
             }
         }
-        xhr.send(null);
+        xhr.send(); //null
     }
-
+    /*   function GetJ(url, callback) {
+        loadDoc(url,function(res){
+                      callback(JSON.parse(res))
+        })
+    }
+*/
     // Update a user
     function UpdateJ(url, ob, callback) {
         //   var o={};
         //   o.prim=encoding(ob);
-        // alert(obj.pulls);
         json = JSON.stringify(ob);
         var xhr = new XMLHttpRequest();
         xhr.open("PUT", url + '/12', true);
@@ -369,12 +681,56 @@
         xhr.send(json);
     }
 
+    function genTag(tx) {
+
+        var c = document.createElement("canvaS");
+        qr = new QRious({
+            element: c,
+            size: 800,
+            value: tx
+        });
+
+        return qr.toDataURL();
+    }
+
+    function filter(op, callback) {
+
+        var link = linkp;
+        if (op === "Other") link = linko;
+        if (op === "Miselanius") link = linkm;
+        if (op === "Basquet") link = linkb;
+        fil.style.display = "block";
+        menu.style.display = "none"
+        GetJ(link, function(obj) {
+            obj.link = link;
+            Obj = obj;
+            // alert(link)
+            // alert(obj.name);
+            for (var i = 0; i < obj.parts.length; i++) {
+                var p = document.createElement("p");
+                p.setAttribute("class", "ctt");
+                p.style.display = "block";
+                p.setAttribute("onclick", "sel(this);");
+                // if(obj.parts[i]===null) alert(obj.name+"\n"+i);;
+                p.name = obj.parts[i];
+                p.id = obj.parts[i].pn;
+                p.innerHTML = "P/N: " + obj.parts[i].pn + ", Desc.: " + obj.parts[i].des;
+                dinv.appendChild(p); // fil.appendChild(p)
+            }
+            if (op != undefined) alert(op + " loaded...")
+            if (callback != undefined) callback(obj);
+
+        });
+
+    }
+
     function search(v) {
 
-        if (v === "") {
-            dinv.style.display = "none";
+        var ar = [];
+        if (Obj.parts === undefined) {
+            alert("lets recover and search again");
+            filter();
         } else {
-            dinv.style.display = "block";
             var pa = document.getElementsByClassName("ctt");
             for (var i = 0; i < pa.length; i++) {
                 var s = JSON.stringify(pa[i]);
@@ -387,111 +743,433 @@
                     pa[i].style.display = "none"
                 }
             }
-
         }
 
-    }
 
-
-    function filter(pa) {
-
-        while (dinv.firstChild) {
-            dinv.removeChild(dinv.firstChild);
-
-        }
-        for (var i = 0; i < pa.length; i++) {
-            var p = document.createElement("p");
-            p.setAttribute("class", "ctt");
-            p.style.display = "block";
-            p.style.background = "white";
-            p.setAttribute("onclick", "sel(this);");
-            p.name = pa[i];
-            p.id = pa[i].pn;
-            p.innerHTML = "P/N: " + pa[i].pn + ", Desc.: " + pa[i].des;
-            dinv.appendChild(p); // fil.appendChild(p)
-        }
-        dinv.appendChild(document.createElement("p")); 
-
-        //  UpdateJ(link,obj,function(){alert('updated...')})
     }
 
     function sel(e) {
-       dor.style.display='block';
-       pno.value=e.name.pn;
-       dor.name=e;
-        //     alert(e.style.background)
-        var enc = false;
-
-        if (e.style.background === "white") {
+        if (!editM) {
+            var enc = false;
             for (var i = 0; i < Parts.length; i++) {
                 if (Parts[i].pn === e.name.pn) {
+                    e.style.background = "white";
                     enc = true;
-
-                    e.style.background = "#0f0";
+                    Parts.splice(i, 1);
                     i = Parts.length + 2;
-                    qt.value=1;
-                    pno.value = e.name.pn;
-                    de.value = e.name.des;
-                    
-                    cla.value = e.name.clase;
-                    loc.value = e.name.location;
-                    no.value = e.name.note;
-                    mec.value = mecanico;
-                    dor.style.display='block';
-
                 }
             }
             if (!enc) {
-                e.style.background = 'white';
-                Psel.push(e.name);
-
-            } else {
-
+                e.style.background = '#0f0';
+                Parts.push(e.name)
             }
-        } else e.style.background = 'white';
+        } else {
+            cla.value = e.name.clase;
+            sTag(e);
+        }
+
+        qi.innerHTML = Parts.length;
+    }
+
+    function showM() {
+        if (menu.style.display === 'block') {
+            menu.style.display = 'none'
+        } else {
+            menu.style.display = 'block';
+            fil.style.display = 'none'
+        }
 
     }
 
-    function openClip() {
-       var h="";
-       
-       var e = String.fromCharCode(9);
-       var c="";
-       if(confirm("Include Headers?"))h="QTY"+e + "Job No." + e +"P/N" + e + "Description" + e + "Mechanic" + e +"Date" +e + "Time" + e + "Move" + e + "Qty. Obs."+ e + "Note"+"\n";
+    function selectAll() {
+        var pa = document.getElementsByClassName("ctt");
+        qi.innerHTML = pa.length;
+        for (var i = 0; i < pa.length; i++) {
+            if (pa[i].style.display === "block") {
+                pa[i].style.background = "#0f0";
 
-        GetJ(linkme, function(ob) {
-            var ps = ob.parts; //alert(ps)
-             for (i = 0; i < ps.length; i++) {
-                 if(ps[i].mec.toUpperCase()===mecanico.toUpperCase()){
-                var p = ps[i]
-                var t = JSON.stringify(p);
-          var f=getFe(p.created);
-                 c+= p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha +e + f.tiempo + e + p.move + e + p.qtyObs+e + p.note+"\n";
-             }
-}
-            tx.value = h+c;
-          })
+                Parts.push(pa[i].name);
+
+            }
+
+        }
+    }
+
+    function clrPart() {
+        qi.innerHTML = 0;
+        Parts.splice(0, Parts.length)
+        var pa = document.getElementsByClassName("ctt");
+        for (var i = 0; i < pa.length; i++) {
+            pa[i].style.background = "#fff";
+        }
+    }
+
+    function reset() {
+        qi.innerHTML = 0;
+        Parts.splice(0, Parts.length);
+        while (dinv.firstChild) {
+            dinv.removeChild(dinv.firstChild);
+        }
+        while (tags.firstChild) {
+            tags.removeChild(tags.firstChild);
+        }
+    }
+
+    function deleteItem(from, ob) {
+        GetJ(from, function(obj) {
+            var i = 0;
+            pa = obj.parts;
+            for (i = 0; i < pa.length; i++) {
+                if (pa.pn === ob.pn) {}
+
+            }
+        })
+    }
+
+    function senToTrash(list) {
+
+
+    }
+
+    function enviar(link, ob) {
+
+        GetJ(link, function(obj) {
+
+
+            var pa = obj.parts;
+            var i = 0,
+                fo = false;
+            for (i = 0; i < pa.length; i++) {
+                if (pa[i].pn === ob.pn) {
+                    fo = true;
+                    if (confirm("Part: " + pa[i].pn + " Exist in " + pa[i].clase + ", Do you want to replace it?")) {
+
+                        obj.parts[i] = ob;
+
+                        i = pa.length + 1;
+                        UpdateJ(link, obj, function() {
+                            alert("Part: " + ob.pn + " has been replaced...");
+                            return;
+                        });
+                    } else return;
+                }
+            }
+            if (!fo && i >= pa.length) {
+                obj.parts.push(ob);
+                UpdateJ(link, obj, function() {
+                    alert("Part: " + ob.pn + " has been sent to " + ob.clase + "...");
+                    return
+                });
+            }
+        });
+
+
+    }
+
+    function send(to, ob) {
+        if (pno.value != "" && pno.value != undefined || de.value != "" && de.value != undefined) {
+            link = "";
+            var o = {
+                "pn": pno.value,
+                "des": de.value,
+                "qtyInv": qt.value,
+                "qtyObs": obs.value,
+                "kw": kw.value,
+                "clase": cla.value,
+                "createdBy": mec.value,
+                "location": loc.value,
+                "note": no.value,
+                "created": new Date().toString()
+            };
+            var link = linko;
+            if (to === "main") {
+                link = linkp;
+                o.clase = "inv"
+
+            }
+            if (to === "miselanius") {
+                link = linkm;
+                o.clase = "misc";
+            }
+            if (to === "other") {
+                link = linko;
+                o.clase = "other";
+            }
+            if (to === "trash") {
+                link = linkt;
+
+                //   o.clase="";
+            }
+            //alert(JSON.stringify(o))
+
+            enviar(link, o);
+        } else alert("Missing Type Part Number or Description")
+
+    }
+
+    function loadInventories() {
+
+
+    }
+
+    function sendTo(to) {
+        if (to === 'Basquet') {
+
+            GetJ(linkb, function(obj) {
+                var p = obj.parts;
+                if (p.length > 0) {
+                    if (confirm("There are " + p.length + " Items in basquet.\nDo you want to add parts to basquet?")) {
+                        for (var i = 0; p.length; i++) {
+                            obj.parts.push(Parts[i]);
+                        }
+                        UpdateJ(linkb, obj, function() {
+                            alert("Your Items are in the Basquet")
+                        })
+
+                    } else {
+                        if (confirm("Do you want to replace Basquet with your Parts?")) {
+                            obj.parts = Parts;
+                            UpdateJ(linkb, obj, function() {
+                                alert("Your Items are in the Basquet")
+                            })
+                        }
+
+                    }
+
+
+                } else {
+                    obj.parts = Parts;
+                    UpdateJ(linkb, obj, function() {
+                        alert("Your Items are in the Basquet")
+                    })
+                }
+                //  UpdateJ(linkb,obj,function(){alert("Your Items are in the Basquet")})
+
+
+
+            })
+        } else {
+
+            var link = linko;
+            if (to === "main") {
+                link = linkp;
+                //      ob.clase="inv"
+
+            }
+            if (to === "miselanius") {
+                link = linkm;
+                //  ob.clase="misc";
+            }
+            if (to === "other") {
+                link = linko;
+                // ob.clase="other";
+            }
+            if (to === "trash") {
+                link = linkt;
+                //  ob.clase="trash";
+            }
+
+
+
+            for (var iy = 0; iy < Parts.length; iy++) {
+
+                enviar(link, Parts[iy]);
+            }
+
+        }
+    }
+
+    function moveTo(linkFrom, linkTo, parts) {
+        var f = false;
+        GetJ(linkFrom, function(obf) {
+            var pf = obf.parts;
+            GetJ(linkTo, function(obt) {
+
+                if (obt.name === "trash") {
+                    for (var ii = 0; ii < parts.length; ii++) {
+                        for (var i = 0; i < pf.length; i++) {
+                            if (pf[i].pn.toUpperCase() === parts[ii].pn.toUpperCase()) {
+                                f = true;
+                                if (confirm("Confirm to Move " + pf[i].pn)) obf.parts.splice(i, 1);
+                                obt.parts.push(pf[i]);
+                                i = pf.length + 1;
+                            }
+                        }
+                    }
+                    if (f && confirm("Ready to Move items?")) {
+                        obf.parts = pf;
+
+                        UpdateJ(linkTo, obt, function() {
+                            UpdateJ(linkFrom, obf, function() {
+                                alert("Items moved to " + obt.name + "...");
+                                reset()
+                            })
+                        });
+                    } else alert("no parts found")
+                }
+
+            })
+        })
+
+    }
+
+    function actionA(a) {
+
+        if (a === "All") {
+            filter("Main", function() {
+
+                filter("Miselanius", function() {
+
+                    filter("Other")
+                })
+            })
+        } else {
+            if (a != "") filter(a)
+
+        }
+
+
+    }
+
+    function actionB(a) {
+        if (a == "EDIT MODE") {
+            editM = true;
+            dinv.style.background = "#efe";
+        }
+        if (a == "CLEAR EDIT MODE") {
+            editM = false;
+            dinv.style.background = "white";
+        }
+
+        if (a == "Select All") {
+            selectAll()
+        }
+        //   if(a=="Reset and Refresh")reset();
+        if (Parts.length === 0 && a != "Select All" && a != "CLEAR EDIT MODE" && a != "EDIT MODE") {
+            alert("No Items selected...")
+        } else {
+            if (a == "Clear Selection") {
+                clrPart()
+            }
+            // if(a=="Select All"){selectAll()}
+            if (a == "Pring Tags") {
+                fil.style.display = 'none';
+                recover()
+            }
+            if (a == "Copy to Basquet") {
+                sendTo('Basquet')
+            }
+            if (a == "Copy to Master") {
+                sendTo('main')
+            }
+            if (a == "Copy to Miselanius") {
+                sendTo('miselanius')
+            }
+            if (a == "Copy to Other") {
+                sendTo('other')
+            }
+            if (a == "Send to Trash") {
+                moveTo(Obj.link, linkt, Parts)
+            };
+        }
+    }
+
+    function deletePart(p) {
+        alert(p)
+
+    }
+
+    function getFe(fr) {
+        var f = new Date()
+        var v = Date.parse(fr);
+        f.setTime(v);
+        var fe = f.getMonth() + "-" + f.getDate() + "-" + f.getFullYear();
+        var t = f.getHours() + ":" + f.getMinutes();
+        return {
+            fecha: fe,
+            tiempo: t
+        };
+
+
+    }
+    function process(op,by){
+        tx.value="";
+         h="";
+        var ch=document.getElementsByClassName("ctx");
+        var c="";
+        if(op===undefined)op=byjob.value;
+         for(var i=0;i<ch.length;i++){
+            if(op==="All")ch[i].style.display='block'; 
+            else{
+           var ss=JSON.stringify(ch[i].name)
+           ss=ss.toUpperCase();
+           op=op.toUpperCase();
+            var tr='"'+op+'"'
+               if(ss.indexOf(tr)>=0){
+                ch[i].style.display='block'; 
+               
+              var e = String.fromCharCode(9);
+                        var p = ch[i].name;
+
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                        c += cc + "\n";
+            }
+            else ch[i].style.display="none";
+      }
      }
-    function getFe(fr){
-             var f=new Date()
-           var v=Date.parse(fr);
-           f.setTime(v);
-           var fe=f.getMonth()+"-"+f.getDate()+"-"+f.getFullYear();
-           var t=f.getHours()+":"+f.getMinutes();
-         return {fecha:fe,tiempo:t};
-
-
-}
-
-</script>
-
-
-<script>
+     var e = String.fromCharCode(9);
+        if (confirm("You want to copy with the Headers?")) {
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
  
+               }
+             
+       tx.value=h+c;
+   
+    }
+
+    //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
 </script>
+<script>
+/*
+ function process(op,by){
+        tx.value="";
+         h="";
+        var ch=document.getElementsByClassName("ctx");
+        var c="";
+        alert(op);
+        var so="";
+        if(by==="job"){so=op}
+        if(by==="part"){}
+        if(by==="clase"){}
+        if(by==="mec"){}
+
+        for(var i=0;i<ch.length;i++){
+               if(byjob.value===ch[i].name.job){
+                ch[i].style.display='block'; 
+               
+              var e = String.fromCharCode(9);
+                        var p = ch[i].name;
+
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                        c += cc + "\n";
+            }
+            else ch[i].style.display="none";
+        }
+  
+        if (confirm("You want to copy with the Headers?")) {
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
+                 
+                    }
+
+      tx.value=h+c;
+
+   
+    }
+*/
 
 
-
-
+</script>
 
 </html>
