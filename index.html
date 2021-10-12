@@ -137,8 +137,7 @@
         height: 40%;
         overflow: auto;
         border-radius: 5px;
-        ;
-        border-style: solid;
+     
     }
     #tfil {
         width: 60%;
@@ -147,13 +146,7 @@
         margin: 5px;
         ;
     }
-    .ctt {
-        width: 90%;
-        margin: 3%;
-        border: solid;
-        font-size: 16px;
-        display: block;
-    }
+ 
     #dor {
         position: absolute;
         text-align: left;
@@ -239,11 +232,16 @@
           border-style: solid;
     }
     .ctx{
-        border-style: solid;
-        width:100%;
-        text-align: left;
-        margin:2px;
 
+        width:98%;
+        padding:3px;
+        text-align: left;
+        margin:3px;
+         color:white;
+        font-size: 14px;
+        display: block;
+        background:rgb(5, 3, 151);
+ 
     }
 
     #opciones {
@@ -295,7 +293,7 @@
 
     <br>
     <br>
-    <div id="dtx"></div>
+    <div id="dtx"></div><br>
     <textarea id="tx"></textarea>
     <button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy</button>
 </div>
@@ -579,34 +577,21 @@
                         var p = pcl[i]
                         var t = JSON.stringify(p);
                         var f = getFe(p.created);
-                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.qtyObs + e + p.note;
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase+ e + p.qtyObs + e + p.note;
                         c += cc + "\n";
                  var l=document.createElement("p");
                  e=" ............ "
-                    l.innerHTML=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.qtyObs + e + p.note+"<br>";
+                    l.innerHTML=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e +e + p.clase+ e+ p.qtyObs + e + p.note+"<br>";
                     l.id=pcl[i].pn;
-  
- 
-
-                    dtx.appendChild(l);
-
-                                      l.name=pcl[i];
+                     dtx.appendChild(l);
+                      l.name=pcl[i];
                     l.setAttribute("class","ctx"); 
                     l.onclick=function(){alert(this.id)};
                     }
                     var h = "";
                      var e = String.fromCharCode(9);
-             //       if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "Qty. Obs." + e + "Note" + "\n";
-                 
-              //      }
-   
-
-
                     var dd=new Date(pcl[0].created).toISOString().split('T')[0];
-                  // dd=dd.fecha.split("-");
-
-                    fdate.value=dd;//dd[2]+"-"+dd[0]+"-"+dd[1]
+                     fdate.value=dd;//dd[2]+"-"+dd[0]+"-"+dd[1]
                     tdate.value=new Date(pcl[pcl.length-1].created).toISOString().split('T')[0];
                  tx.value = h + c;
                     
@@ -1110,14 +1095,14 @@
                         var p = ch[i].name;
 
                         var f = getFe(p.created);
-                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.qtyObs + e + p.note;
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
                         c += cc + "\n";
             }
             else ch[i].style.display="none";
         }
   
         if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "Qty. Obs." + e + "Note" + "\n";
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
                  
                     }
 
