@@ -103,14 +103,13 @@
     }
     #menu {
         color:white;
-        width: 85%;
-        height: 80%;
+        width: 96%;
+        height: 90%;
         overflow: auto;
         position: absolute;
-        top: 10%;
+        top: 5%;
         left: 3%;
         border-style: double;
-        ;
         border-color: white;
         background-color: rgba(10, 148, 179, 81);
         z-index: 2;
@@ -294,14 +293,20 @@ border-style: solid;
     </div>
     <br>
     <button onclick="opciones.style.display='block';copyCl('All')">Open Clipboard</button>
+    
     <span id="opciones">
-
+       Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
+<br>
  From:<input id="fdate" type="date">.....To:<input id="tdate" type="date">
  By Job: <select id="byjob"oninput="process(this.value,'job')"><option>All</option></select>
+ <button onclick="process(byjob.value,'job')"><</button>
  By Part: <select id="bypart"  oninput="process(this.value,'part')" > <option>All</option></select>
+ <button onclick="process(bypart.value,'part')"><</button>
  By Mechanic: <select id="bymech"  oninput="process(this.value,'mec')">    <option>All</option></select>
+ <button onclick="process(bymech.value,'mec')"><</button>
  By Inventory: <select id="bycl"  oninput="process(this.value,'clase')">   <option>All</option></select>
- <button onclick="process()">Process...</button>
+ <button onclick="process(bycl.value,'clase')"><</button>
+ 
 </span>
 
     <br>
@@ -408,6 +413,7 @@ border-style: solid;
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
+   var kop="";kby=""
     pcl = [], tpcl = [];
     mode = "add", Obj = {}, Parts = [], editM = false;
     // window.location.reload();
@@ -562,7 +568,12 @@ border-style: solid;
     }
 
     function copyCl(op) {
-        if (op === "All") {
+
+        pcl.splice(0, pcl.length);
+        while (dtx.firstChild) {
+            dtx.removeChild(dtx.firstChild);
+        }
+         if (op === "All") {
             GetJ(linkme, function(ob) {
                 pcl = ob.parts; //,byp=[],bym=[],byj=[],byc=[];
                 var s1 = "<option>",
@@ -1093,14 +1104,33 @@ border-style: solid;
 
     }
     function process(op,by){
+        kop=op;kby=by;
         tx.value="";
          h="";
-        var ch=document.getElementsByClassName("ctx");
+         var t1=new Date(fdate.value).getTime();
+         var t2=new Date(tdate.value).getTime();
+         var ch=document.getElementsByClassName("ctx");
         var c="";
-        if(op===undefined)op=byjob.value;
+        if(op===undefined) op=byjob.value;
+
          for(var i=0;i<ch.length;i++){
-            if(op==="All")ch[i].style.display='block'; 
+           var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
+            if(op==="All") {
+                 if(df>=t1 && df<= t2){
+                ch[i].style.display='block'; 
+                var e = String.fromCharCode(9);
+                        var p = ch[i].name;
+
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                        c += cc + "\n";
+
+                }
+                else{ ch[i].style.display='none';  }
+                    }
             else{
+            if(df>=t1 && df<= t2){
+ 
            var ss=JSON.stringify(ch[i].name)
            ss=ss.toUpperCase();
            op=op.toUpperCase();
@@ -1116,60 +1146,52 @@ border-style: solid;
                         c += cc + "\n";
             }
             else ch[i].style.display="none";
+        }
+        else{ ch[i].style.display='block';  }
       }
      }
      var e = String.fromCharCode(9);
         if (confirm("You want to copy with the Headers?")) {
                         h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
- 
-               }
-             
+                }
        tx.value=h+c;
    
     }
-
-    //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
-</script>
-<script>
-/*
- function process(op,by){
+    function searchCl(v) {
         tx.value="";
          h="";
-        var ch=document.getElementsByClassName("ctx");
+         var t1=new Date(fdate.value).getTime();
+         var t2=new Date(tdate.value).getTime();
+         var ch=document.getElementsByClassName("ctx");
         var c="";
-        alert(op);
-        var so="";
-        if(by==="job"){so=op}
-        if(by==="part"){}
-        if(by==="clase"){}
-        if(by==="mec"){}
-
-        for(var i=0;i<ch.length;i++){
-               if(byjob.value===ch[i].name.job){
+         for(var i=0;i<ch.length;i++){
+           var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
+            var ss=JSON.stringify(ch[i].name).toUpperCase();
+            v=v.toUpperCase();
+          
+                 if(df>=t1 && df<= t2 && ss.indexOf(v)>=0){
                 ch[i].style.display='block'; 
-               
-              var e = String.fromCharCode(9);
+                var e = String.fromCharCode(9);
                         var p = ch[i].name;
 
                         var f = getFe(p.created);
                         var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
                         c += cc + "\n";
-            }
-            else ch[i].style.display="none";
-        }
-  
-        if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
-                 
-                    }
 
-      tx.value=h+c;
-
-   
+                }
+                else{ ch[i].style.display='none';  }
+                  
     }
-*/
+    var e = String.fromCharCode(9);
+     //   if (confirm("You want to copy with the Headers?")) {
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
+        //        }
+       tx.value=h+c;
+}
 
-
+    //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
+</script>
+<script>
 </script>
 
 </html>
