@@ -295,9 +295,9 @@ border-style: solid;
     <button onclick="opciones.style.display='block';copyCl('All')">Open Clipboard</button>
     
     <span id="opciones">
-       Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
+  
+ From:<input id="fdate" type="date" oninput="process('All','job')">.....To:<input id="tdate" type="date" oninput="process('All','job')">.....Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
 <br>
- From:<input id="fdate" type="date">.....To:<input id="tdate" type="date">
  By Job: <select id="byjob"oninput="process(this.value,'job')"><option>All</option></select>
  <button onclick="process(byjob.value,'job')"><</button>
  By Part: <select id="bypart"  oninput="process(this.value,'part')" > <option>All</option></select>
@@ -1108,7 +1108,7 @@ border-style: solid;
         tx.value="";
          h="";
          var t1=new Date(fdate.value).getTime();
-         var t2=new Date(tdate.value).getTime();
+         var t2=new Date(tdate.value).getTime()+24*60*60*1001;
          var ch=document.getElementsByClassName("ctx");
         var c="";
         if(op===undefined) op=byjob.value;
@@ -1147,7 +1147,7 @@ border-style: solid;
             }
             else ch[i].style.display="none";
         }
-        else{ ch[i].style.display='block';  }
+        else{ ch[i].style.display='none';  }//block
       }
      }
      var e = String.fromCharCode(9);
