@@ -264,6 +264,10 @@ border-style: solid;
     #subs {
         display: none;
     }
+    .cpro{
+        width:10%;
+        background-color: aqua;
+    }
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -296,15 +300,15 @@ border-style: solid;
     
     <span id="opciones">
   
- From:<input id="fdate" type="date" oninput="process('All','job')">.....To:<input id="tdate" type="date" oninput="process('All','job')">.....Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
+ From:<input id="fdate" type="date" oninput="process('All','job')">.....To:<input id="tdate" type="date" oninput="process('All','job')">...Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
 <br>
- By Job: <select id="byjob"oninput="process(this.value,'job')"><option>All</option></select>
+ By Job: <select id="byjob" class="cpro"  oninput="process(this.value,'job')"><option>All</option></select>
  <button onclick="process(byjob.value,'job')"><</button>
- By Part: <select id="bypart"  oninput="process(this.value,'part')" > <option>All</option></select>
- <button onclick="process(bypart.value,'part')"><</button>
- By Mechanic: <select id="bymech"  oninput="process(this.value,'mec')">    <option>All</option></select>
+ By Part: <select id="bypart"  class="cpro"  oninput="process(this.value,'part')" > <option>All</option></select>
+ <button onclick="process(bypart.value,'part')"><</button><br>
+ By Mech.: <select id="bymech" class="cpro"   oninput="process(this.value,'mec')">    <option>All</option></select>
  <button onclick="process(bymech.value,'mec')"><</button>
- By Inventory: <select id="bycl"  oninput="process(this.value,'clase')">   <option>All</option></select>
+ By Inv.: <select id="bycl"  class="cpro"  oninput="process(this.value,'clase')">   <option>All</option></select>
  <button onclick="process(bycl.value,'clase')"><</button>
  
 </span>
