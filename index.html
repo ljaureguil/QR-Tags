@@ -279,7 +279,7 @@ border-style: solid;
 <div class="grid-container" id="tags">
 </div>
 <div id="menu">
-    <button id="border" onclick="ord()">Orders....</button> 
+    <button id="border" onclick="ord()">Requested Parts</button> 
 
 
     <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
@@ -395,7 +395,7 @@ border-style: solid;
     </select>
     <br>Kw:
     <input id="kw" type="text" class="cin">
-    <br>Qty Obs:
+    <br>Remaining:
     <input id="obs" type="number" class="cin">
     <br>Part No.
     <input id="pno" type="text" class="cin">
@@ -455,7 +455,7 @@ border-style: solid;
        if(Orders===null)localStorage.setItem("orders",JSON.stringify(obj))
        else{
            if(Orders!=JSON.stringify(obj)){
-              if( confirm("Sombody has made an order, do you want to open it?")){
+              if( confirm("Somebody has recuested parts, Do You want to Check it?")){
                    ord();
                    localStorage.setItem("orders",JSON.stringify(obj))
               }
@@ -1187,7 +1187,7 @@ border-style: solid;
      var e = String.fromCharCode(9);
    //  alert(c)
      //   if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Remaining" + e + "Note" + "\n";
              //   }
        tx.value=h+c;
    
@@ -1238,11 +1238,11 @@ function ord(){
                         var p = x[i]
                         var t = JSON.stringify(p);
                         var f = getFe(p.created);
-                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo +  e + p.note;
+                        var cc=p.qty + e + p.qtyObs+e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo +  e + p.note;
                         c += cc + "\n";
                  var l=document.createElement("p");
                  e=" ............ "
-                    l.innerHTML=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo +  e + p.note+"<br>";
+                    l.innerHTML=p.qty + e + p.qtyObs+ e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo +  e + p.note+"<br>";
                     l.id=x[i].pn;
                      dtx.appendChild(l);
                       l.name=x[i];
@@ -1255,7 +1255,7 @@ function ord(){
 
                     var e = String.fromCharCode(9);
      //   if (confirm("You want to copy with the Headers?")) {
-                        h = "Order QTY" + e + "J/No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Note" + "\n";
+                        h = "Recuested QTY" + e + "Remaining" + e + "J/No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Note" + "\n";
         //        }
        tx.value=h+c;    
 
