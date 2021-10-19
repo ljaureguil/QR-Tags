@@ -256,6 +256,7 @@ display: block;
 background:white;
 border-style: solid;
 
+
 }
 
     #opciones {
@@ -300,16 +301,16 @@ border-style: solid;
     
     <span id="opciones">
   
- From:<input id="fdate" type="date" oninput="process('All','job')">.....To:<input id="tdate" type="date" oninput="process('All','job')">...Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
+ From:<input id="fdate" type="date" oninput="process()">.....To:<input id="tdate" type="date" oninput="process('All','job')">...Search <textarea id="sear" plaseholder="type a keyword..." oninput="searchCl(this.value)"></textarea>
 <br>
- By Job: <select id="byjob" class="cpro"  oninput="process(this.value,'job')"><option>All</option></select>
+ By Job: <select id="byjob" class="cpro"  oninput="process()"><option>All</option></select>
  <button onclick="process(byjob.value,'job')"><</button>
- By Part: <select id="bypart"  class="cpro"  oninput="process(this.value,'part')" > <option>All</option></select>
+ By Part: <select id="bypart"  class="cpro"  oninput="process()" > <option>All</option></select>
  <button onclick="process(bypart.value,'part')"><</button><br>
- By Mech.: <select id="bymech" class="cpro"   oninput="process(this.value,'mec')">    <option>All</option></select>
+ By Mech.: <select id="bymech" class="cpro"   oninput="process()">    <option>All</option></select>
  <button onclick="process(bymech.value,'mec')"><</button>
- By Inv.: <select id="bycl"  class="cpro"  oninput="process(this.value,'clase')">   <option>All</option></select>
- <button onclick="process(bycl.value,'clase')"><</button>
+ By Inv.: <select id="bycl"  class="cpro"  oninput="process()">   <option>All</option></select><br>
+ <button onclick="process()">FILTER</button>
  
 </span>
 
@@ -614,6 +615,7 @@ border-style: solid;
                      dtx.appendChild(l);
                       l.name=pcl[i];
                     l.setAttribute("class","ctx"); 
+                    l.style.display="block";
                     l.onclick=function(){alert(this.id)};
                     }
                     var h = "";
@@ -1098,7 +1100,7 @@ border-style: solid;
         var f = new Date()
         var v = Date.parse(fr);
         f.setTime(v);
-        var fe = f.getMonth()+1 + "-" + f.getDate() + "-" + f.getFullYear();
+        var fe = f.getMonth() + "-" + f.getDate() + "-" + f.getFullYear();
         var t = f.getHours() + ":" + f.getMinutes();
         return {
             fecha: fe,
@@ -1107,6 +1109,115 @@ border-style: solid;
 
 
     }
+    function process(){
+                 var bj=byjob.value.toUpperCase(), bp=bypart.value.toUpperCase(), bm=bymech.value.toUpperCase(), bc=bycl.value.toUpperCase();
+            bp='"'+bp+'"';
+            bj='"'+bj+'"';
+            bm='"'+bm+'"';
+            bc='"'+bc+'"';
+    //        alert(bp+"\n"+bj)
+            
+        tx.value="";
+         h="";
+         var t1=new Date(fdate.value).getTime();
+         var t2=new Date(tdate.value).getTime()+24*60*60*1001;
+         var ch=document.getElementsByClassName("ctx");
+        var c="";
+ 
+         for(var i=0;i<ch.length;i++){
+           var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
+                 if(df>=t1 && df<= t2){
+                ch[i].style.display='block'; 
+                var e = String.fromCharCode(9);
+                        var p = ch[i].name;
+
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                        c += cc + "\n";
+                 }}
+
+     for(var i=0;i<ch.length;i++){
+        var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];       
+            if(df>=t1 && df<= t2){
+ 
+           var ss=JSON.stringify(ch[i].name)
+           ss=ss.toUpperCase();
+
+   //  if(bj==="ALL") alert(bj)
+         if(bj!='"ALL"'){ if(ss.indexOf(bj)<0){ch[i].style.display="none";} }
+         if(bp!='"ALL"'){ if(ss.indexOf(bp)<0){ch[i].style.display="none";} }
+         if(bm!='"ALL"'){ if(ss.indexOf(bm)<0){ch[i].style.display="none";} }
+         if(bc!='"ALL"'){ if(ss.indexOf(bc)<0){ch[i].style.display="none";} }
+
+    
+            }
+        }
+     //   alert(ch.length)
+        for(var i=0;i<ch.length;i++){
+            var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];  
+            if(df>=t1 && df<= t2) {  
+             //   alert(ch[i].style.display)
+            
+            if(ch[i].style.display==='block'){
+              
+              var e = String.fromCharCode(9);
+                        var p = ch[i].name;
+
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                        c += cc + "\n";
+            }
+          
+    
+      }
+    }
+     
+     var e = String.fromCharCode(9);
+     //   if (confirm("You want to copy with the Headers?")) {
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
+             //   }
+       tx.value=h+c;
+   
+    }
+    function searchCl(v) {
+        tx.value="";
+         h="";
+         var t1=new Date(fdate.value).getTime();
+         var t2=new Date(tdate.value).getTime();
+         var ch=document.getElementsByClassName("ctx");
+        var c="";
+         for(var i=0;i<ch.length;i++){
+           var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
+            var ss=JSON.stringify(ch[i].name).toUpperCase();
+            v=v.toUpperCase();
+          
+                 if(df>=t1 && df<= t2 && ss.indexOf(v)>=0){
+                ch[i].style.display='block'; 
+                var e = String.fromCharCode(9);
+                        var p = ch[i].name;
+
+                        var f = getFe(p.created);
+                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                        c += cc + "\n";
+
+                }
+                else{ ch[i].style.display='none';  }
+                  
+    }
+    var e = String.fromCharCode(9);
+     //   if (confirm("You want to copy with the Headers?")) {
+                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
+        //        }
+       tx.value=h+c;
+}
+
+    //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
+</script>
+<script>
+    
+
+/*
+
     function process(op,by){
         kop=op;kby=by;
         tx.value="";
@@ -1161,41 +1272,10 @@ border-style: solid;
        tx.value=h+c;
    
     }
-    function searchCl(v) {
-        tx.value="";
-         h="";
-         var t1=new Date(fdate.value).getTime();
-         var t2=new Date(tdate.value).getTime()+24*60*60*1001;
-         var ch=document.getElementsByClassName("ctx");
-        var c="";
-         for(var i=0;i<ch.length;i++){
-           var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
-            var ss=JSON.stringify(ch[i].name).toUpperCase();
-            v=v.toUpperCase();
-          
-                 if(df>=t1 && df<= t2 && ss.indexOf(v)>=0){
-                ch[i].style.display='block'; 
-                var e = String.fromCharCode(9);
-                        var p = ch[i].name;
 
-                        var f = getFe(p.created);
-                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
-                        c += cc + "\n";
+*/
 
-                }
-                else{ ch[i].style.display='none';  }
-                  
-    }
-    var e = String.fromCharCode(9);
-     //   if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
-        //        }
-       tx.value=h+c;
-}
 
-    //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
-</script>
-<script>
 </script>
 
 </html>
