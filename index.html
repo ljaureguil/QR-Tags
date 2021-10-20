@@ -244,6 +244,21 @@
         border-style: solid;
  
     }
+    .ctxx{
+
+width:98%;
+padding:3px;
+text-align: left;
+margin:3px;
+ color:white;
+font-size: 14px;
+display: block;
+background:rgba(2, 111, 36, 1);
+border-style: solid;
+border-radius:10px;
+font-weight: bold;
+
+}
     .ctt{
 
 width:98%;
@@ -1241,12 +1256,12 @@ function ord(){
                         var cc=p.qty + e + p.qtyObs+e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo +  e + p.note;
                         c += cc + "\n";
                  var l=document.createElement("p");
-                 e=" ............ "
-                    l.innerHTML=p.qty + e + p.qtyObs+ e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo +  e + p.note+"<br>";
+                 e=" <br> "
+                    l.innerHTML= e +"Part No.: "+ p.pn +", Description: "+p.des +e+p.qty +" . . . Peaces requested By: "+ p.mec + e+ p.qtyObs+" . . .  Parts Remainded."+ e +"Job No.: "+p.job+e+"Date: " + f.fecha + ", Time: " + f.tiempo +  e +"Note: "+ p.note+e+"<br>";
                     l.id=x[i].pn;
                      dtx.appendChild(l);
                       l.name=x[i];
-                    l.setAttribute("class","ctx"); 
+                    l.setAttribute("class","ctxx"); 
                     l.style.display="block";
                     var so=JSON.stringify(x[i]).replace(/{/g,"\n").replace(/}/g,"\n").replace(/"/g," ").replace(/,/g,"\n");
                     l.onclick=function(){alert(so)};
@@ -1266,61 +1281,7 @@ function ord(){
     //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
 </script>
 <script>
-    
-
-/*
-    function process(op,by){
-        kop=op;kby=by;
-        tx.value="";
-         h="";
-         var t1=new Date(fdate.value).getTime();
-         var t2=new Date(tdate.value).getTime()+24*60*60*1001;
-         var ch=document.getElementsByClassName("ctx");
-        var c="";
-        if(op===undefined) op=byjob.value;
-         for(var i=0;i<ch.length;i++){
-           var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
-            if(op==="All") {
-                 if(df>=t1 && df<= t2){
-                ch[i].style.display='block'; 
-                var e = String.fromCharCode(9);
-                        var p = ch[i].name;
-                        var f = getFe(p.created);
-                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
-                        c += cc + "\n";
-                }
-                else{ ch[i].style.display='none';  }
-                    }
-            else{
-            if(df>=t1 && df<= t2){
  
-           var ss=JSON.stringify(ch[i].name)
-           ss=ss.toUpperCase();
-           op=op.toUpperCase();
-            var tr='"'+op+'"'
-               if(ss.indexOf(tr)>=0){
-                ch[i].style.display='block'; 
-               
-              var e = String.fromCharCode(9);
-                        var p = ch[i].name;
-                        var f = getFe(p.created);
-                        var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
-                        c += cc + "\n";
-            }
-            else ch[i].style.display="none";
-        }
-        else{ ch[i].style.display='none';  }//block
-      }
-     }
-     var e = String.fromCharCode(9);
-        if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
-                }
-       tx.value=h+c;
-   
-    }
-*/
-
 
 </script>
 
