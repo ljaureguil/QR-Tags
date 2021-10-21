@@ -944,7 +944,7 @@ border-style: solid;
                 if (pa[i].pn === ob.pn) {
                     fo = true;
                     if (confirm("Part: " + pa[i].pn + " Exist in " + pa[i].clase + ", Do you want to replace it?")) {
-
+                       // ob.edi=""
                         obj.parts[i] = ob;
 
                         i = pa.length + 1;
@@ -1258,13 +1258,51 @@ border-style: solid;
    
     }
     function searchCl(v) {
+        var bj=byjob.value.toUpperCase(), bp=bypart.value.toUpperCase(), bm=bymech.value.toUpperCase(), bc=bycl.value.toUpperCase();
+            bp='"'+bp+'"';
+            bj='"'+bj+'"';
+            bm='"'+bm+'"';
+            bc='"'+bc+'"';
+
         tx.value="";
          h="";
          var t1=new Date(fdate.value).getTime();
          var t2=new Date(tdate.value).getTime()+24*60*60*1001;
          var ch=document.getElementsByClassName("ctx");
         var c="";
+   
+ for(var i=0;i<ch.length;i++){
+   var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
+         if(df>=t1 && df<= t2){
+        ch[i].style.display='block'; 
+        var e = String.fromCharCode(9);
+                var p = ch[i].name;
+
+                var f = getFe(p.created);
+                var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                c += cc + "\n";
+         }}
+
+
          for(var i=0;i<ch.length;i++){
+        var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];       
+            if(df>=t1 && df<= t2){
+ 
+           var ss=JSON.stringify(ch[i].name)
+           ss=ss.toUpperCase();
+         if(bj!='"ALL"'){ if(ss.indexOf(bj)<0){ch[i].style.display="none";} }
+         if(bp!='"ALL"'){ if(ss.indexOf(bp)<0){ch[i].style.display="none";} }
+         if(bm!='"ALL"'){ if(ss.indexOf(bm)<0){ch[i].style.display="none";} }
+         if(bc!='"ALL"'){ if(ss.indexOf(bc)<0){ch[i].style.display="none";} }
+  
+            }
+        }
+            tx.value="";
+            c="";
+
+
+        for(var i=0;i<ch.length;i++){
+            if(ch[i].style.display==="block"){
            var df=new Date(ch[i].name.created).getTime();//.toISOString().split('T')[0];        
             var ss=JSON.stringify(ch[i].name).toUpperCase();
             v=v.toUpperCase();
@@ -1280,7 +1318,7 @@ border-style: solid;
 
                 }
                 else{ ch[i].style.display='none';  }
-                  
+            }          
     }
     var e = String.fromCharCode(9);
      //   if (confirm("You want to copy with the Headers?")) {
