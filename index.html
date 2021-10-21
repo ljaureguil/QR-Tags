@@ -289,6 +289,16 @@ border-style: solid;
         background: rgb(194, 24, 123);
                 
     }
+    #dreq{
+        width: 20%;
+        height: 20%;
+        background: red;
+        position: absolute;
+        left: 40%;
+        top:40%;
+        box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
+        display: none;
+    }
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -431,7 +441,13 @@ border-style: solid;
 
 </div>
 
+<div id="dreq">
+    <button onclick="">Set As Read...</button><br>
+    <button onclick="">Delete</button><br>
+    <button onclick="">Close</button><br>
 
+
+</div>
 
 
 
@@ -446,16 +462,16 @@ border-style: solid;
     var R = 11 / 8.5;
     // alert(s1.innerHTML)
     tags.style.gridIemplateColumns = "10% 10% 10% 10%"
-    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';
-    linkb = "https://jsonblob.com/api/893339508880457728"
-    linkp = "https://jsonblob.com/api/892533157149294592";
-    linko = "https://jsonblob.com/api/893246438927253504";
-    linkt = 'https://jsonblob.com/api/893855119448489984';
+    var linkm = 'https://jsonblob.com/api/d0317ef4-f48e-11eb-9b1d-755fd0c1d5cb';//miselanius
+    linkb = "https://jsonblob.com/api/893339508880457728";//basquet
+    linkp = "https://jsonblob.com/api/892533157149294592";//main inv
+    linko = "https://jsonblob.com/api/893246438927253504";//other
+    linkt = 'https://jsonblob.com/api/893855119448489984';//trash
     var linkme = 'https://jsonblob.com/api/893891925422391296'; //my clipboard
     var linkcl='https://jsonblob.com/api/896389790531076096'; //clip demas
     var linkord='https://jsonblob.com/api/898641969950244864'; //orders
-
-
+    var linkusc='https://jsonblob.com/api/900759490673262592';//useblip
+    var linkusmain='https://jsonblob.com/api/900760372219494400'//user main
     var w = window.innerWidth;
     var h = window.innerHeight;
     var radio = h / w;
@@ -463,6 +479,40 @@ border-style: solid;
         //         tags.removeClass();
         tags.setAttribute("class", "c2")
     } else {}
+    var usr = ""
+    usr = localStorage.getItem("user");
+  //  alert(usr)
+
+    if (usr === null || usr === "") {
+        usr = prompt("Type your Name");
+    
+        usr=usr.replace(/ /g,"-");
+        usr=usr.toUpperCase();
+        localStorage.setItem("user", usr);
+        GetJ(linkusmain,function(ob){
+            var s=new Date().toString().split(" GMT")[0];
+            s=usr+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusmain,ob);
+        })
+    } else {
+        if(usr.toUpperCase().indexOf('LAURO')<0){linkme=linkcl;}
+        GetJ(linkusmain,function(ob){
+            var s=new Date().toString().split(" GMT")[0];
+            s=usr+" _ "+s;
+            ob.us.push(s);
+            UpdateJ(linkusmain,ob);
+           
+             });
+             
+           
+
+    }
+
+
+
+
+
 
     //loadDoc(linkp,function(res){alert(res)})
     Orders=localStorage.getItem("orders")
@@ -1259,7 +1309,7 @@ function ord(){
                  e=" <br> "
                     l.innerHTML= e +"Part No.: "+ p.pn +", Description: "+p.des +e+p.qty +" . . . Peaces requested By: "+ p.mec + e+ p.qtyObs+" . . .  Parts Remainded."+ e +"Job No.: "+p.job+e+"Date: " + f.fecha + ", Time: " + f.tiempo +  e +"Note: "+ p.note+e+"<br>";
                     l.id=x[i].pn;
-                     dtx.appendChild(l);
+                    dtx.appendChild(l);
                       l.name=x[i];
                     l.setAttribute("class","ctxx"); 
                     l.style.display="block";
