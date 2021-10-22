@@ -479,13 +479,16 @@ border-style: solid;
         //         tags.removeClass();
         tags.setAttribute("class", "c2")
     } else {}
-    var usr = ""
+    var usr = "";
+  //  localStorage.removeItem("user");
+   // alert("stop")
     usr = localStorage.getItem("user");
   //  alert(usr)
-
+  inic();
+      function inic(){
     if (usr === null || usr === "") {
         usr = prompt("Type your Name");
-    
+        if(usr===null){inic();} 
         usr=usr.replace(/ /g,"-");
         usr=usr.toUpperCase();
         localStorage.setItem("user", usr);
@@ -507,6 +510,7 @@ border-style: solid;
              
            
 
+    }
     }
 
 
