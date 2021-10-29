@@ -615,8 +615,8 @@ border-style: solid;
         dor.style.display = "block";
         dor.name = e.name;
         qt.value = e.name.qtyInv * 1;
-        pno.value = e.name.pn;
-        de.value = e.name.des;
+        pno.value = e.name.pn.toUpperCase();
+        de.value = e.name.des.toUpperCase();
         kw.value = e.name.kw;
         mec.value = e.name.user;
         cla.value = e.name.clase;
@@ -982,8 +982,8 @@ border-style: solid;
         if (pno.value != "" && pno.value != undefined || de.value != "" && de.value != undefined) {
             link = "";
             var o = {
-                "pn": pno.value,
-                "des": de.value,
+                "pn": pno.value.toUpperCase(),
+                "des": de.value.toUpperCase(),
                 "qtyInv": qt.value,
                 "qtyObs": obs.value,
                 "kw": kw.value,
