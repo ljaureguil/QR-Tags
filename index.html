@@ -184,11 +184,7 @@
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
         font-weight: bold;
         font-size: 10px;
-        // padding: 15px;
-        // opacity: .75;
-        // background-color: rgb(67, 246, 22);
-        ;
-    }
+     }
     #qt {
         width: 50%;
     }
@@ -347,11 +343,10 @@ border-style: solid;
  
 </span>
 
-    <br>
-    <br>
-    <div id="dtx"></div><br>
+    <div id="dtx"></div><button onclick='copygo()'> Prepare for Go Canvas</button>
     <textarea id="tx"></textarea>
     <button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy</button>
+ 
 
 
     <div id="dreq">
@@ -462,7 +457,7 @@ border-style: solid;
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
-   var kop="";kby=""
+   var kop="";kby="";
     pcl = [], tpcl = [];
     mode = "add", Obj = {}, Parts = [], editM = false;
     // window.location.reload();
@@ -519,11 +514,6 @@ border-style: solid;
 
     }
     }
-
-
-
-
-
 
     //loadDoc(linkp,function(res){alert(res)})
     Orders=localStorage.getItem("orders")
@@ -1253,7 +1243,10 @@ border-style: solid;
                         var p = ch[i].name;
 
                         var f = getFe(p.created);
+                      
                         var cc=p.qty + e + p.job + e + p.pn + e + p.des + e + p.mec + e + f.fecha + e + f.tiempo + e + p.move + e + p.clase +e+ p.qtyObs + e + p.note;
+                     
+
                         c += cc + "\n";
             }
     
@@ -1261,10 +1254,8 @@ border-style: solid;
     }
      
      var e = String.fromCharCode(9);
-   //  alert(c)
-     //   if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Remaining" + e + "Note" + "\n";
-             //   }
+                      h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Remaining" + e + "Note" + "\n";
+                  
        tx.value=h+c;
    
     }
@@ -1332,10 +1323,8 @@ border-style: solid;
             }          
     }
     var e = String.fromCharCode(9);
-     //   if (confirm("You want to copy with the Headers?")) {
-                        h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
-        //        }
-       tx.value=h+c;
+                          h = "QTY" + e + "Job No." + e + "P/N" + e + "Description" + e + "Mechanic" + e + "Date" + e + "Time" + e + "Move" + e + "From"+ e + "Qty. Obs." + e + "Note" + "\n";
+         tx.value=h+c;
 }
 
 function ord(){
@@ -1363,7 +1352,7 @@ function ord(){
                     l.setAttribute("class","ctxx"); 
                     l.style.display="block";
                     if(x[i].read!=undefined){
-                        if(x[i].read) l.style.opacity=.10;
+                        if(x[i].read) l.style.opacity=.40;
                         else  l.style.opacity=1;
                     }
                     var so=JSON.stringify(x[i]).replace(/{/g,"\n").replace(/}/g,"\n").replace(/"/g," ").replace(/,/g,"\n");
@@ -1393,7 +1382,7 @@ function actionC(el,a){
         
           if(e.created===ob.parts[i].created || e.pn===ob.parts[i].pn){
             if(a==="read") { ob.parts[i].read=true; 
-              el.style.opacity=.10;
+              el.style.opacity=.40;
                i=ob.parts.length
                }
                if(a==="unread") { ob.parts[i].read=false; 
@@ -1419,6 +1408,19 @@ function actionC(el,a){
     
   })
 
+}
+
+function copygo(){
+    var e = String.fromCharCode(9);
+    var h="",cc=""
+    var ch=document.getElementsByClassName("ctx");
+    for(var i=0;i<ch.length;i++){
+        var p = ch[i].name;
+ 
+    if(ch[i].style.display==="block") cc+=p.qty + e + p.pn + e + p.des+"\n";
+    }
+          h = "QTY" + e + "P/N" + e + "Description\n";
+    tx.value=h+cc;
 }
 
     //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
