@@ -297,6 +297,8 @@ border-style: solid;
         box-shadow: -10px 10px 15px 1px rgba(0, 0, 0, .51);
         display: none;
     }
+    @media print { #test { width: 8.5in; }}
+
 </style>
 <div id="spacer"></div>
 <div class="grid-container" id="tags">
@@ -343,9 +345,9 @@ border-style: solid;
  
 </span>
 
-    <div id="dtx"></div><button onclick='copygo()'> Prepare for Go Canvas</button>
+    <div id="dtx"></div><button onclick='copygo()'>Format Qty, P/N, Description</button>
     <textarea id="tx"></textarea>
-    <button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy</button>
+    <button onclick='alert("Just After Paste it to a Spread Sheet");tx.select();document.execCommand("copy");'>Copy (Spread Sheet)</button>
  
 
 
@@ -457,6 +459,10 @@ border-style: solid;
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script>
+ /*    @page {
+size: 6.5in 11in;width height 
+}
+*/
    var kop="";kby="";
     pcl = [], tpcl = [];
     mode = "add", Obj = {}, Parts = [], editM = false;
@@ -1021,7 +1027,10 @@ border-style: solid;
                 var p = obj.parts;
                 if (p.length > 0) {
                     if (confirm("There are " + p.length + " Items in basquet.\nDo you want to add parts to basquet?")) {
-                        for (var i = 0; p.length; i++) {
+                       
+                       
+                        for (var i = 0;i<Parts.length; i++) {
+                           // alert(JSON.stringify(Parts[i]))
                             obj.parts.push(Parts[i]);
                         }
                         UpdateJ(linkb, obj, function() {
