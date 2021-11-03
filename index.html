@@ -25,11 +25,11 @@
         right: 1%;
     }
     button {
-        // width: 30%;
+    
         font-size: 18px;
         border-radius: 10px;
         background: rgb(255, 129, 11);
-        margin: 8px;
+        margin: 10px;
         color: white;
     }
     #reader {
@@ -91,6 +91,7 @@
         height: 5%;
     }
     .cadj {
+        color:red;
         width: 50%;
         z-index: 1;
     }
@@ -199,8 +200,11 @@
         height: 55px;
     }
     #tsa {
+   
         border-style: double;
         border-color: white;
+        display: none;
+        margin:10px;
     }
     .csel {
         font-size: 25px;
@@ -305,29 +309,9 @@ border-style: solid;
 </div>
 <div id="menu">
     <button id="border" onclick="ord()">Requested Parts</button> 
-
-
-    <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Search Dlg.</button>
+    <button id="bfil" onclick="fil.style.display='block';menu.style.display='none'">Open Invergory Dlg.</button>
     <button id="brecover" onclick="reset()">Reset All</button>
-
-    <div id="tsa">
-
-        <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
-        <label for="width">width</label>
-
-        <input class="cadj" type="range" id="iheight" name="h" min="0" max="300" value="100" step="1" oninput="sca(iwidth.value,this.value)">
-        <label for="height">Height</label>
-
-        <input class="cadj" type="range" id="iupdw" name="fon" min="0" max="80" value="0" step="1" oninput="spacer.style.height=this.value+'%'">
-        <label for="fon">Up/Dwn</label>
-
-        <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
-        <label for="fon">Font</label>
-        <br>
-
-
-    </div>
-    <br>
+     <br>
     <button onclick="opciones.style.display='block';copyCl('All')">Open Clipboard</button>
     
     <span id="opciones">
@@ -368,6 +352,24 @@ border-style: solid;
 
 <br>
 <div id="fil">
+    <button id="badj" onclick='adj()'>Open Adj. tags Settings</button>
+    <button id="bhide" onclick='fil.style.display="none"'>Hide Dlg</button>
+
+    <div id="tsa">
+
+        <input class="cadj" type="range" id="iwidth" name="w" min="0" max="200" value="100" oninput="sca(this.value,iheight.value)">
+        <label for="width">width</label>
+
+        <input class="cadj" type="range" id="iheight" name="h" min="0" max="300" value="100" step="1" oninput="sca(iwidth.value,this.value)">
+        <label for="height">Height</label>
+
+        <input class="cadj" type="range" id="iupdw" name="fon" min="0" max="80" value="0" step="1" oninput="spacer.style.height=this.value+'%'">
+        <label for="fon">Up/Dwn</label>
+
+        <input class="cadj" type="range" id="ifon" name="fon" min="0" max="80" value="20" step="1" oninput="tags.style.fontSize=this.value+'px'">
+        <label for="fon">Font</label>
+        <br>
+    </div>
     <br>-- Load Inventory ...
     <br>
     <select id="selinv" class="csel" oninput="actionA(this.value)">
@@ -408,8 +410,7 @@ border-style: solid;
 
     <button onclick="actionB(selaction.value);">Go</button>
     <button onclick='reset();'>Clr All</button>
-    <button class="cpu" onclick="fil.style.display='none'">Close</button>
-    <br>---------- Touch Item To Select ...
+      <br>---------- Touch Item To Select ...
     <br>
 
 
@@ -657,7 +658,7 @@ size: 6.5in 11in;width height
                     tags.appendChild(crTag(p))
                 }
                 menu.style.display = "none";
-                fil.style.display = "none";
+              //  fil.style.display = "none";
             }
         }
 
@@ -825,7 +826,7 @@ size: 6.5in 11in;width height
                 p.innerHTML = "P/N: " + obj.parts[i].pn + ", Desc.: " + obj.parts[i].des;
                 dinv.appendChild(p); // fil.appendChild(p)
             }
-            if (op != undefined) alert(op + " loaded...")
+        //    if (op != undefined) alert(op + " loaded...")
             if (callback != undefined) callback(obj);
 
         });
@@ -1164,7 +1165,7 @@ size: 6.5in 11in;width height
             }
             // if(a=="Select All"){selectAll()}
             if (a == "Pring Tags") {
-                fil.style.display = 'none';
+              //  fil.style.display = 'none';
                 recover()
             }
             if (a == "Copy to Basquet") {
@@ -1430,6 +1431,20 @@ function copygo(){
     }
           h = "QTY" + e + "P/N" + e + "Description\n";
     tx.value=h+cc;
+}
+function adj(){
+    if(badj.innerHTML==="Open Adj. tags Settings"){
+        badj.innerHTML="Close Adj. settings Dlg"
+    fil.style.background="rgba(180,255,180,.4";
+    tsa.style.display="block";
+    dinv.style.display="none"
+    }
+    else{
+        badj.innerHTML="Open Adj. tags Settings"
+    fil.style.background="white";  
+    tsa.style.display="none"   
+    dinv.style.display="block"
+    }
 }
 
     //<button id="btprep" onclick="delTag()">Set Delete Mode</button>
